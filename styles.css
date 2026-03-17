@@ -22,17 +22,94 @@ body {
   border: 1px solid #334155;
   display: none;
 }
-.nr1_login {
-  display: none;
+.error-message {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1000;
 }
-.nr2_dragdrop {
-  display: block !important;
+.error-message.show {
+  opacity: 1;
+  animation: flash 0.5 ease-in;
+}
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.nr1_login {
+  display: block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  max-width: 400px;
+  margin: auto;
+}
+.nr1_login input {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  margin: 15px auto;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.nr1_login input:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+.nr1_login button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 25px auto 0;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  background: white;
+  color: #667eea;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.nr1_login button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background: #f8f9fa;
 }
 
 .game {
   position: absolute;
   top: 5.5%;
   left: 26.5%;
+  height: 555px;
+  width: 895px;
+  display: flex;
 }
 
 .screen {
@@ -41,8 +118,8 @@ body {
   height: 555px;
   width: 895px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 6px;
 }
 
 .zone {
@@ -57,13 +134,13 @@ body {
 .zone.zoneB {
   background-image: url("images/easyapply.png");
   background-size: cover;
-  background-position: center;
+  background-position: 1% 40%;
   border: none;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 #zoneBdropable {
-  height: 100px;
-  margin-top: 350px;
+  height: 110px;
+  margin-top: 400px;
   padding: 10px 15px;
   display: flex;
   align-items: center;
@@ -183,4 +260,20 @@ body {
   border: 3px solid rgba(52, 211, 153, 0.8);
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+.cattail {
+  position: absolute;
+  bottom: 50px;
+  left: 180px;
+  background: url("images/cattail.gif") no-repeat center center;
+  background-size: contain;
+  z-index: 1000;
+}
+.postit {
+  width: 100px;
+  height: auto;
+  position: absolute;
+  bottom: 300px;
+  left: 460px;
 }

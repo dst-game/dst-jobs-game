@@ -23,24 +23,36 @@ function resetTimer() {
   timeEl.textContent = "0.0";
 }
 
-// Login functionality
+// elements
 const loginBtn = document.getElementById("loginBtn");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".nr2_dragdrop");
+const cattail = document.querySelector(".cattail");
+const errorMessage = document.getElementById("errorMessage");
+
+passwordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    loginBtn.click();
+  }
+});
 
 loginBtn.addEventListener("click", () => {
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
 
   // Einfache Validierung (nur Demo-Zwecke)
-  if (username && password) {
+  if (username && password === "brb_snack") {
     loginBox.style.display = "none";
     gameBox.style.display = "block";
     startTimer();
   } else {
-    alert("Ungültige Anmeldedaten.");
+    // Show flashing error message
+    errorMessage.classList.add("show");
+    setTimeout(() => {
+      errorMessage.classList.remove("show");
+    }, 2000);
   }
 });
 
@@ -79,6 +91,10 @@ function makeDoc({ ext, name }) {
 
   return el;
 }
+
+cattail.addEventListener("click", () => {
+  cattail.style.display = "none";
+});
 
 function setWon(state) {
   won = state;
