@@ -35,7 +35,7 @@ loginBtn.addEventListener("click", () => {
   const password = passwordInput.value.trim();
 
   // Einfache Validierung (nur Demo-Zwecke)
-  if (username === "guest" && password === "guest") {
+  if (username && password) {
     loginBox.style.display = "none";
     gameBox.style.display = "block";
     startTimer();
@@ -47,6 +47,7 @@ loginBtn.addEventListener("click", () => {
 // Drag and Drop functionality
 const zoneA = document.getElementById("zoneA");
 const zoneB = document.getElementById("zoneB");
+const zoneBdropable = document.getElementById("zoneBdropable");
 const docsA = document.getElementById("docsA");
 const docsB = document.getElementById("docsB");
 
@@ -56,9 +57,6 @@ const totalEl = document.getElementById("total");
 const nr2_dragdropEL = document.getElementById(".nr2_dragdrop");
 const winBox = document.getElementById("winBox");
 const finalTimeEl = document.getElementById("finalTime");
-
-const resetBtn = document.getElementById("resetBtn");
-const shuffleBtn = document.getElementById("shuffleBtn");
 
 let totalDocs = 0;
 let won = false;
@@ -71,7 +69,7 @@ function makeDoc({ ext, name }) {
 
   el.innerHTML = `
     <div class="icon">${ext}</div>
-    <div><b>${name}</b><div style="font-size:12px;opacity:.75;">Drag & Drop</div></div>
+    <div><b>${name}</b></div>
   `;
 
   el.addEventListener("dragstart", (e) => {
@@ -114,13 +112,34 @@ function wireZoneDrop(zoneEl, targetDocsContainer) {
     const id = e.dataTransfer.getData("text/plain");
     const el = document.getElementById(id);
     if (!el) return;
+
+    // Only allow one file in Zone B drop area
+    if (targetDocsContainer === docsB && docsB.querySelector(".doc")) {
+      return; // Prevent dropping if there's already a file
+    }
+
     targetDocsContainer.appendChild(el);
+
+    // Check filename and show appropriate alert for Zone B drops
+    if (targetDocsContainer === docsB) {
+      const fileName = el.querySelector("b").textContent;
+      checkFileNameAndShowAlert(fileName);
+    }
+
     updateCounters();
   });
 }
 
 wireZoneDrop(zoneA, docsA);
-wireZoneDrop(zoneB, docsB);
+wireZoneDrop(zoneBdropable, docsB);
+
+function checkFileNameAndShowAlert(fileName) {
+  if (fileName === "lebenslauf_finalfinal.pdf") {
+    alert("Great! This is the final version - ready to submit!");
+  } else {
+    alert("You uploaded the wrong file!");
+  }
+}
 
 function loadGame(docs) {
   docsA.innerHTML = "";
@@ -147,19 +166,11 @@ function randomDocs() {
   return pool.sort(() => Math.random() - 0.5).slice(0, n);
 }
 
-resetBtn.addEventListener("click", () => {
-  docsB.querySelectorAll(".doc").forEach((el) => docsA.appendChild(el));
-  resetTimer();
-  updateCounters();
-});
-
-shuffleBtn.addEventListener("click", () => loadGame(randomDocs()));
-
 loadGame([
-  { ext: "PDF", name: "report.pdf" },
-  { ext: "DOC", name: "briefing.doc" },
-  { ext: "XLS", name: "zahlen.xls" },
-  { ext: "PNG", name: "screenshot.png" },
+  { ext: "PDF", name: "lebenslauf.pdf" },
+  { ext: "PDF", name: "lebenslauf_v2.pdf" },
+  { ext: "PDF", name: "lebenslauf_final.pdf" },
+  { ext: "PDF", name: "lebenslauf_finalfinal.pdf" },
 ]);
 
 // Finish functionality

@@ -3,15 +3,14 @@
 }
 body {
   margin: 0;
-  background: url(https://hypership.uk/uploads/20260218103113_00_WhatsApp_Image_2026-02-18_at_11.29.18.jpeg);
+  background: url(images/laptop.svg);
   background-size: contain;
-  background-position: center;
+  background-position: top center;
   background-repeat: no-repeat;
-
   color: #e2e8f0;
   display: grid;
   place-items: center;
-  height: 100vh;
+  height: 1000px;
 }
 .clock {
   position: absolute;
@@ -21,62 +20,59 @@ body {
   padding: 6px 12px;
   border-radius: 10px;
   border: 1px solid #334155;
+  display: none;
 }
-.pc {
-  width: 820px;
-  max-width: 94vw;
-  height: 460px;
-  background: #111827;
-  border: 2px solid #334155;
-  border-radius: 14px;
-  padding: 16px;
+.nr1_login {
+  display: none;
 }
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
+.nr2_dragdrop {
+  display: block !important;
 }
-.title {
-  font-weight: 700;
-}
-.pill {
-  border: 1px solid #334155;
-  background: #0b1220;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 14px;
+
+.game {
+  position: absolute;
+  top: 5.5%;
+  left: 26.5%;
 }
 
 .screen {
   background: #0b1220;
   border: 2px solid #1f2937;
-  border-radius: 12px;
-  padding: 14px;
+  height: 555px;
+  width: 895px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  min-height: 320px;
 }
 
 .zone {
   background: rgba(148, 163, 184, 0.08);
   border: 2px dashed rgba(148, 163, 184, 0.35);
-  border-radius: 12px;
   padding: 12px;
 }
 .zone.zoneA {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 8px;
 }
 .zone.zoneB {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-image: url("images/easyapply.png");
+  background-size: cover;
+  background-position: center;
   border: none;
-  border-radius: 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+#zoneBdropable {
+  height: 100px;
+  margin-top: 350px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#zoneBdropable:not(:empty) {
+  background: rgba(121, 182, 143, 0.1);
+  border: 2px solid rgba(34, 197, 94, 0.5);
+  border-radius: 8px;
 }
 .zone h3 {
   margin: 0 0 10px;
@@ -93,36 +89,20 @@ body {
   font-weight: 600;
 }
 .zone.zoneB h3 {
-  color: white;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 300;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: none;
 }
 .docs {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   min-height: 60px;
-} /* wichtig: Drop-Fläche */
-.hint {
-  font-size: 13px;
-  opacity: 0.85;
-  margin-top: 10px;
 }
-.zone.zoneA .hint {
-  color: #6c757d;
-  font-style: italic;
-  font-size: 12px;
+.zone.zoneA .docs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
 }
-.zone.zoneB .hint {
-  color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  font-size: 16px;
-  margin-top: 20px;
-}
-
 .doc {
   width: 150px;
   background: #f8fafc;
@@ -133,6 +113,9 @@ body {
   user-select: none;
   border: 1px solid rgba(15, 23, 42, 0.12);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .zone.zoneA .doc {
   background: white;
@@ -140,6 +123,11 @@ body {
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
+  max-width: 280px;
 }
 .zone.zoneA .doc:hover {
   background: #f8f9fa;
@@ -152,6 +140,9 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .doc:active {
   cursor: grabbing;
@@ -173,9 +164,11 @@ body {
   font-weight: 500;
 }
 .zone.zoneB .icon {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: #007bff;
   color: white;
-  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 8px;
 }
 
 .win {
@@ -190,22 +183,4 @@ body {
   border: 3px solid rgba(52, 211, 153, 0.8);
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
-}
-
-.btnrow {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-button {
-  border: 1px solid #334155;
-  background: #0b1220;
-  color: #e2e8f0;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-button:hover {
-  background: #0e1730;
 }

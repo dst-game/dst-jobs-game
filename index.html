@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Dokumente rüberziehen</title>
+    <title>5 vor 12</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="game">
       <div class="clock">⏱️ <span id="time">0.0</span>s</div>
-      <div class="pc">
         <div class="nr1_login">
           <input type="text" id="username" placeholder="Benutzername" />
           <input type="password" id="password" placeholder="Passwort" />
@@ -21,21 +20,15 @@
             <div class="zone zoneA" id="zoneA">
               <h3>📁 Datei-Explorer</h3>
               <div class="docs" id="docsA"></div>
-              <div class="hint">📄 Ziehe alle Dateien in die Web-Anwendung</div>
             </div>
 
             <div class="zone zoneB" id="zoneB">
-              <h3>🌐 Cloud Upload Portal</h3>
+              <div id="zoneBdropable">
               <div class="docs" id="docsB"></div>
-              <div class="hint">
-                ✨ Wenn alle Dateien hochgeladen sind, bist du fertig!
               </div>
             </div>
           </div>
 
-          <div class="btnrow">
-            <button id="resetBtn">Reset</button>
-            <button id="shuffleBtn">Neue Dokumente</button>
           </div>
         </div>
         <!-- Drag and Drop over -->
@@ -48,7 +41,6 @@
         <div class="win" id="winBox" style="display: none">
           ✅ Gewonnen! Zeit: <b id="finalTime"></b>s
         </div>
-      </div>
     </div>
     <script src="script.js"></script>
   </body>
