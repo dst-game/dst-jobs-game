@@ -31,6 +31,7 @@ const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".nr2_dragdrop");
 const cattail = document.querySelector(".cattail");
 const errorMessage = document.getElementById("errorMessage");
+const successMessage = document.getElementById("successMessage");
 
 passwordInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -48,11 +49,7 @@ loginBtn.addEventListener("click", () => {
     gameBox.style.display = "block";
     startTimer();
   } else {
-    // Show flashing error message
-    errorMessage.classList.add("show");
-    setTimeout(() => {
-      errorMessage.classList.remove("show");
-    }, 2000);
+    showMessage(errorMessage, "Falsches Passwort!");
   }
 });
 
@@ -149,12 +146,52 @@ function wireZoneDrop(zoneEl, targetDocsContainer) {
 wireZoneDrop(zoneA, docsA);
 wireZoneDrop(zoneBdropable, docsB);
 
+// Helper function to show messages
+function showMessage(element, message) {
+  element.textContent = message;
+  element.classList.add("show");
+  setTimeout(() => {
+    element.classList.remove("show");
+  }, 3000);
+}
+
 function checkFileNameAndShowAlert(fileName) {
-  if (fileName === "lebenslauf_finalfinal.pdf") {
-    alert("Great! This is the final version - ready to submit!");
-  } else {
-    alert("You uploaded the wrong file!");
-  }
+  // Show spinner for 1.5 seconds to simulate upload
+  const spinner = document.createElement("div");
+  spinner.className = "upload-spinner";
+  zoneBdropable.appendChild(spinner);
+
+  setTimeout(() => {
+    spinner.remove();
+
+    if (fileName === "lebenslauf_finalfinal.pdf") {
+      showMessage(successMessage, "Upload erfolgreich!");
+    } else {
+      showMessage(errorMessage, "Falsche Datei!");
+
+      // Add error styling and remove button to the uploaded file
+      const uploadedFile = docsB.querySelector(".doc");
+      if (uploadedFile) {
+        uploadedFile.classList.add("upload-error");
+
+        // Add remove button
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-btn";
+        removeBtn.textContent = "×";
+        removeBtn.onclick = () => {
+          uploadedFile.remove();
+          // add back to docsA
+          docsA.appendChild(uploadedFile);
+          // remove error styling
+          uploadedFile.classList.remove("upload-error");
+          // remove remove button
+          removeBtn.remove();
+          updateCounters();
+        };
+        uploadedFile.appendChild(removeBtn);
+      }
+    }
+  }, 1500);
 }
 
 function loadGame(docs) {
