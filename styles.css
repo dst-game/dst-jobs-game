@@ -176,7 +176,7 @@ body {
 .zone.zoneB {
   background-image: url("images/easyapply.png");
   background-size: cover;
-  background-position: 1% 40%;
+  background-position: 1% 48%;
   position: relative;
 }
 
@@ -199,18 +199,15 @@ body {
 /* Drop target inside zone B */
 #zoneBdropable {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  min-height: 60px;
+  bottom: 2%;
+  left: 2%;
+  right: 2%;
+  min-height: 28%;
   padding: 8px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  transition:
-    background 0.2s,
-    border 0.2s;
 }
 #zoneBdropable:not(:empty) {
   background: rgba(121, 182, 143, 0.12);
@@ -314,14 +311,15 @@ body {
 /* ─── Optional decorative items ─────────────────────────────────── */
 .cattail {
   position: absolute;
-  bottom: 50px;
-  left: 180px;
+  bottom: 2%;
+  left: -10%;
   z-index: 1000;
+  height: 50%;
 }
 .postit {
-  width: 80px;
+  width: 12%;
   height: auto;
   position: absolute;
-  bottom: 300px;
-  left: 460px;
+  bottom: 25%;
+  left: 10%;
 }
