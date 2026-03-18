@@ -40,15 +40,30 @@ body {
 */
 .laptop-screen {
   position: absolute;
-  left: 15.217%; /* +0.55% */
-  top: 5.574%; /* +0.72% */
-  width: 69.372%; /* -1.10% */
-  height: 56.274%; /* -1.44% */
-  background: #0b1220;
-  overflow: hidden;
-  padding: 5px;
+  left: 15.05%;
+  top: 5.574%;
+  width: 69.872%;
+  height: 56.274%;
 
-  /* Center direct children (login box, drag-drop screen) */
+  /* 
+    Trapezoid clip-path matching the SVG screen shape.
+    The screen is wider at the bottom by 1.91 SVG units on each side.
+    1.91 / 252.88 (div width in SVG units) = 0.755% horizontal shift.
+    
+    TL: starts 0.755% in from left
+    TR: ends   0.755% in from right  
+    BR: goes fully to right edge (100%)
+    BL: goes fully to left  edge (0%)
+  */
+  clip-path: polygon(
+    0.755% 0%,
+    /* top-left */ 99.245% 0%,
+    /* top-right */ 100% 100%,
+    /* bottom-right */ 0% 100% /* bottom-left */
+  );
+
+  overflow: hidden;
+  background: #0b1220;
   display: flex;
   align-items: center;
   justify-content: center;
