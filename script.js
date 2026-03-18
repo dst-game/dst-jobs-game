@@ -1,26 +1,48 @@
 // Timer functionality
 let t0 = 0,
   rafId = null;
+const GAME_DURATION = 30; // 30 seconds
+let remainingTime = GAME_DURATION;
 const now = () => performance.now();
 
 function tick() {
   const elapsed = (now() - t0) / 1000;
-  timeEl.textContent = elapsed.toFixed(1);
-  rafId = requestAnimationFrame(tick);
+  remainingTime = Math.max(0, GAME_DURATION - elapsed);
+  timeEl.textContent = remainingTime.toFixed(1);
+
+  if (remainingTime <= 0) {
+    stopTimer();
+    // Time's up - show game over
+    handleTimeUp();
+  } else {
+    rafId = requestAnimationFrame(tick);
+  }
 }
+
 function startTimer() {
   if (t0) return;
   t0 = now();
+  remainingTime = GAME_DURATION;
   tick();
 }
+
 function stopTimer() {
   if (rafId) cancelAnimationFrame(rafId);
   rafId = null;
 }
+
 function resetTimer() {
   stopTimer();
   t0 = 0;
-  timeEl.textContent = "0.0";
+  remainingTime = GAME_DURATION;
+  timeEl.textContent = GAME_DURATION.toFixed(1);
+}
+
+function handleTimeUp() {
+  // Show time up message
+  showMessage(errorMessage, "Zeit abgelaufen! Game Over!");
+  // Disable apply button
+  applyButton.classList.add("inactive");
 }
 
 // elements
@@ -59,13 +81,15 @@ const zoneB = document.getElementById("zoneB");
 const zoneBdropable = document.getElementById("zoneBdropable");
 const docsA = document.getElementById("docsA");
 const docsB = document.getElementById("docsB");
-
+const applyButton = document.querySelector(".applyButton");
 const timeEl = document.getElementById("time");
 const countBEl = document.getElementById("countB");
 const totalEl = document.getElementById("total");
-const nr2_dragdropEL = document.getElementById(".nr2_dragdrop");
-const winBox = document.getElementById("winBox");
+const nr2_dragdropEL = document.getElementById("nr2_dragdrop");
+const winBox = document.getElementById("nr3_win");
 const finalTimeEl = document.getElementById("finalTime");
+const timeTakenEl = document.getElementById("timeTaken");
+const timeRemainingEl = document.getElementById("timeRemaining");
 
 let totalDocs = 0;
 let won = false;
@@ -84,34 +108,42 @@ function makeDoc({ ext, name }) {
   el.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", el.id);
     e.dataTransfer.effectAllowed = "move";
+
+    // Check if the file is currently in zone B
+    const isInZoneB = docsB.contains(el);
+    if (isInZoneB) {
+      // Prevent dragging from zone B
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
   });
 
   return el;
 }
 
+applyButton.addEventListener("click", () => {
+  if (applyButton.classList.contains("inactive")) {
+    return;
+  }
+
+  // Calculate time taken and remaining time
+  const timeTaken = GAME_DURATION - remainingTime;
+
+  // Show win box
+  winBox.style.display = "block";
+  timeTakenEl.textContent = timeTaken.toFixed(1);
+  timeRemainingEl.textContent = remainingTime.toFixed(1);
+  stopTimer();
+
+  // Hide apply button and nr2_dragdrop
+  // applyButton.style.display = "none";
+  nr2_dragdropEL.style.display = "none";
+});
+
 cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
-
-function setWon(state) {
-  won = state;
-  winBox.style.display = won ? "block" : "none";
-  zoneB.classList.toggle("ready", won);
-
-  if (won) {
-    stopTimer();
-    finalTimeEl.textContent = timeEl.textContent;
-  } else {
-  }
-}
-
-function updateCounters() {
-  const inB = docsB.querySelectorAll(".doc").length;
-  countBEl.textContent = String(inB);
-  totalEl.textContent = String(totalDocs);
-
-  setWon(inB === totalDocs && totalDocs > 0);
-}
 
 // Wichtig: dragover + drop direkt auf die ZONEN, nicht nur auf den inneren Container.
 function wireZoneDrop(zoneEl, targetDocsContainer) {
@@ -131,15 +163,22 @@ function wireZoneDrop(zoneEl, targetDocsContainer) {
       return; // Prevent dropping if there's already a file
     }
 
-    targetDocsContainer.appendChild(el);
-
-    // Check filename and show appropriate alert for Zone B drops
+    // If dropping into zone B, create a copy instead of moving
     if (targetDocsContainer === docsB) {
-      const fileName = el.querySelector("b").textContent;
-      checkFileNameAndShowAlert(fileName);
-    }
+      const originalDoc = el;
+      const fileName = originalDoc.querySelector("b").textContent;
+      const fileExt = originalDoc.querySelector(".icon").textContent;
 
-    updateCounters();
+      // Create a new copy of the document
+      const copy = makeDoc({ ext: fileExt, name: fileName });
+      targetDocsContainer.appendChild(copy);
+
+      // Check filename and show appropriate alert for Zone B drops
+      checkFileNameAndShowAlert(fileName);
+    } else {
+      // For zone A, use the original move behavior
+      targetDocsContainer.appendChild(el);
+    }
   });
 }
 
@@ -166,6 +205,7 @@ function checkFileNameAndShowAlert(fileName) {
 
     if (fileName === "lebenslauf_finalfinal.pdf") {
       showMessage(successMessage, "Upload erfolgreich!");
+      applyButton.classList.remove("inactive");
     } else {
       showMessage(errorMessage, "Falsche Datei!");
 
@@ -180,13 +220,6 @@ function checkFileNameAndShowAlert(fileName) {
         removeBtn.textContent = "×";
         removeBtn.onclick = () => {
           uploadedFile.remove();
-          // add back to docsA
-          docsA.appendChild(uploadedFile);
-          // remove error styling
-          uploadedFile.classList.remove("upload-error");
-          // remove remove button
-          removeBtn.remove();
-          updateCounters();
         };
         uploadedFile.appendChild(removeBtn);
       }
@@ -197,13 +230,10 @@ function checkFileNameAndShowAlert(fileName) {
 function loadGame(docs) {
   docsA.innerHTML = "";
   docsB.innerHTML = "";
-  winBox.style.display = "none";
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
   totalDocs = docs.length;
-
-  updateCounters();
 }
 
 function randomDocs() {
@@ -225,12 +255,3 @@ loadGame([
   { ext: "PDF", name: "lebenslauf_final.pdf" },
   { ext: "PDF", name: "lebenslauf_finalfinal.pdf" },
 ]);
-
-// Finish functionality
-const finishButton = document.getElementById("finishButton");
-const finishedBox = document.querySelector(".finished");
-
-finishButton.addEventListener("click", () => {
-  finishedBox.style.display = "none";
-  winBox.style.display = "block";
-});
