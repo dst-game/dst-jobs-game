@@ -72,7 +72,7 @@ body {
 /* ─── Clock ─────────────────────────────────────────────────────── */
 .clock {
   position: absolute;
-  top: 0;
+  top: 2%;
   right: 0;
   font-size: clamp(10px, 1.2vw, 24px);
   background: rgba(17, 24, 39, 0.85);
@@ -129,6 +129,7 @@ body {
 }
 
 /* ─── Screen 1 — Login ──────────────────────────────────────────── */
+.introScreen,
 .nr1_login,
 .nr3_win {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -159,7 +160,8 @@ body {
   box-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
 }
 
-.nr1_login button {
+.nr1_login button,
+.introScreen button {
   display: block;
   width: 100%;
   margin: 16px auto 0;
@@ -421,4 +423,87 @@ body {
   position: absolute;
   bottom: 25%;
   left: 10%;
+}
+
+/* ─── File preview modal ─────────────────────────────────────────── */
+.file-preview {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.file-preview.open {
+  display: flex;
+}
+.file-preview-inner {
+  background: white;
+  border-radius: 8px;
+  width: 88%;
+  max-height: 85%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.file-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid #dee2e6;
+  background: #f8f9fa;
+  font-size: clamp(9px, 1vw, 12px);
+  font-weight: 600;
+  color: #495057;
+  flex-shrink: 0;
+}
+#previewClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(12px, 1.4vw, 18px);
+  line-height: 1;
+  color: #888;
+  padding: 0 2px;
+}
+#previewClose:hover {
+  color: #000;
+}
+.file-preview-body {
+  padding: 10px 12px;
+  overflow-y: auto;
+  font-size: clamp(8px, 0.9vw, 11px);
+  line-height: 1.5;
+  flex: 1;
+  color: #212529;
+}
+.file-preview-body hr {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 6px 0;
+}
+.file-preview-body p {
+  margin: 4px 0;
+}
+#previewSave {
+  margin: 8px 12px 10px auto;
+  padding: 5px 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: clamp(8px, 0.9vw, 11px);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+#previewSave:hover {
+  background: #0056b3;
+}
+.typo {
+  text-decoration: underline wavy red;
+  cursor: pointer;
 }

@@ -43,11 +43,25 @@
           </g>
         </g>
       </svg>
+      <div class="clock">⏱️ <span id="time">0.0</span>s</div>
       <div class="laptop-screen">
-        <div class="clock">⏱️ <span id="time">0.0</span>s</div>
         <div class="error-message" id="errorMessage"></div>
         <div class="success-message" id="successMessage"></div>
-        <div class="nr1_login">
+        <div class="introScreen">
+          <h3>
+            Willkommen bei <br />
+            5 vor 12!
+          </h3>
+          <p>
+            Du willst dich auf die Stelle "Professional Gamer" bewerben? Dann
+            aber schnell,
+            <strong>die Bewerbungsfrist läuft in einer Minute ab!</strong> Finde
+            den richtigen Lebenslauf und lade ihn hoch. <br /><br />
+            Der Timer startet sobald du auf "Start" klickst.
+          </p>
+          <button id="startBtn">Start</button>
+        </div>
+        <div class="nr1_login" style="display: none">
           <input type="text" id="username" value="AFK_Warrior" readonly />
           <input type="password" id="password" placeholder="Passwort" />
           <button id="loginBtn">Login</button>
@@ -73,14 +87,36 @@
         </div>
         <div class="nr3_win" style="display: none" id="nr3_win">
           <h2>🎉 Glückwunsch!</h2>
-          <p>Du hast dich rechtzeitig beworben!</p>
-          <p>Zeit gebraucht: <span id="timeTaken">0.0</span> s</p>
+          <p>
+            Du hast dich rechtzeitig in <span id="timeTaken">0.0</span> s
+            beworben!
+          </p>
           <p>Verbleibende Zeit: <span id="timeRemaining">0.0</span> s</p>
+        </div>
+        <div id="filePreview" class="file-preview">
+          <div class="file-preview-inner">
+            <div class="file-preview-header">
+              <span id="previewTitle"></span>
+              <button id="previewClose">✖️</button>
+            </div>
+            <div id="previewBody" class="file-preview-body"></div>
+            <button id="previewSave" style="display: none">💾 Speichern</button>
+          </div>
         </div>
       </div>
       <!-- Drag and Drop over -->
-      <img class="postit" src="images/postit.png" alt="" />
-      <img class="cattail" src="images/cattail.gif" alt="" />
+      <img
+        class="postit"
+        src="images/postit.png"
+        alt=""
+        style="display: none"
+      />
+      <img
+        class="cattail"
+        src="images/cattail.gif"
+        alt=""
+        style="display: none"
+      />
     </div>
     <script src="script.js"></script>
   </body>

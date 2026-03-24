@@ -1,7 +1,7 @@
 // Timer functionality
 let t0 = 0,
   rafId = null;
-const GAME_DURATION = 30; // 30 seconds
+const GAME_DURATION = 60; // 60 seconds
 let remainingTime = GAME_DURATION;
 const now = () => performance.now();
 
@@ -45,15 +45,28 @@ function handleTimeUp() {
   applyButton.classList.add("inactive");
 }
 
+const CORRECT_FILE = "lebenslauf_finalfinal.pdf";
+
 // elements
+const startBtn = document.getElementById("startBtn");
 const loginBtn = document.getElementById("loginBtn");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
+const introScreen = document.querySelector(".introScreen");
 const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".nr2_dragdrop");
 const cattail = document.querySelector(".cattail");
+const postit = document.querySelector(".postit");
 const errorMessage = document.getElementById("errorMessage");
 const successMessage = document.getElementById("successMessage");
+
+startBtn.addEventListener("click", () => {
+  introScreen.style.display = "none";
+  loginBox.style.display = "block";
+  cattail.style.display = "block";
+  postit.style.display = "block";
+  startTimer();
+});
 
 passwordInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -67,9 +80,9 @@ loginBtn.addEventListener("click", () => {
 
   // Einfache Validierung (nur Demo-Zwecke)
   if (username && password === "brb_snack") {
+    hideAllMessages();
     loginBox.style.display = "none";
     gameBox.style.display = "block";
-    startTimer();
   } else {
     showMessage(errorMessage, "Falsches Passwort!");
   }
@@ -83,18 +96,42 @@ const docsA = document.getElementById("docsA");
 const docsB = document.getElementById("docsB");
 const applyButton = document.querySelector(".applyButton");
 const timeEl = document.getElementById("time");
-const countBEl = document.getElementById("countB");
-const totalEl = document.getElementById("total");
 const nr2_dragdropEL = document.getElementById("nr2_dragdrop");
 const winBox = document.getElementById("nr3_win");
-const finalTimeEl = document.getElementById("finalTime");
 const timeTakenEl = document.getElementById("timeTaken");
 const timeRemainingEl = document.getElementById("timeRemaining");
+const filePreview = document.getElementById("filePreview");
+const previewTitle = document.getElementById("previewTitle");
+const previewBody = document.getElementById("previewBody");
+const previewClose = document.getElementById("previewClose");
+const previewSave = document.getElementById("previewSave");
 
-let totalDocs = 0;
-let won = false;
+function openPreview(name, content) {
+  previewTitle.textContent = name;
+  previewBody.innerHTML = content;
+  previewSave.style.display = "none";
+  filePreview.classList.add("open");
+}
 
-function makeDoc({ ext, name }) {
+function closePreview() {
+  filePreview.classList.remove("open");
+  previewBody.innerHTML = "";
+}
+
+previewClose.addEventListener("click", closePreview);
+previewSave.addEventListener("click", closePreview);
+filePreview.addEventListener("click", (e) => {
+  if (e.target === filePreview) closePreview();
+});
+previewBody.addEventListener("click", (e) => {
+  if (e.target.classList.contains("typo")) {
+    e.target.textContent = "Bewerbung";
+    e.target.classList.remove("typo");
+    previewSave.style.display = "block";
+  }
+});
+
+function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
   el.className = "doc";
   el.draggable = true;
@@ -119,6 +156,13 @@ function makeDoc({ ext, name }) {
     }
   });
 
+  // Add click event to open preview but only if not in zone B
+  el.addEventListener("click", (e) => {
+    if (!docsB.contains(el)) {
+      openPreview(name, content);
+    }
+  });
+
   return el;
 }
 
@@ -130,14 +174,13 @@ applyButton.addEventListener("click", () => {
   // Calculate time taken and remaining time
   const timeTaken = GAME_DURATION - remainingTime;
 
+  hideAllMessages();
   // Show win box
   winBox.style.display = "block";
   timeTakenEl.textContent = timeTaken.toFixed(1);
   timeRemainingEl.textContent = remainingTime.toFixed(1);
   stopTimer();
 
-  // Hide apply button and nr2_dragdrop
-  // applyButton.style.display = "none";
   nr2_dragdropEL.style.display = "none";
 });
 
@@ -185,13 +228,27 @@ function wireZoneDrop(zoneEl, targetDocsContainer) {
 wireZoneDrop(zoneA, docsA);
 wireZoneDrop(zoneBdropable, docsB);
 
-// Helper function to show messages
+let activeMessageTimer = null;
+let activeMessageEl = null;
+
 function showMessage(element, message) {
+  if (activeMessageEl) {
+    clearTimeout(activeMessageTimer);
+    activeMessageEl.classList.remove("show");
+  }
   element.textContent = message;
   element.classList.add("show");
-  setTimeout(() => {
+  activeMessageEl = element;
+  activeMessageTimer = setTimeout(() => {
     element.classList.remove("show");
+    activeMessageEl = null;
   }, 3000);
+}
+
+function hideAllMessages() {
+  clearTimeout(activeMessageTimer);
+  if (activeMessageEl) activeMessageEl.classList.remove("show");
+  activeMessageEl = null;
 }
 
 function checkFileNameAndShowAlert(fileName) {
@@ -203,7 +260,7 @@ function checkFileNameAndShowAlert(fileName) {
   setTimeout(() => {
     spinner.remove();
 
-    if (fileName === "lebenslauf_finalfinal.pdf") {
+    if (fileName === CORRECT_FILE && remainingTime > 0) {
       showMessage(successMessage, "Upload erfolgreich!");
       applyButton.classList.remove("inactive");
     } else {
@@ -218,7 +275,8 @@ function checkFileNameAndShowAlert(fileName) {
         const removeBtn = document.createElement("button");
         removeBtn.className = "remove-btn";
         removeBtn.textContent = "×";
-        removeBtn.onclick = () => {
+        removeBtn.onclick = (e) => {
+          e.stopPropagation();
           uploadedFile.remove();
         };
         uploadedFile.appendChild(removeBtn);
@@ -233,25 +291,85 @@ function loadGame(docs) {
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
-  totalDocs = docs.length;
 }
 
-function randomDocs() {
-  const pool = [
-    { ext: "PDF", name: "report.pdf" },
-    { ext: "DOC", name: "vertrag.doc" },
-    { ext: "XLS", name: "budget.xls" },
-    { ext: "PNG", name: "mockup.png" },
-    { ext: "TXT", name: "notizen.txt" },
-    { ext: "PPT", name: "pitch.ppt" },
-  ];
-  const n = 3 + Math.floor(Math.random() * 3); // 3–5
-  return pool.sort(() => Math.random() - 0.5).slice(0, n);
-}
+const DOCS = [
+  {
+    ext: "PDF",
+    name: "lebenslauf_alt.pdf",
+    content: `
+      <p><strong>Max Mustermann</strong><br>
+      Software Developer · max.mustermann@email.at</p>
+      <hr>
+      <p><strong>Berufserfahrung</strong><br>
+      DST GmbH — Junior Developer (2021–2023)<br>
+      Freelance — Web Dev (2020–2021)</p>
+      <hr>
+      <p><strong>Ausbildung</strong><br>
+      HTL Wien — Informatik (2015–2020)</p>
+      <hr>
+      <p><em>Sprachen: Deutsch, Englisch</em></p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "lebenslauf_neu.pdf",
+    content: `
+      <p><strong>Max Mustermann</strong> [FOTO EINFÜGEN]<br>
+      Software Developer · max.mustermann@email.at</p>
+      <hr>
+      <p><strong>Berufserfahrung</strong><br>
+      DST GmbH — Junior Developer (2021–2024)<br>
+      Freelance — Web Dev (2020–2021)</p>
+      <hr>
+      <p><strong>Fähigkeiten</strong><br>
+      JavaScript, CSS, React, Node.js</p>
+      <hr>
+      <p><strong>Ausbildung</strong><br>
+      HTL Wien — Informatik (2015–2020)</p>
+      <hr>
+      <p><strong>Referenzen</strong><br>
+      [Referenz folgt]</p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "lebenslauf_final.pdf",
+    content: `
+      <p><strong>Max Mustermann</strong><br>
+      Software Developer · max.mustermann@email.at</p>
+      <hr>
+      <p><strong>Berufserfahrung</strong><br>
+      DST GmbH — Developer (TODO: Datum prüfen)<br>
+      Freelance — Web Dev (2020–2021)</p>
+      <hr>
+      <p><strong>Fähigkeiten</strong><br>
+      JavaScript, CSS, React, Node.js, TypeScript</p>
+      <hr>
+      <p><strong>Ausbildung</strong><br>
+      HTL Wien — Informatik (2015–2020)</p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "lebenslauf_finalfinal.pdf",
+    content: `
+      <p><strong>Max Mustermann</strong><br>
+      Software Developer · max.mustermann@email.at · +43 699 9876543</p>
+      <hr>
+      <p><strong>Berufserfahrung</strong><br>
+      DST GmbH — Developer (2021–2024)<br>
+      Freelance — Web Dev (2020–2021)</p>
+      <hr>
+      <p><strong>Fähigkeiten</strong><br>
+      JavaScript, CSS, React, Node.js, TypeScript, Git</p>
+      <hr>
+      <p><strong>Ausbildung</strong><br>
+      HTL Wien — Informatik (2015–2020)</p>
+      <hr>
+      <p>Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.</p>
+    `,
+  },
+];
 
-loadGame([
-  { ext: "PDF", name: "lebenslauf.pdf" },
-  { ext: "PDF", name: "lebenslauf_v2.pdf" },
-  { ext: "PDF", name: "lebenslauf_final.pdf" },
-  { ext: "PDF", name: "lebenslauf_finalfinal.pdf" },
-]);
+loadGame(DOCS);
