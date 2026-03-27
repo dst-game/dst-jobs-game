@@ -1,14 +1,30 @@
 // Timer functionality
 let t0 = 0,
   rafId = null;
-const GAME_DURATION = 60; // 60 seconds
+const GAME_DURATION = 300; // 5 minutes
 let remainingTime = GAME_DURATION;
 const now = () => performance.now();
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  const ms = Math.floor((seconds % 1) * 100);
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}:${String(ms).padStart(2, "0")}`;
+}
 
 function tick() {
   const elapsed = (now() - t0) / 1000;
   remainingTime = Math.max(0, GAME_DURATION - elapsed);
-  timeEl.textContent = remainingTime.toFixed(1);
+  timeEl.textContent = formatTime(remainingTime);
+
+  const clock = timeEl.closest(".clock");
+  if (remainingTime <= 30) {
+    clock.classList.remove("warning");
+    clock.classList.add("urgent");
+  } else if (remainingTime <= 60) {
+    clock.classList.remove("urgent");
+    clock.classList.add("warning");
+  }
 
   if (remainingTime <= 0) {
     stopTimer();
@@ -35,7 +51,7 @@ function resetTimer() {
   stopTimer();
   t0 = 0;
   remainingTime = GAME_DURATION;
-  timeEl.textContent = GAME_DURATION.toFixed(1);
+  timeEl.textContent = formatTime(GAME_DURATION);
 }
 
 function handleTimeUp() {
@@ -49,7 +65,6 @@ const CORRECT_FILE = "lebenslauf_finalfinal.pdf";
 
 // elements
 const startBtn = document.getElementById("startBtn");
-const loginBtn = document.getElementById("loginBtn");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const introScreen = document.querySelector(".introScreen");
@@ -62,31 +77,28 @@ const successMessage = document.getElementById("successMessage");
 
 startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";
-  loginBox.style.display = "block";
+  loginBox.style.display = "flex";
   cattail.style.display = "block";
   postit.style.display = "block";
   startTimer();
 });
 
-passwordInput.addEventListener("keydown", (e) => {
+// when enter is hit in password input, click login button
+passwordInput.onkeydown = (e) => {
   if (e.key === "Enter") {
-    loginBtn.click();
-  }
-});
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
 
-loginBtn.addEventListener("click", () => {
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  // Einfache Validierung (nur Demo-Zwecke)
-  if (username && password === "brb_snack") {
-    hideAllMessages();
-    loginBox.style.display = "none";
-    gameBox.style.display = "block";
-  } else {
-    showMessage(errorMessage, "Falsches Passwort!");
+    // Einfache Validierung (nur Demo-Zwecke)
+    if (username && password === "brb_snack") {
+      hideAllMessages();
+      loginBox.style.display = "none";
+      gameBox.style.display = "block";
+    } else {
+      showMessage(errorMessage, "Falsches Passwort!");
+    }
   }
-});
+};
 
 // Drag and Drop functionality
 const zoneA = document.getElementById("zoneA");
