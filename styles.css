@@ -211,9 +211,8 @@ h1 {
 .introScreen,
 .nr1_login_box,
 .nr3_win {
-  padding: clamp(16px, 4%, 40px) clamp(20px, 5%, 50px);
   text-align: center;
-  width: 90%;
+  width: 100%;
   max-width: 320px;
   z-index: 10;
   color: white;
@@ -279,11 +278,8 @@ h1 {
 .screen {
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 0;
+  display: flex;
   background: #0b1220;
-  gap: 2px;
 }
 
 /* ─── Zone A — file explorer ─────────────────────────────────────── */
@@ -292,22 +288,8 @@ h1 {
   overflow-y: auto;
 }
 .zone.zoneA {
+  flex: 1;
   background: #f8f9fa;
-  border-right: 1px solid #dee2e6;
-}
-.zone.zoneB {
-  position: relative;
-  overflow: hidden;
-}
-
-.zone.zoneB img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
 }
 
 .zone h3 {
@@ -321,28 +303,6 @@ h1 {
   border-bottom: 1px solid #dee2e6;
   color: #495057;
   font-weight: 600;
-}
-.zone.zoneB h3 {
-  display: none;
-}
-
-/* Drop target inside zone B */
-#zoneBdropable {
-  position: absolute;
-  bottom: 18%;
-  left: 2%;
-  right: 2%;
-  min-height: 24%;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  z-index: 2;
-}
-#zoneBdropable:not(:empty) {
-  background: rgba(121, 182, 143, 0.12);
-  border: 2px solid rgba(34, 197, 94, 0.55);
 }
 
 /* ─── Docs list ──────────────────────────────────────────────────── */
@@ -362,7 +322,7 @@ h1 {
   border: 1px solid #e9ecef;
   border-radius: 6px;
   padding: 8px 10px;
-  cursor: grab;
+  cursor: default;
   user-select: none;
   font-size: clamp(10px, 1.1vw, 13px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -379,15 +339,6 @@ h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
-.zone.zoneB .doc {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 10px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-}
-.doc:active {
-  cursor: grabbing;
-}
 
 .icon {
   width: 28px;
@@ -400,60 +351,6 @@ h1 {
   margin-bottom: 6px;
   font-size: 9px;
   font-weight: 600;
-}
-
-/* ─── Upload spinner ─────────────────────────────────────────────── */
-.upload-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid #007bff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  z-index: 1000;
-}
-
-@keyframes spin {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* ─── File error state ───────────────────────────────────────────── */
-.doc.upload-error {
-  border: 2px solid #eb0000 !important;
-  background: #fef2f2 !important;
-  position: relative;
-}
-
-.doc.upload-error .remove-btn {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
-  background: #eb0000;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  transition: background 0.2s;
-}
-
-.doc.upload-error .remove-btn:hover {
-  background: #eb0000;
 }
 
 /* ─── Apply Button ───────────────────────────────────────────── */

@@ -45,7 +45,7 @@
         />
       </svg>
 
-      <div class="clock">
+      <div class="clock" style="display: none">
         <div class="clock-display" id="time">05:00:00</div>
       </div>
       <div class="laptop-screen">
@@ -56,7 +56,14 @@
             Willkommen bei <br />
             5 vor 12!
           </h3>
-          <button id="startBtn">Start</button>
+          <button id="startBtn">Start Game</button>
+        </div>
+        <div class="introVideoBox" style="display: none">
+          <video
+            id="introVideo"
+            src="images/intro.mp4"
+            type="video/mp4"
+          ></video>
         </div>
         <div class="nr1_login" style="display: none">
           <h1>
@@ -81,22 +88,16 @@
               <h3>📁 Datei-Explorer</h3>
               <div class="docs" id="docsA"></div>
             </div>
-
-            <div class="zone zoneB" id="zoneB">
-              <img src="images/easyapplyv2.png" />
-              <div class="zone zoneB" id="zoneBdropable">
-                <div class="docs" id="docsB"></div>
-              </div>
-              <button class="applyButton inactive">
-                <p>Bewerbung abschicken</p>
-              </button>
-            </div>
           </div>
+          <button class="applyButton">
+            <p>Bewerbung abschicken</p>
+          </button>
         </div>
         <div class="nr3_win" style="display: none" id="nr3_win">
           <h2>🎉 Glückwunsch!</h2>
           <p>
-            Du hast dich rechtzeitig in <span id="timeTaken">0.0</span> s
+            Du hast dich rechtzeitig in
+            <nobr><span id="timeTaken">0.0</span> s</nobr>
             beworben!
           </p>
           <p>Verbleibende Zeit: <span id="timeRemaining">0.0</span> s</p>

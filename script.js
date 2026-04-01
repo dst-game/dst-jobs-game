@@ -61,27 +61,40 @@ function handleTimeUp() {
   applyButton.classList.add("inactive");
 }
 
-const CORRECT_FILE = "lebenslauf_finalfinal.pdf";
-
 // elements
 const startBtn = document.getElementById("startBtn");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const introScreen = document.querySelector(".introScreen");
+const introVideoBox = document.querySelector(".introVideoBox");
+const introVideo = document.getElementById("introVideo");
 const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".nr2_dragdrop");
 const cattail = document.querySelector(".cattail");
 const postit = document.querySelector(".postit");
 const errorMessage = document.getElementById("errorMessage");
 const successMessage = document.getElementById("successMessage");
+const timer = document.querySelector(".clock");
 
 startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";
-  loginBox.style.display = "flex";
-  cattail.style.display = "block";
-  postit.style.display = "block";
-  startTimer();
+  introVideoBox.style.display = "flex";
+  introVideo.play();
 });
+
+introVideo.addEventListener("ended", () => {
+  introVideoBox.style.display = "none";
+  loginBox.style.display = "flex";
+  cattail.style.display = "flex";
+  postit.style.display = "flex";
+  timer.style.display = "flex";
+  // delay start of timer for 1 second
+  setTimeout(() => {
+    startTimer();
+  }, 1000);
+});
+
+// listen to when video ends
 
 // when enter is hit in password input, click login button
 passwordInput.onkeydown = (e) => {
@@ -100,12 +113,8 @@ passwordInput.onkeydown = (e) => {
   }
 };
 
-// Drag and Drop functionality
 const zoneA = document.getElementById("zoneA");
-const zoneB = document.getElementById("zoneB");
-const zoneBdropable = document.getElementById("zoneBdropable");
 const docsA = document.getElementById("docsA");
-const docsB = document.getElementById("docsB");
 const applyButton = document.querySelector(".applyButton");
 const timeEl = document.getElementById("time");
 const nr2_dragdropEL = document.getElementById("nr2_dragdrop");
@@ -146,33 +155,14 @@ previewBody.addEventListener("click", (e) => {
 function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
   el.className = "doc";
-  el.draggable = true;
-  el.id = "doc-" + Math.random().toString(16).slice(2);
 
   el.innerHTML = `
     <div class="icon">${ext}</div>
     <div><b>${name}</b></div>
   `;
 
-  el.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", el.id);
-    e.dataTransfer.effectAllowed = "move";
-
-    // Check if the file is currently in zone B
-    const isInZoneB = docsB.contains(el);
-    if (isInZoneB) {
-      // Prevent dragging from zone B
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-  });
-
-  // Add click event to open preview but only if not in zone B
-  el.addEventListener("click", (e) => {
-    if (!docsB.contains(el)) {
-      openPreview(name, content);
-    }
+  el.addEventListener("click", () => {
+    openPreview(name, content);
   });
 
   return el;
@@ -200,46 +190,6 @@ cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
 
-// Wichtig: dragover + drop direkt auf die ZONEN, nicht nur auf den inneren Container.
-function wireZoneDrop(zoneEl, targetDocsContainer) {
-  zoneEl.addEventListener("dragover", (e) => {
-    e.preventDefault(); // erlaubt drop
-    e.dataTransfer.dropEffect = "move";
-  });
-
-  zoneEl.addEventListener("drop", (e) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData("text/plain");
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    // Only allow one file in Zone B drop area
-    if (targetDocsContainer === docsB && docsB.querySelector(".doc")) {
-      return; // Prevent dropping if there's already a file
-    }
-
-    // If dropping into zone B, create a copy instead of moving
-    if (targetDocsContainer === docsB) {
-      const originalDoc = el;
-      const fileName = originalDoc.querySelector("b").textContent;
-      const fileExt = originalDoc.querySelector(".icon").textContent;
-
-      // Create a new copy of the document
-      const copy = makeDoc({ ext: fileExt, name: fileName });
-      targetDocsContainer.appendChild(copy);
-
-      // Check filename and show appropriate alert for Zone B drops
-      checkFileNameAndShowAlert(fileName);
-    } else {
-      // For zone A, use the original move behavior
-      targetDocsContainer.appendChild(el);
-    }
-  });
-}
-
-wireZoneDrop(zoneA, docsA);
-wireZoneDrop(zoneBdropable, docsB);
-
 let activeMessageTimer = null;
 let activeMessageEl = null;
 
@@ -263,43 +213,8 @@ function hideAllMessages() {
   activeMessageEl = null;
 }
 
-function checkFileNameAndShowAlert(fileName) {
-  // Show spinner for 1.5 seconds to simulate upload
-  const spinner = document.createElement("div");
-  spinner.className = "upload-spinner";
-  zoneBdropable.appendChild(spinner);
-
-  setTimeout(() => {
-    spinner.remove();
-
-    if (fileName === CORRECT_FILE && remainingTime > 0) {
-      showMessage(successMessage, "Upload erfolgreich!");
-      applyButton.classList.remove("inactive");
-    } else {
-      showMessage(errorMessage, "Falsche Datei!");
-
-      // Add error styling and remove button to the uploaded file
-      const uploadedFile = docsB.querySelector(".doc");
-      if (uploadedFile) {
-        uploadedFile.classList.add("upload-error");
-
-        // Add remove button
-        const removeBtn = document.createElement("button");
-        removeBtn.className = "remove-btn";
-        removeBtn.textContent = "×";
-        removeBtn.onclick = (e) => {
-          e.stopPropagation();
-          uploadedFile.remove();
-        };
-        uploadedFile.appendChild(removeBtn);
-      }
-    }
-  }, 1500);
-}
-
 function loadGame(docs) {
   docsA.innerHTML = "";
-  docsB.innerHTML = "";
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
@@ -380,6 +295,86 @@ const DOCS = [
       HTL Wien — Informatik (2015–2020)</p>
       <hr>
       <p>Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.</p>
+    `,
+  },
+  {
+    ext: "DOCX",
+    name: "motivationsschreiben.docx",
+    content: `
+      <p><strong>Motivationsschreiben</strong><br>
+      Max Mustermann · max.mustermann@email.at</p>
+      <hr>
+      <p>Sehr geehrte Damen und Herren,</p>
+      <p>hiermit bewerbe ich mich auf die ausgeschriebene Stelle als Software Developer bei Ihrem Unternehmen.</p>
+      <p>Mit meiner mehrjährigen Erfahrung in der Webentwicklung bin ich überzeugt, einen wertvollen Beitrag leisten zu können.</p>
+      <p>Mit freundlichen Grüßen,<br>Max Mustermann</p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "zeugnisse_scan.pdf",
+    content: `
+      <p><strong>Zeugnisse — Scan</strong></p>
+      <hr>
+      <p>HTL Wien — Abschlusszeugnis 2020<br>
+      Gesamtnote: Gut</p>
+      <hr>
+      <p>Praktikumszeugnis DST GmbH 2019<br>
+      „Max hat hervorragende Leistungen erbracht."</p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "portfolio.pdf",
+    content: `
+      <p><strong>Portfolio — Max Mustermann</strong></p>
+      <hr>
+      <p><strong>Projekt 1:</strong> E-Commerce-Plattform (React, Node.js)<br>
+      <strong>Projekt 2:</strong> Interne HR-App (Vue, PostgreSQL)<br>
+      <strong>Projekt 3:</strong> CLI-Tool für Datenmigration (Python)</p>
+      <hr>
+      <p><em>Weitere Projekte auf GitHub verfügbar.</em></p>
+    `,
+  },
+  {
+    ext: "PDF",
+    name: "referenzschreiben_dstgmbh.pdf",
+    content: `
+      <p><strong>Referenzschreiben</strong><br>
+      DST GmbH · Wien</p>
+      <hr>
+      <p>Herr Mustermann war von 2021 bis 2024 in unserem Unternehmen tätig und hat in dieser Zeit stets zuverlässige und qualitativ hochwertige Arbeit geleistet.</p>
+      <p>Wir empfehlen ihn uneingeschränkt weiter.</p>
+      <p><em>— HR-Abteilung, DST GmbH</em></p>
+    `,
+  },
+  {
+    ext: "PNG",
+    name: "foto_bewerbung.png",
+    content: `<p><em>[Bewerbungsfoto — Vorschau nicht verfügbar]</em></p>`,
+  },
+  {
+    ext: "XLSX",
+    name: "gehaltsvorstellung.xlsx",
+    content: `
+      <p><strong>Gehaltsvorstellung</strong></p>
+      <hr>
+      <p>Brutto/Jahr: € 58.000<br>
+      Verhandelbar: Ja<br>
+      Startdatum: 01.06.2024</p>
+    `,
+  },
+  {
+    ext: "TXT",
+    name: "notizen_interview.txt",
+    content: `
+      <p><strong>Notizen — Vorstellungsgespräch</strong></p>
+      <hr>
+      <p>- Fragen zu Teamstruktur stellen<br>
+      - Remote-Policy erfragen<br>
+      - Stack: TypeScript? Microservices?<br>
+      - Onboarding-Prozess?<br>
+      - TODO: Referenzen nochmal prüfen!!</p>
     `,
   },
 ];
