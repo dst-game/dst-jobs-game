@@ -268,7 +268,7 @@ h1 {
   ✅ Fixed: fill the entire .laptop-screen overlay, not a sub-portion.
   Remove all absolute pixel/percent offsets that assumed a larger canvas.
 */
-.nr2_dragdrop {
+.screen_2 {
   position: absolute;
   inset: 0; /* fill .laptop-screen completely */
   display: flex;
@@ -280,29 +280,31 @@ h1 {
   height: 100%;
   display: flex;
   background: #0b1220;
+  flex-direction: column;
+  padding-bottom: 20px;
 }
 
-/* ─── Zone A — file explorer ─────────────────────────────────────── */
-.zone {
-  padding: 12px;
+/* ─── File explorer ─────────────────────────────────────── */
+.file_explorer {
+  padding: 0 12px 12px 12px;
   overflow-y: auto;
-}
-.zone.zoneA {
   flex: 1;
   background: #f8f9fa;
+  width: 90%;
+  margin: auto;
 }
 
-.zone h3 {
-  margin: 0 0 8px;
+.file_explorer h3 {
   font-size: clamp(10px, 1.1vw, 13px);
-}
-.zone.zoneA h3 {
   background: #e9ecef;
   padding: 6px 10px;
-  margin: -12px -12px 10px;
+  margin: 0px -12px 10px;
   border-bottom: 1px solid #dee2e6;
   color: #495057;
   font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 /* ─── Docs list ──────────────────────────────────────────────────── */
@@ -312,7 +314,7 @@ h1 {
   gap: 8px;
   min-height: 40px;
 }
-.zone.zoneA .docs {
+.file_explorer .docs {
   flex-direction: column;
   flex-wrap: nowrap;
 }
@@ -331,10 +333,10 @@ h1 {
     box-shadow 0.15s;
   word-break: break-word;
 }
-.zone.zoneA .doc {
+.file_explorer .doc {
   width: 100%;
 }
-.zone.zoneA .doc:hover {
+.file_explorer .doc:hover {
   background: #f1f3f5;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);

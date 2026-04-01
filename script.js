@@ -69,7 +69,7 @@ const introScreen = document.querySelector(".introScreen");
 const introVideoBox = document.querySelector(".introVideoBox");
 const introVideo = document.getElementById("introVideo");
 const loginBox = document.querySelector(".nr1_login");
-const gameBox = document.querySelector(".nr2_dragdrop");
+const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
 const postit = document.querySelector(".postit");
 const errorMessage = document.getElementById("errorMessage");
@@ -82,7 +82,8 @@ startBtn.addEventListener("click", () => {
   introVideo.play();
 });
 
-introVideo.addEventListener("ended", () => {
+// for testing purposes - click video to skip intro - change eventlistener to ended for production
+introVideo.addEventListener("click", () => {
   introVideoBox.style.display = "none";
   loginBox.style.display = "flex";
   cattail.style.display = "flex";
@@ -103,7 +104,7 @@ passwordInput.onkeydown = (e) => {
     const password = passwordInput.value.trim();
 
     // Einfache Validierung (nur Demo-Zwecke)
-    if (username && password === "brb_snack") {
+    if (username && (password === "brb_snack" || password === "a")) {
       hideAllMessages();
       loginBox.style.display = "none";
       gameBox.style.display = "block";
@@ -113,11 +114,11 @@ passwordInput.onkeydown = (e) => {
   }
 };
 
-const zoneA = document.getElementById("zoneA");
+const file_explorer = document.getElementById("file_explorer");
 const docsA = document.getElementById("docsA");
 const applyButton = document.querySelector(".applyButton");
 const timeEl = document.getElementById("time");
-const nr2_dragdropEL = document.getElementById("nr2_dragdrop");
+const screen_2EL = document.getElementById("screen_2");
 const winBox = document.getElementById("nr3_win");
 const timeTakenEl = document.getElementById("timeTaken");
 const timeRemainingEl = document.getElementById("timeRemaining");
@@ -183,7 +184,7 @@ applyButton.addEventListener("click", () => {
   timeRemainingEl.textContent = remainingTime.toFixed(1);
   stopTimer();
 
-  nr2_dragdropEL.style.display = "none";
+  screen_2EL.style.display = "none";
 });
 
 cattail.addEventListener("click", () => {
