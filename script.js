@@ -1,8 +1,15 @@
+// ─── Game Settings ───────────────────────────────────────────────
+const GAME_SETTINGS = {
+  gameDuration: 300,      // seconds (5 minutes)
+  correctPassword: "brb_snack",
+  punishmentAmount: 15,   // seconds subtracted per wrong action
+};
+
 // Timer functionality
 let t0 = 0,
   rafId = null;
-const GAME_DURATION = 300; // 5 minutes
-let remainingTime = GAME_DURATION;
+let remainingTime = GAME_SETTINGS.gameDuration;
+let penaltySeconds = 0;
 const now = () => performance.now();
 
 function formatTime(seconds) {
@@ -14,7 +21,7 @@ function formatTime(seconds) {
 
 function tick() {
   const elapsed = (now() - t0) / 1000;
-  remainingTime = Math.max(0, GAME_DURATION - elapsed);
+  remainingTime = Math.max(0, GAME_SETTINGS.gameDuration - elapsed - penaltySeconds);
   timeEl.textContent = formatTime(remainingTime);
 
   const clock = timeEl.closest(".clock");
@@ -38,7 +45,7 @@ function tick() {
 function startTimer() {
   if (t0) return;
   t0 = now();
-  remainingTime = GAME_DURATION;
+  remainingTime = GAME_SETTINGS.gameDuration;
   tick();
 }
 
@@ -50,8 +57,9 @@ function stopTimer() {
 function resetTimer() {
   stopTimer();
   t0 = 0;
-  remainingTime = GAME_DURATION;
-  timeEl.textContent = formatTime(GAME_DURATION);
+  penaltySeconds = 0;
+  remainingTime = GAME_SETTINGS.gameDuration;
+  timeEl.textContent = formatTime(GAME_SETTINGS.gameDuration);
 }
 
 function handleTimeUp() {
@@ -59,6 +67,20 @@ function handleTimeUp() {
   showMessage(errorMessage, "Zeit abgelaufen! Game Over!");
   // Disable apply button
   applyButton.classList.add("inactive");
+}
+
+function applyPunishment() {
+  const label = document.getElementById("punishmentLabel");
+  const amount = GAME_SETTINGS.punishmentAmount;
+
+  label.textContent = `-${amount}s`;
+  label.classList.remove("animate");
+  void label.offsetWidth; // force reflow to restart animation
+  label.classList.add("animate");
+
+  setTimeout(() => {
+    penaltySeconds += amount;
+  }, 800); // matches animation duration
 }
 
 // elements
@@ -104,12 +126,13 @@ passwordInput.onkeydown = (e) => {
     const password = passwordInput.value.trim();
 
     // Einfache Validierung (nur Demo-Zwecke)
-    if (username && (password === "brb_snack" || password === "a")) {
+    if (username && password === GAME_SETTINGS.correctPassword) {
       hideAllMessages();
       loginBox.style.display = "none";
       gameBox.style.display = "block";
     } else {
       showMessage(errorMessage, "Falsches Passwort!");
+      applyPunishment();
     }
   }
 };
@@ -175,7 +198,7 @@ applyButton.addEventListener("click", () => {
   }
 
   // Calculate time taken and remaining time
-  const timeTaken = GAME_DURATION - remainingTime;
+  const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
 
   hideAllMessages();
   // Show win box

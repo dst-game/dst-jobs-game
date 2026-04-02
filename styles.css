@@ -157,6 +157,47 @@ h1 {
   }
 }
 
+/* ─── Punishment label ───────────────────────────────────────────── */
+.clock {
+  overflow: visible;
+}
+
+.punishment-label {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff2a2a;
+  font-size: clamp(24px, 3.2vw, 48px);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 8px #ff2a2a,
+    0 0 20px rgba(255, 42, 42, 0.6);
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.punishment-label.animate {
+  animation: punishment-fly 0.8s ease-in forwards;
+}
+
+@keyframes punishment-fly {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translateX(-50%) translateY(20px) scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(36px) scale(0.1);
+  }
+}
+
 /* ─── Error toast ────────────────────────────────────────────────── */
 .error-message {
   position: absolute;
