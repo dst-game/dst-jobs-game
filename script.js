@@ -1,8 +1,9 @@
 // ─── Game Settings ───────────────────────────────────────────────
 const GAME_SETTINGS = {
-  gameDuration: 300,      // seconds (5 minutes)
+  gameDuration: 300, // seconds (5 minutes)
   correctPassword: "brb_snack",
-  punishmentAmount: 15,   // seconds subtracted per wrong action
+  punishmentAmount: 15, // seconds subtracted per wrong action
+  correctFile: "lebenslauf_finalfinal.pdf",
 };
 
 // Timer functionality
@@ -10,6 +11,9 @@ let t0 = 0,
   rafId = null;
 let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
+let cameraStream = null;
+let photoAdded = false;
+let typoFixed = false;
 const now = () => performance.now();
 
 function formatTime(seconds) {
@@ -21,7 +25,10 @@ function formatTime(seconds) {
 
 function tick() {
   const elapsed = (now() - t0) / 1000;
-  remainingTime = Math.max(0, GAME_SETTINGS.gameDuration - elapsed - penaltySeconds);
+  remainingTime = Math.max(
+    0,
+    GAME_SETTINGS.gameDuration - elapsed - penaltySeconds,
+  );
   timeEl.textContent = formatTime(remainingTime);
 
   const clock = timeEl.closest(".clock");
@@ -83,6 +90,75 @@ function applyPunishment() {
   }, 800); // matches animation duration
 }
 
+// ─── Camera ──────────────────────────────────────────────────────
+
+async function openCamera() {
+  cameraScreen.style.display = "flex";
+  videoEl.style.display = "block";
+  photoEl.style.display = "none";
+  captureBtn.style.display = "block";
+  retakeBtn.style.display = "none";
+  savePhotoBtn.style.display = "none";
+
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    videoEl.srcObject = cameraStream;
+  } catch {
+    showMessage(errorMessage, "Kamera nicht verfügbar!");
+    cameraScreen.style.display = "none";
+  }
+}
+
+function capturePhoto() {
+  canvas.width = videoEl.videoWidth;
+  canvas.height = videoEl.videoHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(videoEl, 0, 0);
+
+  // Green terminal filter: grayscale → green channel only
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = imageData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    d[i] = 0;
+    d[i + 1] = Math.min(255, gray * 1.2);
+    d[i + 2] = 0;
+  }
+  ctx.putImageData(imageData, 0, 0);
+
+  photoEl.src = canvas.toDataURL("image/png");
+  videoEl.style.display = "none";
+  photoEl.style.display = "block";
+  captureBtn.style.display = "none";
+  retakeBtn.style.display = "block";
+  savePhotoBtn.style.display = "block";
+}
+
+function retakePhoto() {
+  videoEl.style.display = "block";
+  photoEl.style.display = "none";
+  captureBtn.style.display = "block";
+  retakeBtn.style.display = "none";
+  savePhotoBtn.style.display = "none";
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach((t) => t.stop());
+    cameraStream = null;
+  }
+  cameraScreen.style.display = "none";
+}
+
+function savePhoto() {
+  stopCamera();
+  const missingImageEl = previewBody.querySelector(".missing-image");
+  if (missingImageEl) {
+    missingImageEl.innerHTML = `<img src="${photoEl.src}" class="cv-photo" />`;
+  }
+  photoAdded = true;
+}
+
 // elements
 const startBtn = document.getElementById("startBtn");
 const usernameInput = document.getElementById("username");
@@ -106,7 +182,16 @@ startBtn.addEventListener("click", () => {
 
 // for testing purposes - click video to skip intro - change eventlistener to ended for production
 introVideo.addEventListener("click", () => {
+  gameScreen();
+});
+
+introVideo.addEventListener("ended", () => {
+  gameScreen();
+});
+
+function gameScreen() {
   introVideoBox.style.display = "none";
+  introVideo.pause();
   loginBox.style.display = "flex";
   cattail.style.display = "flex";
   postit.style.display = "flex";
@@ -115,7 +200,7 @@ introVideo.addEventListener("click", () => {
   setTimeout(() => {
     startTimer();
   }, 1000);
-});
+}
 
 // listen to when video ends
 
@@ -150,21 +235,55 @@ const previewTitle = document.getElementById("previewTitle");
 const previewBody = document.getElementById("previewBody");
 const previewClose = document.getElementById("previewClose");
 const previewSave = document.getElementById("previewSave");
+const cameraScreen = document.querySelector(".nr4_camerascreen");
+const videoEl = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const photoEl = document.getElementById("photo");
+const captureBtn = document.getElementById("capture-btn");
+const retakeBtn = document.getElementById("retake-btn");
+const savePhotoBtn = document.getElementById("save-photo-btn");
+const cameraCloseBtn = document.getElementById("camera-close-btn");
 
 function openPreview(name, content) {
   previewTitle.textContent = name;
   previewBody.innerHTML = content;
-  previewSave.style.display = "none";
   filePreview.classList.add("open");
+  if (name !== GAME_SETTINGS.correctFile) {
+    previewSave.style.display = "none";
+    applyPunishment();
+    showMessage(errorMessage, "Falsche Datei geöffnet!");
+  } else {
+    photoAdded = false;
+    typoFixed = false;
+    previewSave.style.display = "block";
+    const missingImage = previewBody.querySelector(".missing-image");
+    if (missingImage) {
+      missingImage.addEventListener("click", openCamera);
+    }
+  }
 }
 
 function closePreview() {
   filePreview.classList.remove("open");
   previewBody.innerHTML = "";
+  hideAllMessages();
 }
 
 previewClose.addEventListener("click", closePreview);
-previewSave.addEventListener("click", closePreview);
+previewSave.addEventListener("click", () => {
+  if (!photoAdded) {
+    showMessage(errorMessage, "Bewerbungsfoto fehlt!");
+    applyPunishment();
+    return;
+  }
+  if (!typoFixed) {
+    showMessage(errorMessage, "Tippfehler noch nicht korrigiert!");
+    applyPunishment();
+    return;
+  }
+  closePreview();
+  applyButton.style.display = "block";
+});
 filePreview.addEventListener("click", (e) => {
   if (e.target === filePreview) closePreview();
 });
@@ -172,9 +291,14 @@ previewBody.addEventListener("click", (e) => {
   if (e.target.classList.contains("typo")) {
     e.target.textContent = "Bewerbung";
     e.target.classList.remove("typo");
-    previewSave.style.display = "block";
+    typoFixed = true;
   }
 });
+
+captureBtn.addEventListener("click", capturePhoto);
+retakeBtn.addEventListener("click", retakePhoto);
+savePhotoBtn.addEventListener("click", savePhoto);
+cameraCloseBtn.addEventListener("click", stopCamera);
 
 function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
@@ -204,7 +328,10 @@ applyButton.addEventListener("click", () => {
   // Show win box
   winBox.style.display = "block";
   timeTakenEl.textContent = timeTaken.toFixed(1);
-  timeRemainingEl.textContent = remainingTime.toFixed(1);
+  // show remaining time in 00:00:00 format
+  const minutes = Math.floor(remainingTime / 60);
+  const seconds = Math.floor(remainingTime % 60);
+  timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   stopTimer();
 
   screen_2EL.style.display = "none";
@@ -305,6 +432,9 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
+    <div class="missing-image">
+    <img src="https://dummyimage.com/100/00ff48/ff0000.png&text=Image+not+Found" />
+    </div>
       <p><strong>Max Mustermann</strong><br>
       Software Developer · max.mustermann@email.at · +43 699 9876543</p>
       <hr>

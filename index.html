@@ -91,7 +91,7 @@
               <div class="docs" id="docsA"></div>
             </div>
           </div>
-          <button class="applyButton">
+          <button class="applyButton" style="display: none">
             <p>Bewerbung abschicken</p>
           </button>
         </div>
@@ -102,7 +102,7 @@
             <nobr><span id="timeTaken">0.0</span> s</nobr>
             beworben!
           </p>
-          <p>Verbleibende Zeit: <span id="timeRemaining">0.0</span> s</p>
+          <p>Verbleibende Zeit: <span id="timeRemaining">0.0</span>!</p>
         </div>
         <div id="filePreview" class="file-preview">
           <div class="file-preview-inner">
@@ -112,6 +112,26 @@
             </div>
             <div id="previewBody" class="file-preview-body"></div>
             <button id="previewSave" style="display: none">💾 Speichern</button>
+          </div>
+        </div>
+        <div class="nr4_camerascreen" style="display: none">
+          <div class="camera-ui">
+            <div class="camera-header">
+              <span>📷 Foto für Bewerbung aufnehmen</span>
+              <button id="camera-close-btn">✖️</button>
+            </div>
+            <div class="camera-body">
+              <video id="video" autoplay playsinline></video>
+              <canvas id="canvas" style="display: none"></canvas>
+              <img id="photo" style="display: none" alt="Aufgenommenes Foto" />
+            </div>
+            <div class="camera-footer">
+              <button id="capture-btn">📸 Foto aufnehmen</button>
+              <button id="retake-btn" style="display: none">🔄 Nochmal</button>
+              <button id="save-photo-btn" style="display: none">
+                💾 Foto speichern
+              </button>
+            </div>
           </div>
         </div>
       </div>
