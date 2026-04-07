@@ -327,7 +327,10 @@ applyButton.addEventListener("click", () => {
   hideAllMessages();
   // Show win box
   winBox.style.display = "block";
-  timeTakenEl.textContent = timeTaken.toFixed(1);
+  // show time taken in 00:00:00 format
+  const takenMinutes = Math.floor(timeTaken / 60);
+  const takenSeconds = Math.floor(timeTaken % 60);
+  timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
   // show remaining time in 00:00:00 format
   const minutes = Math.floor(remainingTime / 60);
   const seconds = Math.floor(remainingTime % 60);

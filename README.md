@@ -5,36 +5,60 @@ A browser-based mini-game built for DST. The player has to submit a job applicat
 ## How to play
 
 1. Open `index.html` in a browser — no build step needed
-2. Click **Start** on the intro screen — the timer begins immediately
-3. **Login** with the credentials shown on screen, hidden behind the cat - click the cat to reveal
-4. In the file explorer, click any file to **preview its contents**
-5. Drag the correct resume into the upload zone
-6. Wait for the upload to complete, then click **Bewerbung abschicken**
+2. Click **Start** on the intro screen
+3. **Login** with the credentials shown on screen (click the cat to reveal the password)
+4. The timer starts — browse the file explorer and find the correct CV
+5. Open `lebenslauf_finalfinal.pdf`:
+   - Fix the **typo** in the document
+   - Click the **missing profile photo** to open the camera screen
+   - Take a photo and **save** it
+6. Once both are done, hit **Speichern** to save the file
+7. Click **Bewerbung abschicken** — this button only appears after the CV is saved correctly
+
+## Punishment system
+
+Certain wrong actions subtract time from the clock:
+
+- Entering a **wrong password** → `-15 s`
+- Opening the **wrong file** → `-15 s`
+- Trying to save without the **photo** → `-15 s`
+- Trying to save without fixing the **typo** → `-15 s`
+
+When time is subtracted a red `-15s` label animates above the timer and flies into the clock before the deduction is applied.
+
+The penalty amount is configurable via `GAME_SETTINGS.punishmentAmount` in `script.js`.
 
 ## Tech stack
 
 - Vanilla HTML, CSS, JavaScript — no frameworks, no dependencies
 - `requestAnimationFrame`-based countdown timer
-- Drag-and-drop via the native HTML5 drag API
+- `getUserMedia` for in-browser webcam capture
+- Canvas-based photo filter applied to captured frames
 
 ## Game flow
 
 ```
-Intro screen → Login → Drag & Drop game (60s timer) → Win screen
+Intro screen → Login → File explorer → Fix CV (typo + photo) → Save → Submit → Win screen
 ```
 
 ### Screens
 
-| Screen | Description                                                            |
-| ------ | ---------------------------------------------------------------------- |
-| Intro  | Start button; timer begins on click                                    |
-| Login  | Username pre-filled (readonly), password required                      |
-| Game   | File explorer (Zone A) + upload area (Zone B). Click files to preview. |
-| Win    | Shows time taken and time remaining                                    |
+| Screen | Description                                       |
+| ------ | ------------------------------------------------- |
+| Intro  | Start button                                      |
+| Login  | Username pre-filled (readonly), password required |
+| Game   | File explorer with document previews              |
+| Camera | Webcam capture with filter preview and save       |
+| Win    | Shows time taken and time remaining               |
 
 ### File preview
 
-Each file can be clicked to open a document preview. One file contains a typo — clicking it corrects the spelling and reveals a Save button.
+Each file can be clicked to open a document preview. Only the correct file (`lebenslauf_finalfinal.pdf`) is interactive:
+
+- Contains a **typo** that must be corrected by clicking it
+- Contains a **missing profile image** placeholder that opens the camera screen
+
+The **Speichern** (save) button only appears on the correct file, and only once both the typo is fixed and a photo has been taken. The **Bewerbung abschicken** button only appears after the file has been saved.
 
 ## Project structure
 
@@ -46,14 +70,14 @@ dst-jobs-game/
 └── images/          — laptop SVG, UI screenshots, decorative assets
 ```
 
-### Key constants in script.js
+### Key settings in script.js
 
-| Constant        | Purpose                                                               |
-| --------------- | --------------------------------------------------------------------- |
-| `GAME_DURATION` | Timer length in seconds                                               |
-| `CORRECT_FILE`  | The filename that counts as a successful upload                       |
-| `DOCS`          | Array of file objects — edit content here to change what players read |
+All tunable values live in the `GAME_SETTINGS` object at the top of `script.js`:
 
-## Next steps
-
-## <!-- to be written -->
+| Setting            | Purpose                                        |
+| ------------------ | ---------------------------------------------- |
+| `gameDuration`     | Timer length in seconds                        |
+| `correctFile`      | Filename that counts as the correct CV         |
+| `correctPassword`  | Valid login password                           |
+| `punishmentAmount` | Seconds deducted per wrong action              |
+| `DOCS`             | Array of file objects — edit to change content |
