@@ -6,6 +6,37 @@ const GAME_SETTINGS = {
   correctFile: "lebenslauf_finalfinal.pdf",
 };
 
+const CAPTCHA_CATEGORIES = [
+  {
+    instruction: "Wähle alle Bilder mit einem 🚌 Bus",
+    target: "🚌",
+    decoys: ["🚗", "✈️", "🚲", "🛵", "🚕", "🚂", "🛳️", "🚁"],
+  },
+  {
+    instruction: "Wähle alle Bilder mit einem 💼 Koffer",
+    target: "💼",
+    decoys: ["👜", "🎒", "🛍️", "👝", "🧳", "📦", "🗃️", "📁"],
+  },
+  {
+    instruction: "Wähle alle Bilder mit einem ☕ Kaffee",
+    target: "☕",
+    decoys: ["🍵", "🧃", "🥤", "🍺", "🧋", "🍷", "🥛", "🫖"],
+  },
+  {
+    instruction: "Wähle alle Bilder mit einem 🖨️ Drucker",
+    target: "🖨️",
+    decoys: ["💻", "🖥️", "⌨️", "🖱️", "📠", "📺", "📷", "🔋"],
+  },
+  {
+    instruction: "Wähle alle Bilder mit einer 📎 Büroklammer",
+    target: "📎",
+    decoys: ["✏️", "📌", "🖊️", "📏", "✂️", "🗂️", "📋", "🔖"],
+  },
+];
+
+let captchaCurrentCategory = null;
+let captchaCorrectIndices = new Set();
+
 // Timer functionality
 let t0 = 0,
   rafId = null;
@@ -70,9 +101,8 @@ function resetTimer() {
 }
 
 function handleTimeUp() {
-  // Show time up message
+  closeCaptcha();
   showMessage(errorMessage, "Zeit abgelaufen! Game Over!");
-  // Disable apply button
   applyButton.classList.add("inactive");
 }
 
@@ -89,6 +119,83 @@ function applyPunishment() {
     penaltySeconds += amount;
   }, 800); // matches animation duration
 }
+
+// ─── CAPTCHA ──────────────────────────────────────────────────────
+
+const captchaScreen   = document.getElementById("captchaScreen");
+const captchaGrid     = document.getElementById("captchaGrid");
+const captchaInstruct = document.getElementById("captchaInstruction");
+const captchaError    = document.getElementById("captchaError");
+const captchaConfirm  = document.getElementById("captchaConfirm");
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildCaptchaGrid() {
+  const cat = captchaCurrentCategory;
+  const decoyPool = shuffleArray([...cat.decoys]).slice(0, 5);
+  const tiles = [cat.target, cat.target, cat.target, cat.target, ...decoyPool];
+  shuffleArray(tiles);
+
+  captchaCorrectIndices.clear();
+  captchaGrid.innerHTML = "";
+
+  tiles.forEach((emoji, idx) => {
+    if (emoji === cat.target) captchaCorrectIndices.add(idx);
+    const tile = document.createElement("div");
+    tile.className = "captcha-tile";
+    tile.textContent = emoji;
+    tile.dataset.index = idx;
+    tile.addEventListener("click", () => tile.classList.toggle("selected"));
+    captchaGrid.appendChild(tile);
+  });
+}
+
+function openCaptcha() {
+  captchaCurrentCategory =
+    CAPTCHA_CATEGORIES[Math.floor(Math.random() * CAPTCHA_CATEGORIES.length)];
+  captchaInstruct.textContent = captchaCurrentCategory.instruction;
+  captchaError.textContent = "";
+  buildCaptchaGrid();
+  captchaScreen.style.display = "flex";
+}
+
+function closeCaptcha() {
+  captchaScreen.style.display = "none";
+  captchaGrid.innerHTML = "";
+  captchaError.textContent = "";
+}
+
+captchaConfirm.addEventListener("click", () => {
+  const selectedIndices = new Set(
+    [...captchaGrid.querySelectorAll(".captcha-tile.selected")]
+      .map(el => parseInt(el.dataset.index))
+  );
+
+  const allCorrectSelected = [...captchaCorrectIndices].every(i => selectedIndices.has(i));
+  const noWrongSelected    = [...selectedIndices].every(i => captchaCorrectIndices.has(i));
+
+  if (allCorrectSelected && noWrongSelected && selectedIndices.size > 0) {
+    closeCaptcha();
+    showWinScreen();
+  } else {
+    applyPunishment();
+    captchaError.textContent = "Falsche Auswahl! Bitte erneut versuchen.";
+    captchaGrid.classList.remove("shake");
+    void captchaGrid.offsetWidth;
+    captchaGrid.classList.add("shake");
+    setTimeout(() => {
+      captchaGrid.classList.remove("shake");
+      captchaError.textContent = "";
+      buildCaptchaGrid();
+    }, 500);
+  }
+});
 
 // ─── Camera ──────────────────────────────────────────────────────
 
@@ -316,28 +423,23 @@ function makeDoc({ ext, name, content = "" }) {
   return el;
 }
 
-applyButton.addEventListener("click", () => {
-  if (applyButton.classList.contains("inactive")) {
-    return;
-  }
-
-  // Calculate time taken and remaining time
+function showWinScreen() {
   const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
-
   hideAllMessages();
-  // Show win box
   winBox.style.display = "block";
-  // show time taken in 00:00:00 format
   const takenMinutes = Math.floor(timeTaken / 60);
   const takenSeconds = Math.floor(timeTaken % 60);
   timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
-  // show remaining time in 00:00:00 format
   const minutes = Math.floor(remainingTime / 60);
   const seconds = Math.floor(remainingTime % 60);
   timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   stopTimer();
-
   screen_2EL.style.display = "none";
+}
+
+applyButton.addEventListener("click", () => {
+  if (applyButton.classList.contains("inactive")) return;
+  openCaptcha();
 });
 
 cattail.addEventListener("click", () => {

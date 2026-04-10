@@ -99,7 +99,7 @@
           <h2>🎉 Glückwunsch!</h2>
           <p>
             Du hast dich rechtzeitig in
-            <nobr><span id="timeTaken">0.0</span> s</nobr>
+            <nobr><span id="timeTaken">0.0</span> </nobr>
             beworben!
           </p>
           <p>Verbleibende Zeit: <span id="timeRemaining">0.0</span>!</p>
@@ -131,6 +131,20 @@
               <button id="save-photo-btn" style="display: none">
                 💾 Foto speichern
               </button>
+            </div>
+          </div>
+        </div>
+        <!-- CAPTCHA Modal -->
+        <div class="nr5_captcha" id="captchaScreen" style="display: none">
+          <div class="captcha-ui">
+            <div class="captcha-header">
+              <span class="captcha-logo">🤖 Ich bin kein Roboter</span>
+            </div>
+            <div class="captcha-instruction" id="captchaInstruction"></div>
+            <div class="captcha-grid" id="captchaGrid"></div>
+            <div class="captcha-error" id="captchaError"></div>
+            <div class="captcha-footer">
+              <button class="captcha-confirm-btn" id="captchaConfirm">Bestätigen</button>
             </div>
           </div>
         </div>
