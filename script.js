@@ -36,6 +36,7 @@ const CAPTCHA_CATEGORIES = [
 
 let captchaCurrentCategory = null;
 let captchaCorrectIndices = new Set();
+let captchaSelectedCounts = new Map(); // emoji → how many of that emoji are selected
 
 // Timer functionality
 let t0 = 0,
@@ -145,13 +146,33 @@ function buildCaptchaGrid() {
   captchaCorrectIndices.clear();
   captchaGrid.innerHTML = "";
 
+  // Track remaining slots to restore per emoji
+  const remaining = new Map(captchaSelectedCounts);
+
   tiles.forEach((emoji, idx) => {
     if (emoji === cat.target) captchaCorrectIndices.add(idx);
+
     const tile = document.createElement("div");
     tile.className = "captcha-tile";
     tile.textContent = emoji;
     tile.dataset.index = idx;
-    tile.addEventListener("click", () => tile.classList.toggle("selected"));
+
+    // Restore selected state for this emoji if any were selected before
+    if ((remaining.get(emoji) || 0) > 0) {
+      tile.classList.add("selected");
+      remaining.set(emoji, remaining.get(emoji) - 1);
+    }
+
+    tile.addEventListener("click", () => {
+      const count = captchaSelectedCounts.get(emoji) || 0;
+      if (tile.classList.contains("selected")) {
+        captchaSelectedCounts.set(emoji, count - 1);
+      } else {
+        captchaSelectedCounts.set(emoji, count + 1);
+      }
+      buildCaptchaGrid(); // reshuffle on every click
+    });
+
     captchaGrid.appendChild(tile);
   });
 }
@@ -161,6 +182,7 @@ function openCaptcha() {
     CAPTCHA_CATEGORIES[Math.floor(Math.random() * CAPTCHA_CATEGORIES.length)];
   captchaInstruct.textContent = captchaCurrentCategory.instruction;
   captchaError.textContent = "";
+  captchaSelectedCounts = new Map();
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
 }
@@ -192,6 +214,7 @@ captchaConfirm.addEventListener("click", () => {
     setTimeout(() => {
       captchaGrid.classList.remove("shake");
       captchaError.textContent = "";
+      captchaSelectedCounts = new Map();
       buildCaptchaGrid();
     }, 500);
   }
