@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>5 vor 12</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="laptop-wrapper">
@@ -51,9 +54,17 @@
       <div class="clock" style="display: none">
         <div class="punishment-label" id="punishmentLabel"></div>
         <div class="clock-display" id="time">05:00:00</div>
+        <div class="clock-timebar">
+          <div class="clock-timebar-fill" id="timebarFill"></div>
+        </div>
       </div>
       <div class="laptop-screen">
         <div class="error-message" id="errorMessage"></div>
+        <!-- Guide dialog -->
+        <div class="guide-dialog" id="guideDialog" style="display: none">
+          <div class="guide-face">🐰</div>
+          <div class="guide-bubble"><span id="guideText"></span></div>
+        </div>
         <div class="success-message" id="successMessage"></div>
         <div class="introScreen">
           <h3>
@@ -151,6 +162,7 @@
           </div>
         </div>
       </div>
+
       <!-- Drag and Drop over -->
       <img
         class="postit"

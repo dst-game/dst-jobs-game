@@ -65,12 +65,24 @@ function tick() {
   );
   timeEl.textContent = formatTime(remainingTime);
 
+  const pct = remainingTime / GAME_SETTINGS.gameDuration;
+  if (timebarFill) timebarFill.style.width = (pct * 100).toFixed(2) + "%";
+
   const clock = timeEl.closest(".clock");
   if (remainingTime <= 30) {
+    if (!clock.classList.contains("urgent")) {
+      showGuide("OH NO, we're almost out of time!!", 5000);
+    }
     clock.classList.remove("warning");
     clock.classList.add("urgent");
     document.documentElement.style.setProperty("--tj-urgency", "1");
   } else if (remainingTime <= 60) {
+    if (
+      !clock.classList.contains("warning") &&
+      !clock.classList.contains("urgent")
+    ) {
+      showGuide("Hurry up!", 4000);
+    }
     clock.classList.remove("urgent");
     clock.classList.add("warning");
     document.documentElement.style.setProperty("--tj-urgency", "0.4");
@@ -110,7 +122,7 @@ function resetTimer() {
 function handleTimeUp() {
   deactivateApplyPhase();
   closeCaptcha();
-  showMessage(errorMessage, "Zeit abgelaufen! Game Over!");
+  showGuide("Zeit abgelaufen! Game Over!", 0);
   applyButton.classList.add("inactive");
 }
 
@@ -242,6 +254,7 @@ function openCaptcha() {
   captchaSelectedCounts = new Map();
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
+  showGuide("Are you sure you're not a robot?", 3000);
 }
 
 function closeCaptcha() {
@@ -288,6 +301,7 @@ captchaConfirm.addEventListener("click", () => {
 
 async function openCamera() {
   cameraScreen.style.display = "flex";
+  showGuide("Smile!", 2000);
   videoEl.style.display = "block";
   photoEl.style.display = "none";
   captureBtn.style.display = "block";
@@ -298,7 +312,7 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    showMessage(errorMessage, "Kamera nicht verfügbar!");
+    showGuide("Kamera nicht verfügbar!", 4000);
     cameraScreen.style.display = "none";
   }
 }
@@ -390,6 +404,7 @@ function gameScreen() {
   cattail.style.display = "flex";
   postit.style.display = "flex";
   timer.style.display = "flex";
+  showGuide("Quick, let's put in the password!", 4000);
   // delay start of timer for 1 second
   setTimeout(() => {
     startTimer();
@@ -409,8 +424,12 @@ passwordInput.onkeydown = (e) => {
       hideAllMessages();
       loginBox.style.display = "none";
       gameBox.style.display = "block";
+      showGuide(
+        "Oh no, do you remember how you named the final version of your application?",
+        3000,
+      );
     } else {
-      showMessage(errorMessage, "Falsches Passwort!");
+      showGuide("Wrong Password! Can you maybe find a hint somewhere?", 3000);
       applyPunishment();
     }
   }
@@ -438,6 +457,36 @@ const retakeBtn = document.getElementById("retake-btn");
 const savePhotoBtn = document.getElementById("save-photo-btn");
 const cameraCloseBtn = document.getElementById("camera-close-btn");
 const taskHeadline = document.getElementById("taskHeadline");
+const guideDialog = document.getElementById("guideDialog");
+const guideText = document.getElementById("guideText");
+const timebarFill = document.getElementById("timebarFill");
+
+let guideTimer = null;
+
+function hideGuide() {
+  clearTimeout(guideTimer);
+  guideDialog.classList.add("guide-dialog--hiding");
+  guideDialog.addEventListener(
+    "animationend",
+    () => {
+      guideDialog.style.display = "none";
+      guideDialog.classList.remove("guide-dialog--hiding");
+    },
+    { once: true },
+  );
+}
+
+function showGuide(text, autohideMs = 0) {
+  clearTimeout(guideTimer);
+  guideText.textContent = text;
+  guideDialog.classList.remove("guide-dialog--hiding");
+  guideDialog.style.display = "none";
+  void guideDialog.offsetWidth;
+  guideDialog.style.display = "flex";
+  if (autohideMs > 0) {
+    guideTimer = setTimeout(hideGuide, autohideMs);
+  }
+}
 
 function openPreview(name, content) {
   previewTitle.textContent = name;
@@ -446,11 +495,12 @@ function openPreview(name, content) {
   if (name !== GAME_SETTINGS.correctFile) {
     previewSave.style.display = "none";
     applyPunishment();
-    showMessage(errorMessage, "Falsche Datei geöffnet!");
+    showGuide("That's the wrong file!", 2000);
   } else {
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
+    showGuide("Nice, let's add an image and check for typos", 4000);
     const missingImage = previewBody.querySelector(".missing-image");
     if (missingImage) {
       missingImage.addEventListener("click", openCamera);
@@ -467,12 +517,12 @@ function closePreview() {
 previewClose.addEventListener("click", closePreview);
 previewSave.addEventListener("click", () => {
   if (!photoAdded) {
-    showMessage(errorMessage, "Bewerbungsfoto fehlt!");
+    showGuide("You're missing the image!", 3000);
     applyPunishment();
     return;
   }
   if (!typoFixed) {
-    showMessage(errorMessage, "Tippfehler noch nicht korrigiert!");
+    showGuide("Seems like there is still a typo somewhere!", 3000);
     applyPunishment();
     return;
   }
@@ -482,6 +532,7 @@ previewSave.addEventListener("click", () => {
   // change headline
   file_explorer.style.display = "none";
   taskHeadline.textContent = "Schicke deine Bewerbung ab!";
+  showGuide("Great! Now submit your application! Hurry up!", 4000);
 });
 
 filePreview.addEventListener("click", (e) => {
