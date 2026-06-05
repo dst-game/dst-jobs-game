@@ -783,3 +783,310 @@ h1 {
 .captcha-confirm-btn:hover {
   background: #2a6dd9;
 }
+
+/* Lebensläufe */
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+.cv-game {
+  font-family: "Ubuntu", sans-serif;
+  background-color: #fff;
+  padding: 2em;
+}
+
+.cv-game * {
+  box-sizing: border-box;
+  font-size: 15px;
+  line-height: 1.4em;
+}
+
+.cv-game h1 {
+  font-family: "Audiowide", sans-serif;
+  color: #f20aef;
+  font-size: 2em;
+  line-height: 1.15em;
+  margin: 0 0 0.35em;
+  text-shadow: 0 0 12px rgba(242, 10, 239, 0.55);
+}
+
+.cv-game h2 {
+  font-family: "Audiowide", sans-serif;
+  font-size: 1.1em;
+  letter-spacing: 2px;
+  color: #15f1f3;
+  text-transform: uppercase;
+  margin: 0 0 0.8em;
+}
+
+.cv-game h3 {
+  margin: 0 0 0.5em;
+  color: #15f1f3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cv-game p {
+  margin: 0;
+}
+
+.cv-game a {
+  color: #d6fffa;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(214, 255, 250, 0.45);
+}
+
+.cv-game .content {
+  background-color: #0a082c;
+  color: #fff;
+  padding: 2em 3em 2em 2em;
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  gap: 4em;
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 2px solid rgba(21, 241, 243, 0.45);
+  box-shadow:
+    0 0 25px rgba(21, 241, 243, 0.25),
+    inset 0 0 30px rgba(242, 10, 239, 0.12);
+}
+
+.cv-game .left,
+.cv-game .right {
+  min-width: 0;
+}
+
+.cv-game .right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.cv-game hr {
+  border: 0;
+  border-top: 1px solid rgba(21, 241, 243, 0.35);
+  margin: 1.4em 0;
+}
+
+.cv-game strong {
+  color: #15f1f3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cv-game em {
+  color: #d6fffa;
+}
+
+.cv-game .applypic {
+  width: 100%;
+  min-height: 240px;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.95) 0 8%,
+      transparent 8.5%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0 47%,
+      rgba(10, 8, 44, 0.95) 47% 53%,
+      transparent 53%
+    ),
+    linear-gradient(180deg, #f20aef 0 50%, #d6fffa 50% 100%);
+  border: 1px solid rgba(21, 241, 243, 0.65);
+  box-shadow: 0 0 24px rgba(242, 10, 239, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.cv-game .applypic::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(21, 241, 243, 0.35);
+}
+
+.cv-game .applypic::after {
+  content: "TRAINER CARD";
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+  font-family: "Audiowide", sans-serif;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #0a082c;
+}
+
+.cv-game .tagline {
+  color: #d6fffa;
+  font-size: 0.95em;
+  margin-bottom: 1em;
+}
+
+.cv-game .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  margin-top: 1em;
+}
+
+.cv-game .pill {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  border: 1px solid rgba(21, 241, 243, 0.6);
+  background: rgba(21, 241, 243, 0.08);
+  color: #d6fffa;
+  border-radius: 999px;
+  font-size: 0.85em;
+}
+
+.cv-game .timeline-item {
+  margin-bottom: 0.9em;
+  padding-left: 1em;
+  border-left: 3px solid #f20aef;
+}
+
+.cv-game .timeline-item b {
+  color: #fff;
+}
+
+.cv-game .timeline-item span {
+  color: #d6fffa;
+}
+
+.cv-game .sidebox {
+  border: 1px solid rgba(242, 10, 239, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1.2em;
+  box-shadow: 0 0 18px rgba(242, 10, 239, 0.25);
+}
+
+.cv-game .skill {
+  margin-bottom: 1em;
+}
+
+.cv-game .skill:last-child {
+  margin-bottom: 0;
+}
+
+.cv-game .skill span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  color: #fff;
+  font-weight: 700;
+}
+
+.cv-game .skill small {
+  color: #d6fffa;
+  font-size: 0.8em;
+}
+
+.cv-game .bar {
+  height: 12px;
+  margin: 0.35em 0;
+  background: #171447;
+  border: 1px solid #15f1f3;
+  overflow: hidden;
+  position: relative;
+}
+
+.cv-game .bar div {
+  height: 100%;
+  background: linear-gradient(90deg, #15f1f3, #f20aef);
+  box-shadow: 0 0 12px #f20aef;
+}
+
+.cv-game .badges,
+.cv-game .questlog {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cv-game .badges li,
+.cv-game .questlog li {
+  margin-bottom: 0.5em;
+  padding: 0.45em 0.6em;
+  background: rgba(21, 241, 243, 0.08);
+  border-left: 3px solid #15f1f3;
+}
+
+.cv-game .stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6em;
+}
+
+.cv-game .stat {
+  padding: 0.7em;
+  background: rgba(242, 10, 239, 0.08);
+  border: 1px solid rgba(242, 10, 239, 0.3);
+}
+
+.cv-game .stat b {
+  display: block;
+  color: #15f1f3;
+  font-family: "Audiowide", sans-serif;
+  font-size: 1.1em;
+}
+
+.cv-game .tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.cv-game .tool {
+  padding: 0.4em 0.65em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(214, 255, 250, 0.3);
+  color: #d6fffa;
+}
+
+.cv-game .type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.cv-game .type {
+  padding: 0.35em 0.6em;
+  border-radius: 999px;
+  font-size: 0.82em;
+  color: #0a082c;
+  font-weight: 700;
+  background: #15f1f3;
+}
+
+.cv-game .type.electric {
+  background: #f7e75c;
+}
+
+.cv-game .type.psychic {
+  background: #f20aef;
+  color: #fff;
+}
+
+.cv-game .type.water {
+  background: #15f1f3;
+}
+
+.cv-game .type.steel {
+  background: #d6fffa;
+}
+
+@media (max-width: 850px) {
+  .cv-game {
+    padding: 0;
+  }
+
+  .cv-game .content {
+    grid-template-columns: 1fr;
+    padding: 1.5em;
+    gap: 2em;
+  }
+}
+
+/* Lebensläufe ENDE */
