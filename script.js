@@ -69,9 +69,13 @@ function tick() {
   if (remainingTime <= 30) {
     clock.classList.remove("warning");
     clock.classList.add("urgent");
+    document.documentElement.style.setProperty("--tj-urgency", "1");
   } else if (remainingTime <= 60) {
     clock.classList.remove("urgent");
     clock.classList.add("warning");
+    document.documentElement.style.setProperty("--tj-urgency", "0.4");
+  } else {
+    document.documentElement.style.setProperty("--tj-urgency", "0");
   }
 
   if (remainingTime <= 0) {
@@ -271,10 +275,12 @@ captchaConfirm.addEventListener("click", () => {
     captchaGrid.classList.add("shake");
     setTimeout(() => {
       captchaGrid.classList.remove("shake");
+    }, 500);
+    setTimeout(() => {
       captchaError.textContent = "";
       captchaSelectedCounts = new Map();
       buildCaptchaGrid();
-    }, 500);
+    }, 2500);
   }
 });
 
