@@ -85,15 +85,12 @@
         <!-- Drag and Drop -->
         <div class="screen_2" id="screen_2" style="display: none">
           <div class="screen">
-            <h1>Finde den richtigen Lebenslauf!</h1>
+            <h1 id="taskHeadline">Finde den richtigen Lebenslauf!</h1>
             <div class="file_explorer" id="file_explorer">
               <h3>📁 Datei-Explorer</h3>
               <div class="docs" id="docsA"></div>
             </div>
           </div>
-          <button class="applyButton" style="display: none">
-            <p>Bewerbung abschicken</p>
-          </button>
         </div>
         <div class="nr3_win" style="display: none" id="nr3_win">
           <h2>🎉 Glückwunsch!</h2>
@@ -144,7 +141,9 @@
             <div class="captcha-grid" id="captchaGrid"></div>
             <div class="captcha-error" id="captchaError"></div>
             <div class="captcha-footer">
-              <button class="captcha-confirm-btn" id="captchaConfirm">Bestätigen</button>
+              <button class="captcha-confirm-btn" id="captchaConfirm">
+                Bestätigen
+              </button>
             </div>
           </div>
         </div>
@@ -164,6 +163,9 @@
       />
     </div>
 
+    <button class="applyButton" style="display: none">
+      <p>Bewerbung abschicken</p>
+    </button>
     <script src="script.js"></script>
   </body>
 </html>

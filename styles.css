@@ -410,10 +410,7 @@ h1 {
 }
 
 .applyButton {
-  position: absolute;
-  bottom: 9%;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
   background: #eb0000;
   color: white;
   border-radius: 12px;
@@ -421,7 +418,7 @@ h1 {
   font-size: 16px;
   font-weight: bold;
   transition: background 0.2s;
-  z-index: 1;
+  z-index: 1000;
   padding: 9px 19px 9px 28px;
   box-sizing: border-box;
   border: none;
@@ -429,6 +426,47 @@ h1 {
 
 .applyButton:hover {
   background: #b30000;
+}
+
+@keyframes apply-shake {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  10% {
+    transform: rotate(-6deg) scale(1.05);
+  }
+  20% {
+    transform: rotate(6deg) scale(1.05);
+  }
+  30% {
+    transform: rotate(-5deg) scale(1);
+  }
+  40% {
+    transform: rotate(5deg) scale(1);
+  }
+  50% {
+    transform: rotate(-4deg) scale(1.03);
+  }
+  60% {
+    transform: rotate(4deg) scale(1.03);
+  }
+  70% {
+    transform: rotate(-2deg) scale(1);
+  }
+  80% {
+    transform: rotate(2deg) scale(1);
+  }
+  90% {
+    transform: rotate(-1deg) scale(1);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.applyButton.apply-shake {
+  animation: apply-shake 2s ease-in-out infinite;
+  box-shadow: 0 0 18px 4px rgba(235, 0, 0, 0.7);
 }
 
 /* ─── Optional decorative items ─────────────────────────────────── */

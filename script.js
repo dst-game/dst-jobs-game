@@ -46,6 +46,8 @@ let penaltySeconds = 0;
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
+let applyPhaseActive = false;
+let applyJumpCount = 0;
 const now = () => performance.now();
 
 function formatTime(seconds) {
@@ -102,9 +104,60 @@ function resetTimer() {
 }
 
 function handleTimeUp() {
+  deactivateApplyPhase();
   closeCaptcha();
   showMessage(errorMessage, "Zeit abgelaufen! Game Over!");
   applyButton.classList.add("inactive");
+}
+
+function getRandomApplyPosition() {
+  const rect = applyButton.getBoundingClientRect();
+  const w = rect.width || 160;
+  const h = rect.height || 45;
+  const x = Math.random() * (window.innerWidth - w);
+  const y = Math.random() * (window.innerHeight - h);
+  return { x, y };
+}
+
+function jumpApplyButton() {
+  applyJumpCount++;
+  applyButton.classList.remove("apply-shake");
+  const { x, y } = getRandomApplyPosition();
+  applyButton.style.left = x + "px";
+  applyButton.style.top = y + "px";
+  applyButton.style.bottom = "auto";
+  applyButton.style.transform = "none";
+  applyButton.classList.add("apply-shake");
+
+  if (applyJumpCount >= 5) {
+    applyButton.removeEventListener("mouseenter", jumpApplyButton);
+    void applyButton.offsetWidth;
+  }
+}
+
+function handleDocumentClick(e) {
+  if (!applyPhaseActive) return;
+  if (applyButton.contains(e.target)) return;
+  applyPunishment();
+}
+
+function activateApplyPhase() {
+  applyPhaseActive = true;
+  applyJumpCount = 0;
+  const w = 160;
+  const h = 45;
+  applyButton.style.left = window.innerWidth / 2 - w / 2 + "px";
+  applyButton.style.top = window.innerHeight / 2 - h / 2 + "px";
+  applyButton.style.bottom = "auto";
+  applyButton.style.transform = "none";
+  applyButton.addEventListener("mouseenter", jumpApplyButton);
+  document.addEventListener("click", handleDocumentClick, true);
+}
+
+function deactivateApplyPhase() {
+  applyPhaseActive = false;
+  applyButton.style.display = "none";
+  document.removeEventListener("click", handleDocumentClick, true);
 }
 
 function applyPunishment() {
@@ -123,11 +176,11 @@ function applyPunishment() {
 
 // ─── CAPTCHA ──────────────────────────────────────────────────────
 
-const captchaScreen   = document.getElementById("captchaScreen");
-const captchaGrid     = document.getElementById("captchaGrid");
+const captchaScreen = document.getElementById("captchaScreen");
+const captchaGrid = document.getElementById("captchaGrid");
 const captchaInstruct = document.getElementById("captchaInstruction");
-const captchaError    = document.getElementById("captchaError");
-const captchaConfirm  = document.getElementById("captchaConfirm");
+const captchaError = document.getElementById("captchaError");
+const captchaConfirm = document.getElementById("captchaConfirm");
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -195,12 +248,17 @@ function closeCaptcha() {
 
 captchaConfirm.addEventListener("click", () => {
   const selectedIndices = new Set(
-    [...captchaGrid.querySelectorAll(".captcha-tile.selected")]
-      .map(el => parseInt(el.dataset.index))
+    [...captchaGrid.querySelectorAll(".captcha-tile.selected")].map((el) =>
+      parseInt(el.dataset.index),
+    ),
   );
 
-  const allCorrectSelected = [...captchaCorrectIndices].every(i => selectedIndices.has(i));
-  const noWrongSelected    = [...selectedIndices].every(i => captchaCorrectIndices.has(i));
+  const allCorrectSelected = [...captchaCorrectIndices].every((i) =>
+    selectedIndices.has(i),
+  );
+  const noWrongSelected = [...selectedIndices].every((i) =>
+    captchaCorrectIndices.has(i),
+  );
 
   if (allCorrectSelected && noWrongSelected && selectedIndices.size > 0) {
     closeCaptcha();
@@ -373,6 +431,7 @@ const captureBtn = document.getElementById("capture-btn");
 const retakeBtn = document.getElementById("retake-btn");
 const savePhotoBtn = document.getElementById("save-photo-btn");
 const cameraCloseBtn = document.getElementById("camera-close-btn");
+const taskHeadline = document.getElementById("taskHeadline");
 
 function openPreview(name, content) {
   previewTitle.textContent = name;
@@ -413,7 +472,12 @@ previewSave.addEventListener("click", () => {
   }
   closePreview();
   applyButton.style.display = "block";
+  activateApplyPhase();
+  // change headline
+  file_explorer.style.display = "none";
+  taskHeadline.textContent = "Schicke deine Bewerbung ab!";
 });
+
 filePreview.addEventListener("click", (e) => {
   if (e.target === filePreview) closePreview();
 });
@@ -462,6 +526,7 @@ function showWinScreen() {
 
 applyButton.addEventListener("click", () => {
   if (applyButton.classList.contains("inactive")) return;
+  deactivateApplyPhase();
   openCaptcha();
 });
 
