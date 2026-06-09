@@ -8,27 +8,27 @@ const GAME_SETTINGS = {
 
 const CAPTCHA_CATEGORIES = [
   {
-    instruction: "Wähle alle Bilder mit einem 🚌 Bus",
+    instructionKey: "captcha.bus",
     target: "🚌",
     decoys: ["🚗", "✈️", "🚲", "🛵", "🚕", "🚂", "🛳️", "🚁"],
   },
   {
-    instruction: "Wähle alle Bilder mit einem 💼 Koffer",
+    instructionKey: "captcha.briefcase",
     target: "💼",
     decoys: ["👜", "🎒", "🛍️", "👝", "🧳", "📦", "🗃️", "📁"],
   },
   {
-    instruction: "Wähle alle Bilder mit einem ☕ Kaffee",
+    instructionKey: "captcha.coffee",
     target: "☕",
     decoys: ["🍵", "🧃", "🥤", "🍺", "🧋", "🍷", "🥛", "🫖"],
   },
   {
-    instruction: "Wähle alle Bilder mit einem 🖨️ Drucker",
+    instructionKey: "captcha.printer",
     target: "🖨️",
     decoys: ["💻", "🖥️", "⌨️", "🖱️", "📠", "📺", "📷", "🔋"],
   },
   {
-    instruction: "Wähle alle Bilder mit einer 📎 Büroklammer",
+    instructionKey: "captcha.paperclip",
     target: "📎",
     decoys: ["✏️", "📌", "🖊️", "📏", "✂️", "🗂️", "📋", "🔖"],
   },
@@ -43,6 +43,8 @@ let t0 = 0,
   rafId = null;
 let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
+let clockCritical = false; // digital critical (final 30s)
+let lastMinute = false; // analog red alarm outline (final 60s)
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
@@ -50,12 +52,7 @@ let applyPhaseActive = false;
 let applyJumpCount = 0;
 const now = () => performance.now();
 
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 100);
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}:${String(ms).padStart(2, "0")}`;
-}
+const pad2 = (n) => String(n).padStart(2, "0");
 
 function tick() {
   const elapsed = (now() - t0) / 1000;
@@ -63,31 +60,30 @@ function tick() {
     0,
     GAME_SETTINGS.gameDuration - elapsed - penaltySeconds,
   );
-  timeEl.textContent = formatTime(remainingTime);
 
   const pct = remainingTime / GAME_SETTINGS.gameDuration;
   if (timebarFill) timebarFill.style.width = (pct * 100).toFixed(2) + "%";
 
-  const clock = timeEl.closest(".clock");
-  if (remainingTime <= 30) {
-    if (!clock.classList.contains("urgent")) {
-      showGuide("OH NO, we're almost out of time!!", 5000);
-    }
-    clock.classList.remove("warning");
-    clock.classList.add("urgent");
-    document.documentElement.style.setProperty("--tj-urgency", "1");
-  } else if (remainingTime <= 60) {
-    if (
-      !clock.classList.contains("warning") &&
-      !clock.classList.contains("urgent")
-    ) {
-      showGuide("Hurry up!", 4000);
-    }
-    clock.classList.remove("urgent");
-    clock.classList.add("warning");
-    document.documentElement.style.setProperty("--tj-urgency", "0.4");
-  } else {
-    document.documentElement.style.setProperty("--tj-urgency", "0");
+  // Drive the clock (analog hands + digital local time) from 11:55 → 12:00.
+  const frac = Math.min(1, Math.max(0, 1 - pct));
+  updateDeskClock(frac);
+
+  // Urgency glow, scoped to the desk so the whole stage reacts.
+  if (gameDesk) {
+    gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
+  }
+
+  // Last minute → analog clock outline turns to the red alarm state.
+  if (remainingTime <= 60 && !lastMinute) {
+    lastMinute = true;
+    if (gameAnalog) gameAnalog.setAttribute("data-critical", "");
+    showGuide(t("guide.hurryUp"), 4000);
+  }
+  // Final 30s → digital clock also goes critical + stronger warning.
+  if (remainingTime <= 30 && !clockCritical) {
+    clockCritical = true;
+    if (gameDigital) gameDigital.setAttribute("data-critical", "");
+    showGuide(t("guide.almostOutOfTime"), 5000);
   }
 
   if (remainingTime <= 0) {
@@ -97,6 +93,47 @@ function tick() {
   } else {
     rafId = requestAnimationFrame(tick);
   }
+}
+
+// ─── Desk clock helpers ──────────────────────────────────────────
+function buildAnalogTicks() {
+  if (!gameAnalog) return;
+  const firstHand = gameAnalog.querySelector(".hand");
+  for (let i = 0; i < 60; i++) {
+    const tk = document.createElement("div");
+    tk.className = "tick" + (i % 5 === 0 ? " major" : "");
+    tk.style.transform = "rotate(" + i * 6 + "deg)";
+    gameAnalog.insertBefore(tk, firstHand);
+  }
+}
+
+// frac: 0 at game start (11:55:00) → 1 at game end (12:00:00).
+// Drives the analog hands AND the digital local-time readout (#time).
+function updateDeskClock(frac) {
+  const clockSec = 11 * 3600 + 55 * 60 + frac * (5 * 60);
+  const dispH = Math.floor(clockSec / 3600); // 11 → 12
+  const m = Math.floor(clockSec / 60) % 60;
+  const s = Math.floor(clockSec % 60);
+  if (timeEl) {
+    timeEl.textContent = pad2(dispH) + ":" + pad2(m) + ":" + pad2(s);
+  }
+  if (clkH) {
+    const h = dispH % 12;
+    clkH.style.transform = "rotate(" + (h + m / 60) * 30 + "deg)";
+    clkM.style.transform = "rotate(" + m * 6 + "deg)";
+    clkS.style.transform = "rotate(" + s * 6 + "deg)";
+  }
+}
+
+function clearClockCritical() {
+  if (gameAnalog) gameAnalog.removeAttribute("data-critical");
+  if (gameDigital) gameDigital.removeAttribute("data-critical");
+}
+
+// Mark a guide objective step as completed.
+function markStep(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add("done");
 }
 
 function startTimer() {
@@ -115,14 +152,19 @@ function resetTimer() {
   stopTimer();
   t0 = 0;
   penaltySeconds = 0;
+  clockCritical = false;
+  lastMinute = false;
   remainingTime = GAME_SETTINGS.gameDuration;
-  timeEl.textContent = formatTime(GAME_SETTINGS.gameDuration);
+  clearClockCritical();
+  updateDeskClock(0);
+  if (timebarFill) timebarFill.style.width = "100%";
+  if (gameDesk) gameDesk.style.setProperty("--tj-urgency", "0");
 }
 
 function handleTimeUp() {
   deactivateApplyPhase();
   closeCaptcha();
-  showGuide("Zeit abgelaufen! Game Over!", 0);
+  showGuide(t("guide.timeUp"), 0);
   applyButton.classList.add("inactive");
 }
 
@@ -180,6 +222,7 @@ function applyPunishment() {
   const label = document.getElementById("punishmentLabel");
   const amount = GAME_SETTINGS.punishmentAmount;
 
+  flashMistake();
   label.textContent = `-${amount}s`;
   label.classList.remove("animate");
   void label.offsetWidth; // force reflow to restart animation
@@ -249,12 +292,12 @@ function buildCaptchaGrid() {
 function openCaptcha() {
   captchaCurrentCategory =
     CAPTCHA_CATEGORIES[Math.floor(Math.random() * CAPTCHA_CATEGORIES.length)];
-  captchaInstruct.textContent = captchaCurrentCategory.instruction;
+  captchaInstruct.textContent = t(captchaCurrentCategory.instructionKey);
   captchaError.textContent = "";
   captchaSelectedCounts = new Map();
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
-  showGuide("Are you sure you're not a robot?", 3000);
+  showGuide(t("guide.notRobot"), 3000);
 }
 
 function closeCaptcha() {
@@ -282,7 +325,7 @@ captchaConfirm.addEventListener("click", () => {
     showWinScreen();
   } else {
     applyPunishment();
-    captchaError.textContent = "Falsche Auswahl! Bitte erneut versuchen.";
+    captchaError.textContent = t("captcha.wrong");
     captchaGrid.classList.remove("shake");
     void captchaGrid.offsetWidth;
     captchaGrid.classList.add("shake");
@@ -301,7 +344,7 @@ captchaConfirm.addEventListener("click", () => {
 
 async function openCamera() {
   cameraScreen.style.display = "flex";
-  showGuide("Smile!", 2000);
+  showGuide(t("guide.smile"), 2000);
   videoEl.style.display = "block";
   photoEl.style.display = "none";
   captureBtn.style.display = "block";
@@ -312,7 +355,7 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    showGuide("Kamera nicht verfügbar!", 4000);
+    showGuide(t("guide.cameraUnavailable"), 4000);
     cameraScreen.style.display = "none";
   }
 }
@@ -378,9 +421,7 @@ const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
 const postit = document.querySelector(".postit");
-const errorMessage = document.getElementById("errorMessage");
-const successMessage = document.getElementById("successMessage");
-const timer = document.querySelector(".clock");
+const timer = document.querySelector(".clock-rail");
 
 startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";
@@ -404,7 +445,7 @@ function gameScreen() {
   cattail.style.display = "flex";
   postit.style.display = "flex";
   timer.style.display = "flex";
-  showGuide("Quick, let's put in the password!", 4000);
+  showGuide(t("guide.password"), 4000);
   // delay start of timer for 1 second
   setTimeout(() => {
     startTimer();
@@ -421,15 +462,12 @@ passwordInput.onkeydown = (e) => {
 
     // Einfache Validierung (nur Demo-Zwecke)
     if (username && password === GAME_SETTINGS.correctPassword) {
-      hideAllMessages();
       loginBox.style.display = "none";
       gameBox.style.display = "block";
-      showGuide(
-        "Oh no, do you remember how you named the final version of your application?",
-        3000,
-      );
+      markStep("objStep1");
+      showGuide(t("guide.rememberFile"), 3000);
     } else {
-      showGuide("Wrong Password! Can you maybe find a hint somewhere?", 3000);
+      showGuide(t("guide.wrongPassword"), 3000);
       applyPunishment();
     }
   }
@@ -457,35 +495,52 @@ const retakeBtn = document.getElementById("retake-btn");
 const savePhotoBtn = document.getElementById("save-photo-btn");
 const cameraCloseBtn = document.getElementById("camera-close-btn");
 const taskHeadline = document.getElementById("taskHeadline");
-const guideDialog = document.getElementById("guideDialog");
 const guideText = document.getElementById("guideText");
+const guideCard = document.querySelector(".tj-desk .guide-card");
 const timebarFill = document.getElementById("timebarFill");
+// Desk stage clock elements
+const gameDesk = document.getElementById("gameDesk");
+const gameAnalog = document.getElementById("gameAnalog");
+const gameDigital = document.getElementById("gameDigital");
+const clkH = document.getElementById("clkH");
+const clkM = document.getElementById("clkM");
+const clkS = document.getElementById("clkS");
 
-let guideTimer = null;
+let typewriterTimer = null;
 
-function hideGuide() {
-  clearTimeout(guideTimer);
-  guideDialog.classList.add("guide-dialog--hiding");
-  guideDialog.addEventListener(
-    "animationend",
-    () => {
-      guideDialog.style.display = "none";
-      guideDialog.classList.remove("guide-dialog--hiding");
-    },
-    { once: true },
-  );
+// The rabbit's speech bubble lives permanently in the left rail; showGuide
+// types the new line out character-by-character with a blinking caret.
+function showGuide(text) {
+  if (!guideText) return;
+  clearInterval(typewriterTimer);
+  const full = String(text);
+  guideText.textContent = "";
+  const typed = document.createTextNode("");
+  const caret = document.createElement("span");
+  caret.className = "caret";
+  caret.textContent = "▍";
+  guideText.append(typed, caret);
+  let i = 0;
+  typewriterTimer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) clearInterval(typewriterTimer);
+  }, 32);
 }
 
-function showGuide(text, autohideMs = 0) {
-  clearTimeout(guideTimer);
-  guideText.textContent = text;
-  guideDialog.classList.remove("guide-dialog--hiding");
-  guideDialog.style.display = "none";
-  void guideDialog.offsetWidth;
-  guideDialog.style.display = "flex";
-  if (autohideMs > 0) {
-    guideTimer = setTimeout(hideGuide, autohideMs);
+// Flash the guide (Begleiter) card AND the digital clock red on a mistake.
+let mistakeTimer = null;
+function flashMistake() {
+  if (guideCard) {
+    guideCard.classList.remove("mistake");
+    void guideCard.offsetWidth; // restart the animation
+    guideCard.classList.add("mistake");
   }
+  if (gameDigital) gameDigital.classList.add("mistake");
+  clearTimeout(mistakeTimer);
+  mistakeTimer = setTimeout(() => {
+    if (guideCard) guideCard.classList.remove("mistake");
+    if (gameDigital) gameDigital.classList.remove("mistake");
+  }, 1200);
 }
 
 function openPreview(name, content) {
@@ -495,12 +550,12 @@ function openPreview(name, content) {
   if (name !== GAME_SETTINGS.correctFile) {
     previewSave.style.display = "none";
     applyPunishment();
-    showGuide("That's the wrong file!", 2000);
+    showGuide(t("guide.wrongFile"), 2000);
   } else {
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
-    showGuide("Nice, let's add an image and check for typos", 4000);
+    showGuide(t("guide.addImageTypo"), 4000);
     const missingImage = previewBody.querySelector(".missing-image");
     if (missingImage) {
       missingImage.addEventListener("click", openCamera);
@@ -511,28 +566,28 @@ function openPreview(name, content) {
 function closePreview() {
   filePreview.classList.remove("open");
   previewBody.innerHTML = "";
-  hideAllMessages();
 }
 
 previewClose.addEventListener("click", closePreview);
 previewSave.addEventListener("click", () => {
   if (!photoAdded) {
-    showGuide("You're missing the image!", 3000);
+    showGuide(t("guide.missingImage"), 3000);
     applyPunishment();
     return;
   }
   if (!typoFixed) {
-    showGuide("Seems like there is still a typo somewhere!", 3000);
+    showGuide(t("guide.typoLeft"), 3000);
     applyPunishment();
     return;
   }
   closePreview();
   applyButton.style.display = "block";
   activateApplyPhase();
+  markStep("objStep2");
   // change headline
   file_explorer.style.display = "none";
-  taskHeadline.textContent = "Schicke deine Bewerbung ab!";
-  showGuide("Great! Now submit your application! Hurry up!", 4000);
+  taskHeadline.textContent = t("task.submit");
+  showGuide(t("guide.submitNow"), 4000);
 });
 
 filePreview.addEventListener("click", (e) => {
@@ -569,7 +624,7 @@ function makeDoc({ ext, name, content = "" }) {
 
 function showWinScreen() {
   const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
-  hideAllMessages();
+  markStep("objStep3");
   winBox.style.display = "block";
   const takenMinutes = Math.floor(timeTaken / 60);
   const takenSeconds = Math.floor(timeTaken % 60);
@@ -590,29 +645,6 @@ applyButton.addEventListener("click", () => {
 cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
-
-let activeMessageTimer = null;
-let activeMessageEl = null;
-
-function showMessage(element, message) {
-  if (activeMessageEl) {
-    clearTimeout(activeMessageTimer);
-    activeMessageEl.classList.remove("show");
-  }
-  element.textContent = message;
-  element.classList.add("show");
-  activeMessageEl = element;
-  activeMessageTimer = setTimeout(() => {
-    element.classList.remove("show");
-    activeMessageEl = null;
-  }, 3000);
-}
-
-function hideAllMessages() {
-  clearTimeout(activeMessageTimer);
-  if (activeMessageEl) activeMessageEl.classList.remove("show");
-  activeMessageEl = null;
-}
 
 function loadGame(docs) {
   docsA.innerHTML = "";
@@ -1069,5 +1101,9 @@ const DOCS = [
     `,
   },
 ];
+
+// Build the analog watch face and set it to 11:55 before the game starts.
+buildAnalogTicks();
+updateDeskClock(0);
 
 loadGame(DOCS);

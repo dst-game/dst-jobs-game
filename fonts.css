@@ -1,0 +1,63 @@
+/* ============================================================
+   Local fonts — self-hosted so the game works without internet.
+   Replaces the previous Google Fonts <link>s.
+   Three roles (see designGuide.html, §02 Typografie):
+     Display      -> Chakra Petch
+     Mono / Body  -> Share Tech Mono
+     Serif        -> Cormorant Garamond
+   ============================================================ */
+
+/* --- Display: Chakra Petch (400 / 500 / 600 / 700) --- */
+@font-face {
+  font-family: "Chakra Petch";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/Chakra_Petch/ChakraPetch-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Chakra Petch";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/Chakra_Petch/ChakraPetch-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Chakra Petch";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/Chakra_Petch/ChakraPetch-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Chakra Petch";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/Chakra_Petch/ChakraPetch-Bold.ttf") format("truetype");
+}
+
+/* --- Mono / Body: Share Tech Mono (single weight) --- */
+@font-face {
+  font-family: "Share Tech Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/Share_Tech_Mono/ShareTechMono-Regular.ttf") format("truetype");
+}
+
+/* --- Serif: Cormorant Garamond (variable fonts cover all weights) --- */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("assets/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("assets/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+}
