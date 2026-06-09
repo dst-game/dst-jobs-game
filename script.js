@@ -177,6 +177,30 @@ function getRandomApplyPosition() {
   return { x, y };
 }
 
+let discardTimer = null;
+
+function enterDiscardState() {
+  // No more jumping — button stays at current position
+  applyButton.classList.remove("tj-btn--primary");
+  applyButton.classList.add("tj-btn--danger");
+  applyButton.querySelector("p").textContent = t("apply.discard");
+
+  discardTimer = setTimeout(() => {
+    // Time expired without click — go to final state
+    exitDiscardState();
+  }, 3000);
+}
+
+function exitDiscardState() {
+  clearTimeout(discardTimer);
+  discardTimer = null;
+  applyButton.classList.remove("tj-btn--danger");
+  applyButton.classList.add("apply-shake");
+  applyButton.classList.add("tj-btn--primary");
+  applyButton.querySelector("p").textContent = t("apply.button");
+  // Button is now in its final resting state — ready to click normally
+}
+
 function jumpApplyButton() {
   applyJumpCount++;
   applyButton.classList.remove("apply-shake");
@@ -187,15 +211,22 @@ function jumpApplyButton() {
   applyButton.style.transform = "none";
   applyButton.classList.add("apply-shake");
 
-  if (applyJumpCount >= 5) {
+  if (applyJumpCount >= 4) {
+    // Remove mouseenter so no more jumps happen
     applyButton.removeEventListener("mouseenter", jumpApplyButton);
     void applyButton.offsetWidth;
+    // On the 4th (second-to-last) jump, show the discard button
+    if (applyJumpCount === 4) {
+      enterDiscardState();
+    }
   }
 }
 
 function handleDocumentClick(e) {
   if (!applyPhaseActive) return;
   if (applyButton.contains(e.target)) return;
+  if (discardModal && discardModal.contains(e.target)) return;
+  if (discardModal2 && discardModal2.contains(e.target)) return;
   applyPunishment();
 }
 
@@ -636,10 +667,43 @@ function showWinScreen() {
   screen_2EL.style.display = "none";
 }
 
+const discardModal   = document.getElementById("discardModal");
+const discardYesBtn  = document.getElementById("discardYesBtn");
+const discardNoBtn   = document.getElementById("discardNoBtn");
+const discardModal2  = document.getElementById("discardModal2");
+const discard2YesBtn = document.getElementById("discard2YesBtn");
+const discard2NoBtn  = document.getElementById("discard2NoBtn");
+
 applyButton.addEventListener("click", () => {
   if (applyButton.classList.contains("inactive")) return;
+  if (applyButton.classList.contains("tj-btn--danger")) {
+    // Penultimate state — show discard confirmation
+    clearTimeout(discardTimer);
+    discardModal.style.display = "flex";
+    return;
+  }
   deactivateApplyPhase();
   openCaptcha();
+});
+
+discardYesBtn.addEventListener("click", () => {
+  discardModal.style.display = "none";
+  handleTimeUp();
+});
+
+discardNoBtn.addEventListener("click", () => {
+  discardModal.style.display = "none";
+  discardModal2.style.display = "flex";
+});
+
+discard2YesBtn.addEventListener("click", () => {
+  discardModal2.style.display = "none";
+  exitDiscardState();
+});
+
+discard2NoBtn.addEventListener("click", () => {
+  discardModal2.style.display = "none";
+  handleTimeUp();
 });
 
 cattail.addEventListener("click", () => {

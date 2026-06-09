@@ -56,6 +56,20 @@ const TRANSLATIONS = {
 
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
+    "apply.discard": "Bewerbung verwerfen",
+
+    // — Discard modal —
+    "discard.title": "Bewerbung.docx",
+    "discard.heading": "Wirklich alles verwerfen?",
+    "discard.body": "Alle Änderungen gehen unwiderruflich verloren.",
+    "discard.yes": "Ja, alles verwerfen!",
+    "discard.no": "Nein, abbrechen!",
+
+    // — Second confirmation modal —
+    "discard2.heading": "Bist du dir sicher, dass du weiter machen willst?",
+    "discard2.body": "Du hast noch eine Chance, die Bewerbung abzuschicken.",
+    "discard2.yes": "Ja, ich bin mir sicher!",
+    "discard2.no": "Nein, verwirf alles!",
 
     // — Desk stage (Setting Option 3) —
     "desk.laptopCap": "Los — die Uhr wartet auf niemanden!",
@@ -132,6 +146,20 @@ const TRANSLATIONS = {
 
     // — Apply button —
     "apply.button": "Submit application",
+    "apply.discard": "Discard everything",
+
+    // — Discard modal —
+    "discard.title": "Application.docx",
+    "discard.heading": "Really discard everything?",
+    "discard.body": "All changes will be lost permanently.",
+    "discard.yes": "Yes, discard everything!",
+    "discard.no": "No, go back!",
+
+    // — Second confirmation modal —
+    "discard2.heading": "Are you sure you want to continue?",
+    "discard2.body": "You still have a chance to submit your application.",
+    "discard2.yes": "Yes, I'm sure!",
+    "discard2.no": "No, discard everything!",
 
     // — Desk stage (Setting Option 3) —
     "desk.laptopCap": "Go — the clock waits for no one!",

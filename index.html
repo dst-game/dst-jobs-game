@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>5 vor 12</title>
+    <title>Dein Traumjob wartet 💌</title>
     <link rel="stylesheet" href="fonts.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -125,13 +125,14 @@
                     <h2 data-i18n="win.heading">🎉 Glückwunsch!</h2>
                     <p>
                       <span data-i18n="win.appliedPre"
-                        >Du hast dich rechtzeitig in </span
-                      >
+                        >Du hast dich rechtzeitig in
+                      </span>
                       <nobr><span id="timeTaken">0.0</span></nobr>
                       <span data-i18n="win.appliedPost"> beworben!</span>
                     </p>
                     <p>
-                      <span data-i18n="win.remainingPre">Verbleibende Zeit: </span
+                      <span data-i18n="win.remainingPre"
+                        >Verbleibende Zeit: </span
                       ><span id="timeRemaining">0.0</span>!
                     </p>
                   </div>
@@ -191,14 +192,21 @@
                     </div>
                   </div>
                   <!-- CAPTCHA Modal -->
-                  <div class="nr5_captcha" id="captchaScreen" style="display: none">
+                  <div
+                    class="nr5_captcha"
+                    id="captchaScreen"
+                    style="display: none"
+                  >
                     <div class="captcha-ui">
                       <div class="captcha-header">
                         <span class="captcha-logo" data-i18n="captcha.logo"
                           >🤖 Ich bin kein Roboter</span
                         >
                       </div>
-                      <div class="captcha-instruction" id="captchaInstruction"></div>
+                      <div
+                        class="captcha-instruction"
+                        id="captchaInstruction"
+                      ></div>
                       <div class="captcha-grid" id="captchaGrid"></div>
                       <div class="captcha-error" id="captchaError"></div>
                       <div class="captcha-footer">
@@ -215,13 +223,26 @@
                 </div>
               </div>
             </div>
-            <div class="deck"><div class="keys"></div><div class="pad"></div></div>
+            <div class="deck">
+              <div class="keys"></div>
+              <div class="pad"></div>
+            </div>
 
             <!-- Post-it (password hint) on the lower-left of the screen; the cat
                  sits right in front of it. NOTE: the cat is a placeholder, to be
                  replaced by a rabbit animation later. -->
-            <img class="postit" src="images/postit.png" alt="" style="display: none" />
-            <img class="cattail" src="images/cattail.gif" alt="" style="display: none" />
+            <img
+              class="postit"
+              src="images/postit.png"
+              alt=""
+              style="display: none"
+            />
+            <img
+              class="cattail"
+              src="images/cattail.gif"
+              alt=""
+              style="display: none"
+            />
           </div>
           <div class="laptop-cap" data-i18n="desk.laptopCap">
             Los — die Uhr wartet auf niemanden!
@@ -265,9 +286,75 @@
     </div>
 
     <!-- jumps across the whole viewport during the apply phase -->
-    <button class="applyButton" style="display: none">
+    <button class="applyButton tj-btn tj-btn--primary" style="display: none">
       <p data-i18n="apply.button">Bewerbung abschicken</p>
     </button>
+
+    <!-- discard confirmation modal (shown on penultimate jump) -->
+    <div class="discard-overlay" id="discardModal" style="display: none">
+      <div class="discard-window">
+        <div class="discard-titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <span class="name" data-i18n="discard.title">Bewerbung.docx</span>
+        </div>
+        <div class="discard-content">
+          <h3 data-i18n="discard.heading">Wirklich alles verwerfen?</h3>
+          <p data-i18n="discard.body">
+            Alle Änderungen gehen unwiderruflich verloren.
+          </p>
+          <div class="discard-actions">
+            <button
+              class="tj-btn tj-btn--success"
+              id="discardYesBtn"
+              data-i18n="discard.yes"
+            >
+              Ja, alles verwerfen!
+            </button>
+            <button
+              class="tj-btn tj-btn--danger"
+              id="discardNoBtn"
+              data-i18n="discard.no"
+            >
+              Nein, abbrechen!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- second confirmation modal (shown when clicking "Nein, abbrechen!") -->
+    <div class="discard-overlay" id="discardModal2" style="display: none">
+      <div class="discard-window">
+        <div class="discard-titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <span class="name" data-i18n="discard.title">Bewerbung.docx</span>
+        </div>
+        <div class="discard-content">
+          <h3 data-i18n="discard2.heading">
+            Bist du dir sicher, dass du weiter machen willst?
+          </h3>
+          <p data-i18n="discard2.body">
+            Du hast noch eine Chance, die Bewerbung abzuschicken.
+          </p>
+          <div class="discard-actions">
+            <button
+              class="tj-btn tj-btn--success"
+              id="discard2YesBtn"
+              data-i18n="discard2.yes"
+            >
+              Ja, ich bin mir sicher!
+            </button>
+            <button
+              class="tj-btn tj-btn--danger"
+              id="discard2NoBtn"
+              data-i18n="discard2.no"
+            >
+              Nein, verwirf alles!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="lang.js"></script>
     <script src="script.js"></script>
   </body>
