@@ -54,6 +54,15 @@ const TRANSLATIONS = {
     "captcha.printer": "Wähle alle Bilder mit einem 🖨️ Drucker",
     "captcha.paperclip": "Wähle alle Bilder mit einer 📎 Büroklammer",
 
+    // — Mom SMS —
+    "mom.name": "Mama",
+    "mom.msg1": "Na?? Hast du dich endlich beworben?! 😠",
+    "mom.msg2": "Ich frage dich was!!! 😡",
+    "mom.msg3": "Na wenn das so ist!!! Ich sag es Papa!!! 💢",
+    "mom.msg4": "Jetzt ruf mich SOFORT zurück!!!! 🤬",
+    "mom.reply": "Antworten",
+    "mom.sent": "Bin gerade dabei 🙏",
+
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
     "apply.discard": "Bewerbung verwerfen",
@@ -99,11 +108,14 @@ const TRANSLATIONS = {
     "guide.typoLeft": "Da ist wohl noch irgendwo ein Tippfehler!",
     "guide.submitNow": "Super! Jetzt schick deine Bewerbung ab! Beeil dich!",
     "guide.almostOutOfTime": "OH NEIN, uns läuft die Zeit davon!!",
-    "guide.hurryUp": "Beeil dich!",
+    "guide.hurryUp": "Nur noch eine Minute! Beeil dich!",
     "guide.notRobot": "Bist du sicher, dass du kein Roboter bist?",
     "guide.smile": "Lächeln!",
     "guide.cameraUnavailable": "Kamera nicht verfügbar!",
+    "guide.success": "Jippie, du hast es geschafft!",
     "guide.timeUp": "Zeit abgelaufen! Game Over!",
+    "guide.halfTime":
+      "Tick, tack... Die Hälfte der Zeit ist schon vorbei! Beeil dich!",
   },
 
   en: {
@@ -143,6 +155,15 @@ const TRANSLATIONS = {
     "captcha.coffee": "Select all images with a ☕ coffee",
     "captcha.printer": "Select all images with a 🖨️ printer",
     "captcha.paperclip": "Select all images with a 📎 paperclip",
+
+    // — Mom SMS —
+    "mom.name": "Mom",
+    "mom.msg1": "Well?? Did you finally apply?! 😠",
+    "mom.msg2": "I'm asking you something!!! 😡",
+    "mom.msg3": "Fine then!!! I'm telling Dad!!! 💢",
+    "mom.msg4": "Call me back RIGHT NOW!!!! 🤬",
+    "mom.reply": "Reply",
+    "mom.sent": "On it right now 🙏",
 
     // — Apply button —
     "apply.button": "Submit application",

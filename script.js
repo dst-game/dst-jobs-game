@@ -50,6 +50,11 @@ let photoAdded = false;
 let typoFixed = false;
 let applyPhaseActive = false;
 let applyJumpCount = 0;
+let momIgnored = false;
+let momReplied = false;
+let momAngryIndex = -1; // index into MOM_ANGRY_MSGS, -1 = not started
+let momTypewriterTimer = null;
+const MOM_ANGRY_MSGS = ["mom.msg2", "mom.msg3", "mom.msg4"];
 const now = () => performance.now();
 
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -71,6 +76,11 @@ function tick() {
   // Urgency glow, scoped to the desk so the whole stage reacts.
   if (gameDesk) {
     gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
+  }
+
+  if (remainingTime <= 150 && !lastMinute) {
+    lastMinute = true;
+    showGuide(t("guide.halfTime"), 4000);
   }
 
   // Last minute → analog clock outline turns to the red alarm state.
@@ -329,6 +339,11 @@ function openCaptcha() {
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
   showGuide(t("guide.notRobot"), 3000);
+
+  if (momIgnored && !momReplied) {
+    momAngryIndex = 0;
+    showMomToast(MOM_ANGRY_MSGS[0]);
+  }
 }
 
 function closeCaptcha() {
@@ -439,6 +454,47 @@ function savePhoto() {
     missingImageEl.innerHTML = `<img src="${photoEl.src}" class="cv-photo" />`;
   }
   photoAdded = true;
+  checkAndShowMomToast();
+}
+
+function checkAndShowMomToast() {
+  if (photoAdded && typoFixed) {
+    showMomToast("mom.msg1");
+  }
+}
+
+function showMomToast(msgKey) {
+  const overlay = document.getElementById("momOverlay");
+  const msgEl   = document.getElementById("momMsg");
+  const replyArea = document.getElementById("momReplyArea");
+  const replyBtn  = document.getElementById("momReplyBtn");
+  if (!overlay) return;
+
+  // Reset reply area — hide buttons until typing finishes
+  const closeBtn = document.getElementById("momCloseBtn");
+  replyArea.innerHTML = "";
+  replyBtn.style.display = "";
+  replyArea.appendChild(replyBtn);
+  closeBtn.style.visibility = "hidden";
+  replyBtn.style.visibility = "hidden";
+
+  // Typewriter for the message text
+  clearInterval(momTypewriterTimer);
+  msgEl.textContent = "";
+  const typed = document.createTextNode("");
+  msgEl.appendChild(typed);
+  const full = t(msgKey);
+  let i = 0;
+  momTypewriterTimer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) {
+      clearInterval(momTypewriterTimer);
+      closeBtn.style.visibility = "";
+      replyBtn.style.visibility = "";
+    }
+  }, 90);
+
+  overlay.style.display = "flex";
 }
 
 // elements
@@ -477,10 +533,7 @@ function gameScreen() {
   postit.style.display = "flex";
   timer.style.display = "flex";
   showGuide(t("guide.password"), 4000);
-  // delay start of timer for 1 second
-  setTimeout(() => {
-    startTimer();
-  }, 1000);
+  startTimer();
 }
 
 // listen to when video ends
@@ -629,6 +682,7 @@ previewBody.addEventListener("click", (e) => {
     e.target.textContent = "Bewerbung";
     e.target.classList.remove("typo");
     typoFixed = true;
+    checkAndShowMomToast();
   }
 });
 
@@ -636,6 +690,50 @@ captureBtn.addEventListener("click", capturePhoto);
 retakeBtn.addEventListener("click", retakePhoto);
 savePhotoBtn.addEventListener("click", savePhoto);
 cameraCloseBtn.addEventListener("click", stopCamera);
+
+// ─── Mom SMS handlers ────────────────────────────────────────────
+document.getElementById("momCloseBtn").addEventListener("click", () => {
+  document.getElementById("momOverlay").style.display = "none";
+  if (momReplied) return;
+  momIgnored = true;
+  // Chain to next angry message immediately if there is one
+  if (momAngryIndex >= 0 && momAngryIndex < MOM_ANGRY_MSGS.length - 1) {
+    momAngryIndex++;
+    showMomToast(MOM_ANGRY_MSGS[momAngryIndex]);
+  }
+});
+
+document.getElementById("momReplyBtn").addEventListener("click", () => {
+  momReplied = true;
+  momIgnored = false;
+  momAngryIndex = -1;
+
+  const replyArea = document.getElementById("momReplyArea");
+  const replyBtn  = document.getElementById("momReplyBtn");
+  replyBtn.style.display = "none";
+
+  const sentEl = document.createElement("div");
+  sentEl.className = "mom-reply-sent";
+  const typed  = document.createTextNode("");
+  const caret  = document.createElement("span");
+  caret.className = "caret";
+  caret.textContent = "▍";
+  sentEl.append(typed, caret);
+  replyArea.appendChild(sentEl);
+
+  const full = t("mom.sent");
+  let i = 0;
+  const timer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) {
+      clearInterval(timer);
+      caret.remove();
+      setTimeout(() => {
+        document.getElementById("momOverlay").style.display = "none";
+      }, 1500);
+    }
+  }, 55);
+});
 
 function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
@@ -664,15 +762,16 @@ function showWinScreen() {
   const seconds = Math.floor(remainingTime % 60);
   timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   stopTimer();
+  showGuide(t("guide.success"), 0);
   screen_2EL.style.display = "none";
 }
 
-const discardModal   = document.getElementById("discardModal");
-const discardYesBtn  = document.getElementById("discardYesBtn");
-const discardNoBtn   = document.getElementById("discardNoBtn");
-const discardModal2  = document.getElementById("discardModal2");
+const discardModal = document.getElementById("discardModal");
+const discardYesBtn = document.getElementById("discardYesBtn");
+const discardNoBtn = document.getElementById("discardNoBtn");
+const discardModal2 = document.getElementById("discardModal2");
 const discard2YesBtn = document.getElementById("discard2YesBtn");
-const discard2NoBtn  = document.getElementById("discard2NoBtn");
+const discard2NoBtn = document.getElementById("discard2NoBtn");
 
 applyButton.addEventListener("click", () => {
   if (applyButton.classList.contains("inactive")) return;
