@@ -2,7 +2,7 @@
 
 A browser-based mini-game built for DST. It's five minutes to midnight ("5 vor 12") and the
 player has to finish and submit a job application before the clock strikes 12 — fighting a
-ticking deadline and a few distractions along the way.
+ticking deadline, an escalating timer, and a few distractions along the way.
 
 ## How to play
 
@@ -16,7 +16,8 @@ ticking deadline and a few distractions along the way.
    - Click the **missing profile photo** to open the camera, take a photo and **save** it
 6. Once both are done, hit **Speichern** to save the file
 7. Click **Bewerbung abschicken** (it only appears after the CV is saved) — the button darts
-   around, so chase it down
+   around, so chase it down. On the **4th approach** it briefly turns red and threatens to
+   discard everything; if you click it, a two-step confirmation asks you to bail out
 8. Solve the **"Ich bin kein Roboter" CAPTCHA** to submit and reach the **win screen**
 
 ## Layout — the desk
@@ -60,6 +61,39 @@ Wrong actions subtract time from the clock (`-15 s` each):
 On a mistake, a red `-15s` label animates near the clock, the rabbit's card and the digital
 clock flash red, then the deduction is applied. The amount is configurable via
 `GAME_SETTINGS.punishmentAmount` in `script.js`.
+
+## Timer escalation
+
+The timer starts at normal speed and automatically accelerates:
+
+| Remaining time | Event |
+| -------------- | ----- |
+| 240 s (4 min)  | Speed increases to **4×** — the rabbit comments suspiciously |
+| 150 s (2.5 min)| Half-time warning from the rabbit |
+| 60 s           | Analog clock outline turns **red** |
+| 30 s           | Digital clock also turns red + final warning |
+
+## Apply button behaviour
+
+Once the CV is saved the **Bewerbung abschicken** button appears. It jumps away on hover:
+
+1. **Jumps 1–3:** button teleports to a random position
+2. **Jump 4 (penultimate):** button turns red — "Bewerbung verwerfen". If the player clicks it,
+   a two-step confirmation modal chain asks if they really want to discard everything.
+   - Modal 1: *Wirklich alles verwerfen?* — green Yes / red No
+   - Modal 2 (if No): *Bist du dir sicher?* — colours reversed, red button now discards
+   - If the player ignores the red button for 3 s it reverts to the green apply button
+3. **Jump 5 (final):** button stays put; clicking it opens the CAPTCHA
+
+## Mom SMS
+
+After the player fixes the typo and saves the photo, **Mama** sends a text message via an
+SMS-style overlay. The message types out at an intentionally slow pace; the close and reply
+buttons are hidden until typing finishes.
+
+- **Replying** resolves the interruption
+- **Closing** without replying chains to increasingly angry follow-up messages (up to 3)
+- If the player ignores all messages and reaches the CAPTCHA, the angry chain resumes there
 
 ## Tech stack
 

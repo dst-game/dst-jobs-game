@@ -61,7 +61,16 @@ const TRANSLATIONS = {
     "mom.msg3": "Na wenn das so ist!!! Ich sag es Papa!!! 💢",
     "mom.msg4": "Jetzt ruf mich SOFORT zurück!!!! 🤬",
     "mom.reply": "Antworten",
+    "mom.ignore": "Ignorieren",
     "mom.sent": "Bin gerade dabei 🙏",
+
+    // — Game over —
+    "gameover.heading": "💀 Zu spät!",
+    "gameover.body": "Die Bewerbungsfrist ist abgelaufen. Versuch's nochmal!",
+    "gameover.discard.heading": "🗑️ Alles weg!",
+    "gameover.discard.body":
+      "Du hast deine Bewerbung gelöscht. Das war wohl nix.",
+    "gameover.restart": "Nochmal versuchen",
 
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
@@ -114,8 +123,12 @@ const TRANSLATIONS = {
     "guide.cameraUnavailable": "Kamera nicht verfügbar!",
     "guide.success": "Jippie, du hast es geschafft!",
     "guide.timeUp": "Zeit abgelaufen! Game Over!",
+    "guide.discardedFiles":
+      "Du hast deine Bewerbung gelöscht... Gut gemacht! /s",
     "guide.halfTime":
       "Tick, tack... Die Hälfte der Zeit ist schon vorbei! Beeil dich!",
+    "guide.oneMinutePassed":
+      "Hmmm, kommt es dir auch so vor, als würde die Zeit super schnell vergehen?",
   },
 
   en: {
@@ -163,7 +176,15 @@ const TRANSLATIONS = {
     "mom.msg3": "Fine then!!! I'm telling Dad!!! 💢",
     "mom.msg4": "Call me back RIGHT NOW!!!! 🤬",
     "mom.reply": "Reply",
+    "mom.ignore": "Ignore",
     "mom.sent": "On it right now 🙏",
+
+    // — Game over —
+    "gameover.heading": "💀 Too late!",
+    "gameover.body": "The application deadline has passed. Try again!",
+    "gameover.discard.heading": "🗑️ All gone!",
+    "gameover.discard.body": "You deleted your application. That's on you.",
+    "gameover.restart": "Try again",
 
     // — Apply button —
     "apply.button": "Submit application",
@@ -214,6 +235,11 @@ const TRANSLATIONS = {
     "guide.smile": "Smile!",
     "guide.cameraUnavailable": "Camera not available!",
     "guide.timeUp": "Time's up! Game Over!",
+    "guide.discardedFiles": "You discarded your application... Good job! /s",
+    "guide.success": "Woohoo, you made it!",
+    "guide.halfTime": "Tick tock... Half the time is already gone! Hurry up!",
+    "guide.oneMinutePassed":
+      "Hmm, does it feel like time is flying by super fast to you too?",
   },
 };
 

@@ -226,7 +226,8 @@ h1 {
 
 /* Shared button base */
 .nr1_login_box button,
-.introScreen button {
+.introScreen button,
+.nr4_gameover button {
   font-family: var(--tj-font-display);
   font-weight: 600;
   font-size: 2.3cqw;
@@ -247,9 +248,11 @@ h1 {
   transition:
     transform 0.15s var(--tj-ease),
     box-shadow 0.2s var(--tj-ease);
+  max-width: 50cqw;
 }
 .nr1_login_box button:hover,
-.introScreen button:hover {
+.introScreen button:hover,
+.nr4_gameover button:hover {
   transform: translateY(-1px);
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(255, 43, 214, 0.8),
@@ -1018,6 +1021,51 @@ h1 {
   font-family: var(--tj-font-mono);
   color: var(--tj-muted);
   font-size: 2.1cqw;
+}
+
+/* ─── Game Over Screen ────────────────────────────────────────── */
+.nr4_gameover {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 7cqw 5.5cqw;
+  border-radius: 0;
+  background:
+    radial-gradient(
+      600px 300px at 50% 0%,
+      rgba(220, 38, 38, 0.18),
+      transparent 65%
+    ),
+    linear-gradient(180deg, rgba(42, 8, 8, 0.97), rgba(15, 4, 4, 0.99));
+  color: var(--tj-text);
+}
+
+.nr4_gameover h2 {
+  font-family: var(--tj-font-display);
+  font-weight: 700;
+  font-size: 5.5cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 28px rgba(240, 62, 62, 0.5);
+  margin-bottom: 12px;
+}
+
+.nr4_gameover p {
+  font-family: var(--tj-font-mono);
+  color: var(--tj-muted);
+  font-size: 2.1cqw;
+  margin-bottom: 4cqw;
+}
+
+.nr4_gameover button {
+  margin-top: 1cqw;
+  font-size: 1.8cqw;
+  padding: 1cqw 3cqw;
 }
 
 /* Lebensläufe */
@@ -2219,16 +2267,18 @@ h1 {
 .mom-reply-area {
   margin-top: 1.6cqw;
   min-height: 3.5cqw;
+  display: flex;
+  gap: 1.2cqw;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-.mom-reply-btn {
+.mom-reply-btn,
+.mom-ignore-btn {
   font-family: var(--tj-font-mono);
   font-size: 1.8cqw;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--tj-blue-soft);
-  background: rgba(31, 211, 255, 0.06);
-  border: 1px solid rgba(31, 211, 255, 0.45);
   border-radius: var(--tj-r-pill);
   padding: 0.8cqw 2.2cqw;
   cursor: pointer;
@@ -2237,9 +2287,26 @@ h1 {
     box-shadow 0.18s var(--tj-ease);
 }
 
-.mom-reply-btn:hover {
+.mom-ignore-btn {
+  color: var(--tj-blue-soft);
+  background: rgba(31, 211, 255, 0.06);
+  border: 1px solid rgba(31, 211, 255, 0.45);
+}
+
+.mom-ignore-btn:hover {
   background: rgba(31, 211, 255, 0.14);
   box-shadow: 0 0 12px rgba(31, 211, 255, 0.3);
+}
+
+.mom-reply-btn {
+  color: var(--tj-muted);
+  background: rgba(157, 124, 255, 0.04);
+  border: 1px solid rgba(157, 124, 255, 0.25);
+}
+
+.mom-reply-btn:hover {
+  background: rgba(157, 124, 255, 0.1);
+  color: var(--tj-text);
 }
 
 .mom-reply-sent {
@@ -2262,20 +2329,4 @@ h1 {
   50% {
     opacity: 0;
   }
-}
-
-.mom-close {
-  flex: none;
-  color: var(--tj-faint);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 2.5cqw;
-  line-height: 1;
-  padding: 0.3cqw;
-  transition: color 0.15s;
-}
-
-.mom-close:hover {
-  color: var(--tj-text);
 }

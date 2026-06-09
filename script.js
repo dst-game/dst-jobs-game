@@ -34,6 +34,9 @@ const CAPTCHA_CATEGORIES = [
   },
 ];
 
+let gameWon = false;
+let gameOver = false;
+
 let captchaCurrentCategory = null;
 let captchaCorrectIndices = new Set();
 let captchaSelectedCounts = new Map(); // emoji → how many of that emoji are selected
@@ -41,9 +44,14 @@ let captchaSelectedCounts = new Map(); // emoji → how many of that emoji are s
 // Timer functionality
 let t0 = 0,
   rafId = null;
+let lastTick = 0; // performance.now() of the previous frame
+let effectiveElapsed = 0; // accumulated game-seconds (delta * SPEED each frame)
 let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
+let SPEED = 1; // seconds per real second
+let speedBoosted = false; // true once SPEED has been raised
 let clockCritical = false; // digital critical (final 30s)
+let halfTimePassed = false; // half-time guide message
 let lastMinute = false; // analog red alarm outline (final 60s)
 let cameraStream = null;
 let photoAdded = false;
@@ -60,10 +68,12 @@ const now = () => performance.now();
 const pad2 = (n) => String(n).padStart(2, "0");
 
 function tick() {
-  const elapsed = (now() - t0) / 1000;
+  const nowMs = now();
+  effectiveElapsed += ((nowMs - lastTick) / 1000) * SPEED;
+  lastTick = nowMs;
   remainingTime = Math.max(
     0,
-    GAME_SETTINGS.gameDuration - elapsed - penaltySeconds,
+    GAME_SETTINGS.gameDuration - effectiveElapsed - penaltySeconds,
   );
 
   const pct = remainingTime / GAME_SETTINGS.gameDuration;
@@ -78,8 +88,16 @@ function tick() {
     gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
   }
 
-  if (remainingTime <= 150 && !lastMinute) {
-    lastMinute = true;
+  // after one minute — speed up and show guide once
+  if (remainingTime <= 240 && !speedBoosted) {
+    speedBoosted = true;
+    SPEED = 2.5;
+    showGuide(t("guide.oneMinutePassed"), 4000);
+  }
+
+  // after half time
+  if (remainingTime <= 150 && !halfTimePassed) {
+    halfTimePassed = true;
     showGuide(t("guide.halfTime"), 4000);
   }
 
@@ -149,6 +167,8 @@ function markStep(id) {
 function startTimer() {
   if (t0) return;
   t0 = now();
+  lastTick = t0;
+  effectiveElapsed = 0;
   remainingTime = GAME_SETTINGS.gameDuration;
   tick();
 }
@@ -161,9 +181,14 @@ function stopTimer() {
 function resetTimer() {
   stopTimer();
   t0 = 0;
+  lastTick = 0;
+  effectiveElapsed = 0;
   penaltySeconds = 0;
+  speedBoosted = false;
   clockCritical = false;
+  halfTimePassed = false;
   lastMinute = false;
+  SPEED = 1;
   remainingTime = GAME_SETTINGS.gameDuration;
   clearClockCritical();
   updateDeskClock(0);
@@ -171,11 +196,18 @@ function resetTimer() {
   if (gameDesk) gameDesk.style.setProperty("--tj-urgency", "0");
 }
 
-function handleTimeUp() {
+function handleTimeUp(reason) {
+  gameOver = true;
   deactivateApplyPhase();
   closeCaptcha();
-  showGuide(t("guide.timeUp"), 0);
+  stopTimer();
+  if (reason === "discard") {
+    showGuide(t("guide.discardedFiles"), 0);
+  } else {
+    showGuide(t("guide.timeUp"), 0);
+  }
   applyButton.classList.add("inactive");
+  showGameOverScreen(reason);
 }
 
 function getRandomApplyPosition() {
@@ -260,6 +292,8 @@ function deactivateApplyPhase() {
 }
 
 function applyPunishment() {
+  // trigger only if not game over or won
+  if (gameOver || gameWon) return;
   const label = document.getElementById("punishmentLabel");
   const amount = GAME_SETTINGS.punishmentAmount;
 
@@ -465,18 +499,20 @@ function checkAndShowMomToast() {
 
 function showMomToast(msgKey) {
   const overlay = document.getElementById("momOverlay");
-  const msgEl   = document.getElementById("momMsg");
+  const msgEl = document.getElementById("momMsg");
   const replyArea = document.getElementById("momReplyArea");
-  const replyBtn  = document.getElementById("momReplyBtn");
+  const replyBtn = document.getElementById("momReplyBtn");
+  const ignoreBtn = document.getElementById("momIgnoreBtn");
   if (!overlay) return;
 
-  // Reset reply area — hide buttons until typing finishes
-  const closeBtn = document.getElementById("momCloseBtn");
+  // Reset reply area — restore buttons (may have been replaced by sent-text) and hide until typing finishes
   replyArea.innerHTML = "";
-  replyBtn.style.display = "";
   replyArea.appendChild(replyBtn);
-  closeBtn.style.visibility = "hidden";
+  replyArea.appendChild(ignoreBtn);
+  replyBtn.style.display = "";
+  ignoreBtn.style.display = "";
   replyBtn.style.visibility = "hidden";
+  ignoreBtn.style.visibility = "hidden";
 
   // Typewriter for the message text
   clearInterval(momTypewriterTimer);
@@ -489,8 +525,8 @@ function showMomToast(msgKey) {
     typed.textContent = full.slice(0, ++i);
     if (i >= full.length) {
       clearInterval(momTypewriterTimer);
-      closeBtn.style.visibility = "";
       replyBtn.style.visibility = "";
+      ignoreBtn.style.visibility = "";
     }
   }, 90);
 
@@ -499,6 +535,7 @@ function showMomToast(msgKey) {
 
 // elements
 const startBtn = document.getElementById("startBtn");
+const restartBtn = document.getElementById("restartBtn");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const introScreen = document.querySelector(".introScreen");
@@ -514,6 +551,10 @@ startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";
   introVideoBox.style.display = "flex";
   introVideo.play();
+});
+
+restartBtn.addEventListener("click", () => {
+  location.reload();
 });
 
 // for testing purposes - click video to skip intro - change eventlistener to ended for production
@@ -563,6 +604,7 @@ const applyButton = document.querySelector(".applyButton");
 const timeEl = document.getElementById("time");
 const screen_2EL = document.getElementById("screen_2");
 const winBox = document.getElementById("nr3_win");
+const gameOverBox = document.getElementById("nr4_gameover");
 const timeTakenEl = document.getElementById("timeTaken");
 const timeRemainingEl = document.getElementById("timeRemaining");
 const filePreview = document.getElementById("filePreview");
@@ -692,7 +734,7 @@ savePhotoBtn.addEventListener("click", savePhoto);
 cameraCloseBtn.addEventListener("click", stopCamera);
 
 // ─── Mom SMS handlers ────────────────────────────────────────────
-document.getElementById("momCloseBtn").addEventListener("click", () => {
+document.getElementById("momIgnoreBtn").addEventListener("click", () => {
   document.getElementById("momOverlay").style.display = "none";
   if (momReplied) return;
   momIgnored = true;
@@ -709,13 +751,15 @@ document.getElementById("momReplyBtn").addEventListener("click", () => {
   momAngryIndex = -1;
 
   const replyArea = document.getElementById("momReplyArea");
-  const replyBtn  = document.getElementById("momReplyBtn");
+  const replyBtn = document.getElementById("momReplyBtn");
+  const ignoreBtn = document.getElementById("momIgnoreBtn");
   replyBtn.style.display = "none";
+  ignoreBtn.style.display = "none";
 
   const sentEl = document.createElement("div");
   sentEl.className = "mom-reply-sent";
-  const typed  = document.createTextNode("");
-  const caret  = document.createElement("span");
+  const typed = document.createTextNode("");
+  const caret = document.createElement("span");
   caret.className = "caret";
   caret.textContent = "▍";
   sentEl.append(typed, caret);
@@ -752,6 +796,7 @@ function makeDoc({ ext, name, content = "" }) {
 }
 
 function showWinScreen() {
+  gameWon = true;
   const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
   markStep("objStep3");
   winBox.style.display = "block";
@@ -764,6 +809,21 @@ function showWinScreen() {
   stopTimer();
   showGuide(t("guide.success"), 0);
   screen_2EL.style.display = "none";
+}
+
+function showGameOverScreen(reason) {
+  const headingEl = document.getElementById("gameOverHeading");
+  const bodyEl = document.getElementById("gameOverBody");
+  if (reason === "discard") {
+    headingEl.textContent = t("gameover.discard.heading");
+    bodyEl.textContent = t("gameover.discard.body");
+  } else {
+    headingEl.textContent = t("gameover.heading");
+    bodyEl.textContent = t("gameover.body");
+  }
+  screen_2EL.style.display = "none";
+  filePreview.style.display = "none";
+  gameOverBox.style.display = "block";
 }
 
 const discardModal = document.getElementById("discardModal");
@@ -787,7 +847,7 @@ applyButton.addEventListener("click", () => {
 
 discardYesBtn.addEventListener("click", () => {
   discardModal.style.display = "none";
-  handleTimeUp();
+  handleTimeUp("discard");
 });
 
 discardNoBtn.addEventListener("click", () => {
@@ -802,7 +862,7 @@ discard2YesBtn.addEventListener("click", () => {
 
 discard2NoBtn.addEventListener("click", () => {
   discardModal2.style.display = "none";
-  handleTimeUp();
+  handleTimeUp("discard");
 });
 
 cattail.addEventListener("click", () => {

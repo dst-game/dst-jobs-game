@@ -121,6 +121,15 @@
                       </div>
                     </div>
                   </div>
+                  <div class="nr4_gameover" style="display: none" id="nr4_gameover">
+                    <h2 id="gameOverHeading" data-i18n="gameover.heading">💀 Zu spät!</h2>
+                    <p id="gameOverBody" data-i18n="gameover.body">
+                      Die Bewerbungsfrist ist abgelaufen. Versuch's nochmal!
+                    </p>
+                    <button id="restartBtn" data-i18n="gameover.restart">
+                      Nochmal versuchen
+                    </button>
+                  </div>
                   <div class="nr3_win" style="display: none" id="nr3_win">
                     <h2 data-i18n="win.heading">🎉 Glückwunsch!</h2>
                     <p>
@@ -239,9 +248,15 @@
                           >
                             Antworten
                           </button>
+                          <button
+                            class="mom-ignore-btn"
+                            id="momIgnoreBtn"
+                            data-i18n="mom.ignore"
+                          >
+                            Ignorieren
+                          </button>
                         </div>
                       </div>
-                      <button class="mom-close" id="momCloseBtn">✕</button>
                     </div>
                   </div>
                 </div>
