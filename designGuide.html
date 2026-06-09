@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Traumjob / 5 vor 12 — Design Guide</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Local self-hosted fonts — no internet required -->
+<link rel="stylesheet" href="fonts.css">
 <style>
 /* ============================================================
    TRAUMJOB / 5 VOR 12 — DESIGN TOKENS
@@ -282,9 +281,9 @@ section.block{padding:64px 0 8px;}
   border-color:var(--tj-magenta);
   box-shadow:0 0 var(--tj-glow-strong) rgba(255,43,214,.7),inset 0 0 30px rgba(255,43,214,.16);
 }
-.tj-clock-analog .tick{position:absolute;top:50%;left:50%;width:2px;height:50%;transform-origin:bottom center;}
-.tj-clock-analog .tick::before{content:"";position:absolute;top:7px;left:0;width:2px;height:9px;background:rgba(180,140,255,.5);border-radius:2px;}
-.tj-clock-analog .tick.major::before{height:14px;width:3px;left:-.5px;background:var(--tj-violet-soft);}
+.tj-clock-analog .tick{position:absolute;top:0;left:50%;width:2px;height:100%;margin-left:-1px;transform-origin:center center;}
+.tj-clock-analog .tick::before{content:"";position:absolute;top:6px;left:0;width:2px;height:8px;background:rgba(180,140,255,.5);border-radius:2px;}
+.tj-clock-analog .tick.major::before{height:13px;width:3px;left:-.5px;background:var(--tj-violet-soft);}
 .tj-clock-analog .num{
   position:absolute;font-family:var(--tj-font-display);font-weight:600;font-size:15px;color:var(--tj-muted);
 }
@@ -590,6 +589,130 @@ section.block{padding:64px 0 8px;}
 @media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
 
 footer.guide-foot{text-align:center;color:var(--tj-faint);font-size:12px;margin-top:80px;padding-top:30px;border-top:1px solid var(--tj-line);letter-spacing:.1em;}
+
+/* ============================================================
+   SETTING OPTION 3 — SCHREIBTISCH-LAYOUT  (Hase · Laptop · Uhr)
+   Scoped under .tj-desk. Composes existing kit parts
+   (.tj-laptop, .tj-clock-analog, .tj-clock-digital). Everything
+   scales to the .tj-desk container width via cqw — no breakpoints.
+   ============================================================ */
+.tj-desk{
+  position:relative;width:100%;aspect-ratio:16/9.7;container-type:inline-size;overflow:hidden;
+  border-radius:var(--tj-r-lg);border:1px solid var(--tj-line);font-family:var(--tj-font-mono);
+  display:flex;flex-direction:column;
+  background:
+    radial-gradient(58% 48% at 50% 14%,rgba(139,77,255,.30),transparent 70%),
+    radial-gradient(42% 42% at 9% 74%,rgba(31,211,255,.18),transparent 70%),
+    radial-gradient(42% 42% at 91% 70%,rgba(255,43,214,.20),transparent 70%),
+    linear-gradient(180deg,#1a0f30 0%,#0d0719 55%,#07040f 100%);
+}
+.tj-desk .floor{position:absolute;left:0;right:0;bottom:0;height:23%;z-index:0;
+  background:linear-gradient(180deg,#3a2150,#170d29);clip-path:polygon(9% 0,91% 0,100% 100%,0 100%);
+  border-top:1px solid rgba(180,140,255,.32);box-shadow:0 -2px 40px rgba(255,43,214,.18);}
+.tj-desk .glint{position:absolute;top:7%;width:15%;height:46%;z-index:0;opacity:.3;filter:blur(.5px);border-radius:6px;
+  background:linear-gradient(180deg,rgba(10,6,20,.1),rgba(7,4,15,.7)),
+    repeating-linear-gradient(90deg,transparent 0 8px,rgba(31,211,255,.28) 8px 10px),
+    repeating-linear-gradient(0deg,transparent 0 12px,rgba(255,43,214,.18) 12px 14px);}
+.tj-desk .glint.l{left:1.5%;} .tj-desk .glint.r{right:1.5%;}
+
+/* top HUD strip */
+.tj-desk .hud{position:relative;z-index:5;flex:none;display:flex;align-items:center;justify-content:space-between;padding:2.2cqw 3cqw 0;}
+.tj-desk .hud .brand{display:flex;flex-direction:column;line-height:1;}
+.tj-desk .hud .brand .game{font-family:var(--tj-font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:2.1cqw;
+  background:linear-gradient(100deg,var(--tj-blue),var(--tj-violet-soft) 50%,var(--tj-magenta));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 16px rgba(255,43,214,.35));}
+.tj-desk .hud .brand .vor{font-family:var(--tj-font-serif);font-style:italic;font-size:1.5cqw;color:var(--tj-gold-soft);margin-top:.3cqw;}
+.tj-desk .hud .meta{display:flex;gap:3cqw;align-items:center;}
+.tj-desk .hud .meta .cell{text-align:right;line-height:1.1;}
+.tj-desk .hud .meta .cell .k{font-size:1.05cqw;letter-spacing:.26em;text-transform:uppercase;color:var(--tj-faint);}
+.tj-desk .hud .meta .cell .v{font-family:var(--tj-font-display);font-weight:700;font-size:2cqw;color:var(--tj-text);}
+.tj-desk .hud .meta .cell .v.blue{color:var(--tj-blue-soft);text-shadow:0 0 var(--tj-glow) rgba(31,211,255,.6);}
+
+/* 3-zone grid: rabbit | laptop | clock */
+.tj-desk .zones{position:relative;z-index:4;flex:1;min-height:0;display:grid;
+  grid-template-columns:minmax(0,.95fr) minmax(0,2.05fr) minmax(0,.95fr);align-items:center;gap:2.4cqw;padding:1.4cqw 3cqw 3cqw;}
+.tj-desk .rail{align-self:stretch;display:flex;flex-direction:column;min-height:0;}
+.tj-desk .rail-head{display:flex;align-items:center;gap:1cqw;margin-bottom:1.3cqw;flex:none;}
+.tj-desk .rail-head .dot{width:.9cqw;height:.9cqw;border-radius:50%;flex:none;}
+.tj-desk .rail-head .t{font-size:1.15cqw;letter-spacing:.28em;text-transform:uppercase;}
+
+/* LEFT · Hase guide */
+.tj-desk .guide-rail .rail-head .dot{background:var(--tj-gold);box-shadow:0 0 10px rgba(227,179,65,.8);}
+.tj-desk .guide-rail .rail-head .t{color:var(--tj-gold-soft);}
+.tj-desk .guide-card{flex:1;min-height:0;display:flex;flex-direction:column;gap:1.3cqw;border:1px solid rgba(227,179,65,.4);border-radius:var(--tj-r-lg);
+  background:linear-gradient(180deg,rgba(33,17,56,.62),rgba(13,7,25,.8));box-shadow:0 0 var(--tj-glow) rgba(227,179,65,.18);padding:1.8cqw;overflow:hidden;}
+.tj-desk .portrait{position:relative;width:11cqw;height:14.4cqw;flex:none;align-self:center;border-radius:1.3cqw;overflow:hidden;
+  border:1px solid rgba(227,179,65,.55);
+  background:repeating-linear-gradient(45deg,rgba(227,179,65,.05) 0 11px,rgba(227,179,65,.11) 11px 22px),linear-gradient(180deg,rgba(33,17,56,.7),rgba(13,7,25,.92));
+  display:flex;align-items:center;justify-content:center;box-shadow:0 0 var(--tj-glow) rgba(227,179,65,.32);}
+.tj-desk .portrait .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:none;}
+.tj-desk .portrait.has-art .art{display:block;}
+.tj-desk .portrait.has-art .emoji,.tj-desk .portrait.has-art .watch{display:none;}
+.tj-desk .portrait .emoji{font-size:6.6cqw;line-height:1;filter:drop-shadow(0 0 20px rgba(246,217,138,.6));animation:tj-bob 4s ease-in-out infinite;}
+.tj-desk .portrait .watch{position:absolute;right:12%;top:14%;font-size:2.6cqw;filter:drop-shadow(0 0 12px rgba(227,179,65,.8));}
+.tj-desk .guide-card .bubble{position:relative;flex:none;background:rgba(7,4,15,.5);border:1px solid rgba(227,179,65,.4);border-radius:1.3cqw;padding:1.3cqw 1.6cqw;}
+.tj-desk .guide-card .bubble .who{font-size:1.05cqw;letter-spacing:.22em;text-transform:uppercase;color:var(--tj-gold-soft);margin-bottom:.7cqw;}
+.tj-desk .guide-card .bubble .say{font-family:var(--tj-font-serif);font-style:italic;font-size:1.85cqw;line-height:1.35;color:var(--tj-text);min-height:5.4cqw;}
+.tj-desk .guide-card .bubble .say .caret{display:inline-block;width:2px;color:var(--tj-gold);animation:tj-blink 1s steps(2,end) infinite;}
+.tj-desk .guide-card .obj{margin-top:auto;display:flex;flex-direction:column;gap:.9cqw;}
+.tj-desk .guide-card .obj .lbl{font-size:1cqw;letter-spacing:.24em;text-transform:uppercase;color:var(--tj-faint);}
+.tj-desk .guide-card .obj .step{display:flex;gap:1.1cqw;align-items:flex-start;font-size:1.3cqw;color:var(--tj-muted);line-height:1.35;}
+.tj-desk .guide-card .obj .step .n{flex:none;width:2.1cqw;height:2.1cqw;border-radius:50%;display:grid;place-items:center;font-family:var(--tj-font-display);font-weight:700;font-size:1.15cqw;color:var(--tj-gold-soft);border:1px solid rgba(227,179,65,.45);background:rgba(227,179,65,.08);}
+.tj-desk .guide-card .obj .step.done{color:var(--tj-faint);}
+.tj-desk .guide-card .obj .step.done .n{color:var(--tj-success);border-color:rgba(62,240,168,.5);background:rgba(62,240,168,.08);}
+
+/* CENTER · laptop (main attraction) */
+.tj-desk .laptop-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;height:100%;}
+.tj-desk .laptop-stage .tj-laptop{--w:100%;}
+.tj-desk .laptop-stage .tj-laptop .lid{box-shadow:0 0 var(--tj-glow-strong) rgba(139,77,255,.4),0 30px 70px rgba(0,0,0,.5);}
+.tj-desk .laptop-cap{margin-top:1.3cqw;text-align:center;font-family:var(--tj-font-serif);font-style:italic;font-size:1.55cqw;color:var(--tj-gold-soft);text-shadow:0 0 12px rgba(227,179,65,.4);}
+.tj-desk .laptop-cap::before{content:"\201C";} .tj-desk .laptop-cap::after{content:"\201D";}
+
+/* the running game on the laptop screen (cqw is relative to .tj-laptop) */
+.tj-desk .scr{position:absolute;inset:0;display:flex;flex-direction:column;font-family:var(--tj-font-mono);}
+.tj-desk .scr .titlebar{display:flex;align-items:center;gap:1.4cqw;padding:1.6cqw 2.4cqw;flex:none;background:rgba(7,4,15,.6);border-bottom:1px solid var(--tj-line);}
+.tj-desk .scr .titlebar .dots{display:flex;gap:1cqw;}
+.tj-desk .scr .titlebar .dots i{width:1.4cqw;height:1.4cqw;min-width:6px;min-height:6px;border-radius:50%;display:block;}
+.tj-desk .scr .titlebar .dots i:nth-child(1){background:var(--tj-danger);}
+.tj-desk .scr .titlebar .dots i:nth-child(2){background:var(--tj-gold);}
+.tj-desk .scr .titlebar .dots i:nth-child(3){background:var(--tj-success);}
+.tj-desk .scr .titlebar .url{flex:1;font-size:2cqw;letter-spacing:.04em;color:var(--tj-muted);background:rgba(7,4,15,.5);border:1px solid var(--tj-line);border-radius:var(--tj-r-pill);padding:.7cqw 2cqw;text-align:center;}
+.tj-desk .scr .titlebar .url b{color:var(--tj-blue-soft);}
+.tj-desk .scr .body{flex:1;min-height:0;overflow:hidden;padding:2.6cqw 4.4cqw 3cqw;display:flex;flex-direction:column;}
+.tj-desk .scr .eyebrow{font-size:1.9cqw;letter-spacing:.24em;text-transform:uppercase;color:var(--tj-blue-soft);text-shadow:0 0 12px rgba(31,211,255,.5);}
+.tj-desk .scr h1{font-family:var(--tj-font-display);font-weight:700;text-transform:uppercase;font-size:4.2cqw;letter-spacing:.01em;line-height:1.02;margin:1cqw 0 .5cqw;}
+.tj-desk .scr .lede{font-size:2cqw;color:var(--tj-muted);line-height:1.35;max-width:86%;}
+.tj-desk .scr .form{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:1.9cqw 3cqw;}
+.tj-desk .scr .field{display:flex;flex-direction:column;gap:.8cqw;}
+.tj-desk .scr .field.full{grid-column:1/-1;}
+.tj-desk .scr .field label{font-size:1.7cqw;letter-spacing:.18em;text-transform:uppercase;color:var(--tj-blue-soft);}
+.tj-desk .scr .field .ctrl{font-family:var(--tj-font-mono);font-size:2.1cqw;color:var(--tj-text);background:rgba(7,4,15,.55);border:1px solid var(--tj-line);border-radius:var(--tj-r-md);padding:1.3cqw 1.8cqw;min-height:4.4cqw;display:flex;align-items:center;}
+.tj-desk .scr .field .ctrl.area{align-items:flex-start;min-height:6cqw;color:var(--tj-faint);line-height:1.3;}
+.tj-desk .scr .field .ctrl .cur{display:inline-block;width:.18em;height:1.1em;background:var(--tj-magenta-soft);margin-left:1px;vertical-align:middle;animation:tj-blink 1s steps(2,end) infinite;}
+.tj-desk .scr .actions{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:2cqw;margin-top:.6cqw;}
+.tj-desk .scr .actions .filehint{font-size:1.6cqw;color:var(--tj-faint);letter-spacing:.04em;}
+.tj-desk .scr .actions .filehint b{color:var(--tj-success);}
+.tj-desk .scr .btn-send{font-family:var(--tj-font-display);font-weight:600;font-size:2.3cqw;letter-spacing:.06em;text-transform:uppercase;color:#0a0214;border:none;border-radius:var(--tj-r-pill);cursor:pointer;padding:1.6cqw 3.8cqw;
+  background:linear-gradient(100deg,var(--tj-blue),var(--tj-magenta));box-shadow:0 0 var(--tj-glow) rgba(255,43,214,.55),0 0 var(--tj-glow) rgba(31,211,255,.4);transition:transform .15s var(--tj-ease),box-shadow .2s var(--tj-ease);}
+.tj-desk .scr .btn-send:hover{transform:translateY(-1px);box-shadow:0 0 var(--tj-glow-strong) rgba(255,43,214,.8),0 0 var(--tj-glow-strong) rgba(31,211,255,.6);}
+
+/* RIGHT · clock (5 vor 12) */
+.tj-desk .clock-rail{align-items:stretch;}
+.tj-desk .clock-rail .rail-head{justify-content:flex-end;}
+.tj-desk .clock-rail .rail-head .dot{background:var(--tj-blue);box-shadow:0 0 10px rgba(31,211,255,.8);}
+.tj-desk .clock-rail .rail-head .t{color:var(--tj-blue-soft);}
+.tj-desk .clock-card{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw;border:1px solid var(--tj-line);border-radius:var(--tj-r-lg);
+  background:linear-gradient(180deg,rgba(22,12,42,.62),rgba(13,7,25,.82));box-shadow:0 0 var(--tj-glow) rgba(31,211,255,.16);padding:1.8cqw;}
+.tj-desk .clock-card .deadline{font-family:var(--tj-font-display);font-weight:700;text-transform:uppercase;font-size:1.45cqw;letter-spacing:.1em;color:var(--tj-gold-soft);text-shadow:0 0 14px rgba(227,179,65,.4);text-align:center;}
+.tj-desk .clock-card .tj-clock-analog{--size:16.5cqw;}
+.tj-desk .clock-card .tj-clock-digital{padding:0;background:none;border:none;gap:.4cqw;}
+.tj-desk .clock-card .tj-clock-digital .time{font-size:3.8cqw;}
+.tj-desk .clock-card .tj-clock-digital .lbl{font-size:1cqw;}
+.tj-desk .clock-card .timer{display:flex;flex-direction:column;align-items:center;gap:.9cqw;width:100%;}
+.tj-desk .clock-card .timer .lbl{font-size:1cqw;letter-spacing:.3em;text-transform:uppercase;color:var(--tj-faint);}
+.tj-desk .clock-card .timer .track{position:relative;width:100%;max-width:20cqw;height:1.2cqw;min-height:8px;border-radius:999px;background:rgba(7,4,15,.7);border:1px solid var(--tj-line);overflow:hidden;}
+.tj-desk .clock-card .timer .track .fill{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--tj-blue),var(--tj-magenta));box-shadow:0 0 12px rgba(255,43,214,.5);transition:width .6s var(--tj-ease);}
+.tj-desk .clock-card .timer .note{font-size:1cqw;color:var(--tj-faint);text-align:center;}
+.tj-desk .clock-card .timer .note b{color:var(--tj-danger);}
 </style>
 </head>
 <body>
@@ -1708,10 +1831,116 @@ verify.addEventListener('click',()=&gt;{
     </div>
   </section>
 
+  <!-- ============ 18 DESK SETUP ============ -->
+  <section class="block" id="desk">
+    <div class="sec-head"><span class="sec-num">18</span><h2>Setting Option 3: Schreibtisch — Hase · Laptop · Uhr</h2></div>
+    <p class="sec-desc">Die dritte Setting-Variante. Der Laptop steht groß in der Mitte — die Hauptbühne. Links begleitet der <strong>Hase</strong> mit Sprechblase &amp; Anleitung, rechts tickt die <strong>5-vor-12-Uhr</strong> (Analog + Digital + Frist-Balken). Drei Zonen auf einem Schreibtisch. Baut komplett auf bestehenden Bauteilen auf (<code>.tj-laptop</code>, <code>.tj-clock-analog</code>, <code>.tj-clock-digital</code>) und nutzt die Urgency-Engine: je näher an 12, desto stärker das Glühen. Alles skaliert per Container-Query mit der Breite — einfach <code>resize</code>.</p>
+
+    <div class="demo" style="padding:18px">
+      <span class="tag">Live · resize mich</span>
+      <div class="tj-desk" id="d3-desk">
+        <div class="glint l"></div><div class="glint r"></div>
+        <div class="floor"></div>
+
+        <div class="hud">
+          <div class="brand"><span class="game">Traumjob</span><span class="vor">5 vor 12</span></div>
+          <div class="meta">
+            <div class="cell"><div class="k">Runde</div><div class="v">03 / 05</div></div>
+            <div class="cell"><div class="k">Punkte</div><div class="v blue">1 240</div></div>
+          </div>
+        </div>
+
+        <div class="zones">
+          <!-- LEFT · Hase -->
+          <aside class="rail guide-rail">
+            <div class="rail-head"><span class="dot"></span><span class="t">Dein Begleiter</span></div>
+            <div class="guide-card">
+              <!-- echtes Artwork: class "portrait has-art" + <img class="art" src="hase.png"> -->
+              <div class="portrait"><img class="art" alt=""><span class="watch">🕰️</span><span class="emoji">🐇</span></div>
+              <div class="bubble"><div class="who">Der Hase</div><div class="say" id="d3-say"><span class="caret">▋</span></div></div>
+              <div class="obj">
+                <div class="lbl">So gewinnst du</div>
+                <div class="step done"><span class="n">1</span><span>Stelle wählen &amp; Portal öffnen</span></div>
+                <div class="step"><span class="n">2</span><span>Bewerbung ausfüllen — schnell tippen!</span></div>
+                <div class="step"><span class="n">3</span><span>Absenden, bevor die Uhr 12 schlägt</span></div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- CENTER · Laptop -->
+          <main class="laptop-stage">
+            <div class="tj-laptop">
+              <div class="lid">
+                <div class="cam"></div>
+                <div class="screen">
+                  <div class="scr">
+                    <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div><div class="url">🔒 bewerbung.traumjob.io / <b>stelle-1138</b></div></div>
+                    <div class="body">
+                      <div class="eyebrow">Bewerbungsportal · Stelle #1138</div>
+                      <h1>Senior Karotten-<br>Logistiker (m/w/d)</h1>
+                      <p class="lede">Eingang schließt um Mitternacht. Fülle die Felder aus und sende ab — die Uhr läuft.</p>
+                      <div class="form">
+                        <div class="field"><label>Vollständiger Name</label><div class="ctrl">Max Mustermann</div></div>
+                        <div class="field"><label>E-Mail</label><div class="ctrl"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="107d7168507d71797c3e797f">[email&#160;protected]</a></div></div>
+                        <div class="field full"><label>Anschreiben</label><div class="ctrl area" id="d3-field">Sehr geehrte Damen und Herren<span class="cur"></span></div></div>
+                        <div class="actions"><span class="filehint">Lebenslauf.pdf · <b>hochgeladen ✓</b></span><button class="btn-send">Bewerbung absenden →</button></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="deck"><div class="keys"></div><div class="pad"></div></div>
+            </div>
+            <div class="laptop-cap">Los — die Uhr wartet auf niemanden!</div>
+          </main>
+
+          <!-- RIGHT · Uhr -->
+          <aside class="rail clock-rail">
+            <div class="rail-head"><span class="t">Verbleibende Zeit</span><span class="dot"></span></div>
+            <div class="clock-card">
+              <div class="deadline">Annahmeschluss · 12:00</div>
+              <div class="tj-clock-analog" id="d3-analog">
+                <div class="crown"></div>
+                <div class="hand hour" id="d3-h"></div><div class="hand minute" id="d3-m"></div><div class="hand second" id="d3-s"></div>
+                <div class="cap"></div>
+              </div>
+              <div class="tj-clock-digital" id="d3-digital"><div class="time" id="d3-dig">11:55:00</div><div class="lbl">Ortszeit</div></div>
+              <div class="timer"><div class="lbl">Frist</div><div class="track"><div class="fill" id="d3-bar" style="width:100%"></div></div><div class="note">Fehler = <b>Zeitstrafe</b></div></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="code" data-lang="html">
+      <button class="copy-btn">Copy</button>
+<pre><span class="c">&lt;!-- 3-Zonen-Schreibtisch · braucht .tj-laptop &amp; .tj-clock-* (oben) --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"tj-desk"</span> <span class="a">id</span>=<span class="s">"desk"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"glint l"</span><span class="t">&gt;&lt;/div&gt;&lt;div</span> <span class="a">class</span>=<span class="s">"glint r"</span><span class="t">&gt;&lt;/div&gt;&lt;div</span> <span class="a">class</span>=<span class="s">"floor"</span><span class="t">&gt;&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"hud"</span><span class="t">&gt;</span> … Titel + Runde/Punkte … <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"zones"</span><span class="t">&gt;</span>
+    <span class="c">&lt;!-- LINKS: Hase --&gt;</span>
+    <span class="t">&lt;aside</span> <span class="a">class</span>=<span class="s">"rail guide-rail"</span><span class="t">&gt;</span> … .guide-card mit .portrait, .bubble, .obj … <span class="t">&lt;/aside&gt;</span>
+    <span class="c">&lt;!-- MITTE: Laptop = Hauptbühne --&gt;</span>
+    <span class="t">&lt;main</span> <span class="a">class</span>=<span class="s">"laptop-stage"</span><span class="t">&gt;</span>
+      <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"tj-laptop"</span><span class="t">&gt;</span> … <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"scr"</span><span class="t">&gt;</span> dein Spiel <span class="t">&lt;/div&gt;</span> … <span class="t">&lt;/div&gt;</span>
+    <span class="t">&lt;/main&gt;</span>
+    <span class="c">&lt;!-- RECHTS: Uhr --&gt;</span>
+    <span class="t">&lt;aside</span> <span class="a">class</span>=<span class="s">"rail clock-rail"</span><span class="t">&gt;</span> … .clock-card mit .tj-clock-analog + .tj-clock-digital + .timer … <span class="t">&lt;/aside&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">// JS · eine Variable treibt jeden Glow. Urgency NUR auf .tj-desk setzen,</span>
+<span class="c">// damit der Rest der Seite ruhig bleibt:</span>
+desk.style.<span class="p">setProperty</span>(<span class="s">'--tj-urgency'</span>, t);  <span class="c">// t = 0 … 1</span>
+<span class="c">// kritisch (5 vor 12): data-critical auf Analog- + Digital-Uhr setzen.</span></pre>
+    </div>
+  </section>
+
   <footer class="guide-foot">TRAUMJOB / 5 VOR 12 · DESIGN GUIDE · alle Komponenten mit <code>tj-</code> Präfix · copy &amp; paste in index.html</footer>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ---- copy buttons ---- */
 document.querySelectorAll('.copy-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -1859,6 +2088,69 @@ slider.addEventListener('input',()=>{
       else{msg.className='msg bad';msg.textContent='✕ Falsch — im Spiel: −15 Sekunden!';}
     });
   }
+})();
+</script>
+
+<script>
+/* ---- Setting Option 3 · Schreibtisch-Demo (scoped) ---- */
+(function(){
+  var desk   = document.getElementById('d3-desk');
+  if(!desk) return;
+  var analog = document.getElementById('d3-analog');
+  var digital= document.getElementById('d3-digital');
+  var dig    = document.getElementById('d3-dig');
+  var bar    = document.getElementById('d3-bar');
+  var hH=document.getElementById('d3-h'), hM=document.getElementById('d3-m'), hS=document.getElementById('d3-s');
+
+  /* 60 minute ticks (pivot at centre — see fixed .tj-clock-analog .tick) */
+  for(var i=0;i<60;i++){
+    var t=document.createElement('div');
+    t.className='tick'+(i%5===0?' major':'');
+    t.style.transform='rotate('+(i*6)+'deg)';
+    analog.insertBefore(t, analog.querySelector('.hand'));
+  }
+
+  var START=11*3600+55*60, END=12*3600, SPAN=END-START, sec=START;
+  var pad=function(n){return (n<10?'0':'')+n;};
+  function render(){
+    var m=Math.floor(sec/60)%60, s=sec%60, h=Math.floor(sec/3600)%12;
+    dig.textContent=pad(Math.floor(sec/3600))+':'+pad(m)+':'+pad(s);
+    hH.style.transform='rotate('+((h+m/60)*30)+'deg)';
+    hM.style.transform='rotate('+(m*6)+'deg)';
+    hS.style.transform='rotate('+(s*6)+'deg)';
+    var u=Math.pow(Math.min(1,Math.max(0,(sec-START)/SPAN)),1.5);
+    desk.style.setProperty('--tj-urgency', u.toFixed(3));   /* scoped to .tj-desk only */
+    bar.style.width=((1-(sec-START)/SPAN)*100).toFixed(1)+'%';
+    if(u>0.78){analog.setAttribute('data-critical','');digital.setAttribute('data-critical','');}
+    else{analog.removeAttribute('data-critical');digital.removeAttribute('data-critical');}
+  }
+  render();
+  setInterval(function(){ sec++; if(sec>END) sec=START; render(); },1000);
+
+  /* Hase cycles instruction lines */
+  var say=document.getElementById('d3-say');
+  var lines=[
+    "Schnell! Die Felder füllen sich nicht von allein.",
+    "Tippfehler kosten Zeit — bleib ruhig, bleib flink.",
+    "Noch fünf Minuten bis Mitternacht. Du schaffst das.",
+    "Erst absenden, dann atmen. Los geht's!"
+  ];
+  var li=0,ci=0,typing=true;
+  function sTick(){
+    var line=lines[li];
+    if(typing){
+      ci++; say.innerHTML=line.slice(0,ci)+'<span class="caret">▋</span>';
+      if(ci>=line.length){typing=false;setTimeout(sTick,2600);return;}
+      setTimeout(sTick,34);
+    } else { ci=0;typing=true;li=(li+1)%lines.length;setTimeout(sTick,300); }
+  }
+  sTick();
+
+  /* type the Anschreiben field */
+  var ft="Sehr geehrte Damen und Herren, hiermit bewerbe ich mich mit großer Begeisterung um die ausgeschriebene Stelle";
+  var fEl=document.getElementById('d3-field'),fi=0;
+  function fTick(){ fi++; if(fi>ft.length) fi=0; fEl.innerHTML=ft.slice(0,fi)+'<span class="cur"></span>'; setTimeout(fTick, fi>=ft.length?2400:55); }
+  fTick();
 })();
 </script>
 </body>
