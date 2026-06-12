@@ -76,7 +76,7 @@ body {
     ),
     var(--tj-ink-900);
   background-size: cover;
-  background-image: url("images/background.jpeg");
+  background-image: url("../images/background.jpeg");
   background-position: center;
   -webkit-font-smoothing: antialiased;
 }
@@ -284,33 +284,62 @@ h1 {
     ),
     linear-gradient(180deg, #1a0f30, #0d0719 60%, #07040f);
   flex-direction: column;
-  padding-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 4cqw;
 }
 
-/* ─── File explorer ──────────────────────────────────────────── */
+/* ─── File explorer (OS-style window, centred — see designGuide §tj-window) ── */
 .file_explorer {
-  padding: 0 12px 12px 12px;
-  overflow-y: auto;
-  flex: 1;
-  background: var(--tj-ink-700);
-  border: 1px solid var(--tj-line);
-  border-radius: var(--tj-r-md);
-  width: 90%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: min(82cqw, 560px);
+  max-height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #15101f, #0e0a17);
+  border: 1px solid #2a2440;
+  border-radius: 12px;
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.6),
+    0 0 var(--tj-glow) rgba(139, 77, 255, 0.22);
 }
 
-.file_explorer h3 {
+.file_explorer .fe-titlebar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 1.6cqw;
+  padding: 1.4cqw 2cqw;
+  background: rgba(7, 4, 15, 0.6);
+  border-bottom: 1px solid var(--tj-line);
+}
+.file_explorer .fe-titlebar .dots {
+  display: flex;
+  gap: 1cqw;
+}
+.file_explorer .fe-titlebar .dots i {
+  width: 1.4cqw;
+  height: 1.4cqw;
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 50%;
+  display: block;
+}
+.file_explorer .fe-titlebar .dots i:nth-child(1) {
+  background: var(--tj-danger);
+}
+.file_explorer .fe-titlebar .dots i:nth-child(2) {
+  background: var(--tj-gold);
+}
+.file_explorer .fe-titlebar .dots i:nth-child(3) {
+  background: var(--tj-success);
+}
+.file_explorer .fe-name {
   font-family: var(--tj-font-mono);
   font-size: 2cqw;
-  background: var(--tj-ink-600);
-  padding: 6px 10px;
-  margin: 0 -12px 10px;
-  border-bottom: 1px solid var(--tj-line);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--tj-muted);
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 /* ─── Docs list ────────────────────────────────────────────── */
@@ -323,6 +352,32 @@ h1 {
 .file_explorer .docs {
   flex-direction: column;
   flex-wrap: nowrap;
+  gap: 1.2cqw;
+  padding: 2cqw;
+  overflow-y: auto;
+}
+
+/* ─── Visible scrollbars: show a styled bar as soon as content overflows ─── */
+.file_explorer .docs,
+.tj-desk .guide-card .obj {
+  scrollbar-width: thin;
+  scrollbar-color: var(--tj-violet) transparent;
+}
+.file_explorer .docs::-webkit-scrollbar,
+.tj-desk .guide-card .obj::-webkit-scrollbar {
+  width: 9px;
+}
+.file_explorer .docs::-webkit-scrollbar-thumb,
+.tj-desk .guide-card .obj::-webkit-scrollbar-thumb {
+  background: rgba(139, 77, 255, 0.5);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.file_explorer .docs::-webkit-scrollbar-thumb:hover,
+.tj-desk .guide-card .obj::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 77, 255, 0.8);
+  background-clip: padding-box;
 }
 
 .doc {
@@ -1021,6 +1076,46 @@ h1 {
   font-family: var(--tj-font-mono);
   color: var(--tj-muted);
   font-size: 2.1cqw;
+}
+/* shortcut-win celebratory badge */
+.nr3_win #winShortcut .win-badge {
+  font-size: 9cqw;
+  line-height: 1;
+  margin: 0.6cqw 0 1.6cqw;
+  filter: drop-shadow(0 0 calc(2cqw) rgba(227, 179, 65, 0.6));
+  animation: tj-bob 3s ease-in-out infinite;
+}
+.nr3_win #winShortcut p {
+  color: var(--tj-gold-soft);
+  max-width: 36ch;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* "use the good portals next time" callout on the win + game-over screens */
+.portal-tip {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  max-width: 44ch;
+  margin: 2.4cqw auto 0;
+  padding: 1.5cqw 2.2cqw;
+  border-radius: var(--tj-r-md);
+  border: 1px solid rgba(31, 211, 255, 0.4);
+  background: rgba(31, 211, 255, 0.07);
+  font-family: var(--tj-font-mono);
+  font-size: 1.55cqw;
+  line-height: 1.5;
+  color: var(--tj-blue-soft);
+  text-align: left;
+}
+.portal-tip .ti {
+  flex: none;
+  font-size: 3cqw;
+  line-height: 1;
+}
+.portal-tip b {
+  color: var(--tj-gold-soft);
 }
 
 /* ─── Game Over Screen ────────────────────────────────────────── */
@@ -1906,10 +2001,14 @@ h1 {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.9cqw;
+  gap: 0.7cqw;
+  /* never clip a step: fonts below already shrink with screen height, and this
+     is a safety net so the list scrolls instead of being cut off in extremes */
+  min-height: 0;
+  overflow-y: auto;
 }
 .tj-desk .guide-card .obj .lbl {
-  font-size: 0.78cqw;
+  font-size: clamp(7px, min(0.78cqw, 1.5vh), 12px);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--tj-faint);
@@ -1918,20 +2017,21 @@ h1 {
   display: flex;
   gap: 1.1cqw;
   align-items: flex-start;
-  font-size: 0.95cqw;
+  /* scales with both rail width AND viewport height so it shrinks to fit */
+  font-size: clamp(8px, min(0.95cqw, 1.9vh), 15px);
   color: var(--tj-muted);
-  line-height: 1.35;
+  line-height: 1.3;
 }
 .tj-desk .guide-card .obj .step .n {
   flex: none;
-  width: 1.7cqw;
-  height: 1.7cqw;
+  width: 1.7em;
+  height: 1.7em;
   border-radius: 50%;
   display: grid;
   place-items: center;
   font-family: var(--tj-font-display);
   font-weight: 700;
-  font-size: 0.88cqw;
+  font-size: 0.85em;
   color: var(--tj-gold-soft);
   border: 1px solid rgba(227, 179, 65, 0.45);
   background: rgba(227, 179, 65, 0.08);
@@ -2024,6 +2124,17 @@ h1 {
 }
 .tj-desk .clock-card .tj-clock-analog {
   --size: 16.5cqw;
+  /* border + glow are fractions of the clock's own size, so the outline stays
+     proportional at any screen width (and the glow still grows with urgency) */
+  border-width: max(2px, calc(var(--size) * 0.018));
+  box-shadow:
+    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16) rgba(31, 211, 255, 0.55),
+    inset 0 0 calc(var(--size) * 0.14) rgba(31, 211, 255, 0.12);
+}
+.tj-desk .clock-card .tj-clock-analog[data-critical] {
+  box-shadow:
+    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2) rgba(255, 53, 84, 0.7),
+    inset 0 0 calc(var(--size) * 0.14) rgba(255, 53, 84, 0.16);
 }
 .tj-desk .clock-card .tj-clock-digital {
   padding: 0;

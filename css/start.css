@@ -1,0 +1,163 @@
+/* ============================================================
+   START SCREEN — "Traumjob / 5 vor 12"  (Cinematic variant)
+   Ported from the design prototype to vanilla CSS.
+   Everything is scoped under #tjStart so it cannot clash with
+   the game's own styles. Shares the --tj-* tokens from styles.css.
+   ============================================================ */
+
+#tjStart {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  background: var(--tj-ink-900);
+  font-family: var(--tj-font-mono);
+  color: var(--tj-text);
+
+  /* accent tokens the design drives (fixed for the cinematic look) */
+  --tj-accent: #1fd3ff;
+  --tj-accent2: #ff2bd6;
+  --tj-bg-intensity: 1;
+  --tj-glow: 26px;
+  --tj-glow-strong: 44px;
+
+  transition: opacity .6s var(--tj-ease);
+}
+#tjStart.done { opacity: 0; pointer-events: none; }
+#tjStart * { box-sizing: border-box; }
+
+/* --- layered neon background --- */
+#tjStart .bg-glow {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: var(--tj-bg-intensity);
+  background:
+    radial-gradient(1100px 640px at 78% -10%, rgba(255,43,214,.26), transparent 60%),
+    radial-gradient(1050px 720px at 6% 14%, rgba(31,211,255,.20), transparent 55%),
+    radial-gradient(1250px 940px at 50% 122%, rgba(139,77,255,.24), transparent 60%);
+}
+#tjStart .bg-glow::after {
+  content: ""; position: absolute; inset: -12%;
+  background: radial-gradient(680px 420px at 50% 42%,
+    color-mix(in oklch, var(--tj-accent) 26%, transparent), transparent 62%);
+  animation: tjs-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+#tjStart .scanlines {
+  position: absolute; inset: 0; z-index: 40; pointer-events: none;
+  opacity: calc(var(--tj-bg-intensity) * .5);
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+#tjStart .vignette {
+  position: absolute; inset: 0; z-index: 39; pointer-events: none;
+  box-shadow: inset 0 0 240px 60px rgba(7,4,15,.9);
+}
+#tjStart .clock-deco {
+  position: absolute; top: 50%; left: 50%; width: min(820px,128vmin); aspect-ratio: 1;
+  transform: translate(-50%,-50%); z-index: 1; pointer-events: none;
+  border: 1px solid rgba(157,124,255,.12); border-radius: 50%;
+  opacity: var(--tj-bg-intensity);
+}
+#tjStart .clock-deco::before { content: ""; position: absolute; inset: 13%; border-radius: 50%; border: 1px solid color-mix(in oklch, var(--tj-accent) 22%, transparent); }
+#tjStart .clock-deco::after  { content: ""; position: absolute; inset: 30%; border-radius: 50%; border: 1px dashed rgba(255,43,214,.12); }
+
+/* --- shared content pieces --- */
+#tjStart .stage-content { position: relative; z-index: 10; width: 100%; height: 100%; }
+
+#tjStart .tj-eyebrow {
+  font-family: var(--tj-font-mono); font-size: 13px; letter-spacing: .5em;
+  text-transform: uppercase; white-space: nowrap;
+  color: var(--tj-blue-soft); text-shadow: 0 0 16px color-mix(in oklch, var(--tj-accent) 70%, transparent);
+}
+#tjStart .tj-headline {
+  font-family: var(--tj-font-display); font-weight: 700; text-transform: uppercase;
+  line-height: .95; letter-spacing: .005em;
+  background: linear-gradient(100deg, var(--tj-accent) 0%, var(--tj-violet-soft) 48%, var(--tj-accent2) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 28px color-mix(in oklch, var(--tj-accent2) 45%, transparent));
+}
+#tjStart .tj-serif {
+  font-family: var(--tj-font-serif); font-style: italic; color: var(--tj-gold-soft);
+  text-shadow: 0 0 22px rgba(227,179,65,.4);
+}
+
+/* dream-job field */
+#tjStart .dj-field { display: flex; flex-direction: column; gap: 9px; }
+#tjStart .dj-field label {
+  font-family: var(--tj-font-mono); font-size: 12px; letter-spacing: .26em;
+  text-transform: uppercase; color: var(--tj-blue-soft); white-space: nowrap;
+}
+#tjStart .dj-input-wrap { position: relative; width: 100%; }
+#tjStart .dj-input {
+  font-family: var(--tj-font-mono); color: var(--tj-text); width: 100%;
+  background: rgba(7,4,15,.62); border: 1px solid var(--tj-line);
+  border-radius: var(--tj-r-md);
+  transition: border-color .18s var(--tj-ease), box-shadow .18s var(--tj-ease);
+}
+#tjStart .dj-input::placeholder { color: var(--tj-faint); }
+#tjStart .dj-input:focus {
+  outline: none; border-color: var(--tj-accent2);
+  box-shadow: 0 0 0 1px var(--tj-accent2), 0 0 26px color-mix(in oklch, var(--tj-accent2) 36%, transparent);
+}
+#tjStart .dj-hint {
+  font-family: var(--tj-font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--tj-faint); display: flex; align-items: center; gap: 7px;
+}
+#tjStart .dj-hint .ic { color: var(--tj-success); }
+#tjStart .dj-field.shake .dj-input {
+  animation: tjs-shake .4s; border-color: var(--tj-danger);
+  box-shadow: 0 0 0 1px var(--tj-danger), 0 0 22px rgba(255,53,84,.32);
+}
+
+/* primary start button */
+#tjStart .tj-start {
+  font-family: var(--tj-font-display); font-weight: 600; letter-spacing: .07em;
+  text-transform: uppercase; white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  color: #0a0214; border: 1px solid transparent; cursor: pointer;
+  border-radius: var(--tj-r-pill);
+  background: linear-gradient(100deg, var(--tj-accent), var(--tj-accent2));
+  box-shadow: 0 0 var(--tj-glow) color-mix(in oklch, var(--tj-accent2) 55%, transparent),
+              0 0 var(--tj-glow) color-mix(in oklch, var(--tj-accent) 40%, transparent);
+  transition: transform .15s var(--tj-ease), box-shadow .2s var(--tj-ease), filter .2s;
+}
+#tjStart .tj-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 var(--tj-glow-strong) color-mix(in oklch, var(--tj-accent2) 80%, transparent),
+              0 0 var(--tj-glow-strong) color-mix(in oklch, var(--tj-accent) 60%, transparent);
+}
+#tjStart .tj-start:active { transform: translateY(0) scale(.99); }
+#tjStart .tj-start .arrow { transition: transform .2s var(--tj-ease); }
+#tjStart .tj-start:hover .arrow { transform: translateX(4px); }
+
+/* --- VARIANT A — CINEMATIC CENTERED --- */
+#tjStart .va {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; text-align: center; gap: 30px; padding: 6vmin;
+}
+#tjStart .va .tj-eyebrow { margin-bottom: 4px; }
+#tjStart .va .tj-headline { font-size: clamp(40px, 8.4vw, 108px); }
+#tjStart .va .va-sub {
+  max-width: 560px; font-size: clamp(15px, 1.7vw, 18px);
+  color: var(--tj-muted); line-height: 1.5;
+}
+#tjStart .va .va-sub .tj-serif { font-size: 1.12em; }
+#tjStart .va .dj-field { width: min(520px, 86vw); align-items: center; }
+#tjStart .va .dj-field label { align-self: flex-start; }
+#tjStart .va .dj-input { font-size: 21px; padding: 17px 19px; text-align: left; }
+#tjStart .va .dj-hint { align-self: flex-start; white-space: nowrap; }
+#tjStart .va .tj-start { font-size: 18px; padding: 18px 46px; margin-top: 2px; }
+
+/* --- animations --- */
+@keyframes tjs-shake { 10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);} 30%,50%,70%{transform:translateX(-7px);} 40%,60%{transform:translateX(7px);} }
+@keyframes tjs-drift { 0%{transform:translate(-5%,-4%);} 100%{transform:translate(7%,6%);} }
+@keyframes tjs-fadein { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:none;} }
+#tjStart .fadein { animation: tjs-fadein .7s var(--tj-ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  #tjStart .bg-glow::after { animation: none; }
+}
