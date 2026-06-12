@@ -4,10 +4,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dein Traumjob wartet 💌</title>
-    <link rel="stylesheet" href="fonts.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/start.css" />
+    <link rel="stylesheet" href="css/bewerbung.css" />
   </head>
   <body>
+    <!-- ============ START SCREEN (cinematic) ============ -->
+    <!-- Full-viewport intro: enter your Traumjob, then the intro video plays. -->
+    <div id="tjStart">
+      <div class="bg-glow"></div>
+      <div class="clock-deco"></div>
+      <div class="vignette"></div>
+      <div class="scanlines"></div>
+      <div class="va stage-content fadein">
+        <div><div class="tj-eyebrow">Traumjob · 5 vor 12</div></div>
+        <h1 class="tj-headline">Was ist dein Traumjob?</h1>
+        <p class="va-sub">
+          Es ist <span class="tj-serif">fünf vor zwölf.</span> Sag uns, wovon du
+          träumst — dann beginnt das Rennen gegen die Uhr.
+        </p>
+        <div class="dj-field">
+          <label for="tjDream">Dein Traumjob</label>
+          <div class="dj-input-wrap">
+            <input id="tjDream" class="dj-input" autocomplete="off"
+              placeholder="z. B. Katzenstreichler, Drachenflüsterer…" />
+          </div>
+        </div>
+        <button class="tj-start" id="tjStartBtn">
+          Augen auf — Spiel starten <span class="arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+
     <!-- ============ SETTING OPTION 3 · SCHREIBTISCH ============ -->
     <!-- 3 Zonen: Hase (links) · Laptop = Bühne (Mitte) · Uhr (rechts) -->
     <div class="tj-desk" id="gameDesk">
@@ -51,12 +81,26 @@
               <div class="step" id="objStep2">
                 <span class="n">2</span>
                 <span data-i18n="guide.step2"
-                  >Richtigen Lebenslauf finden &amp; vorbereiten</span
+                  >Jobplattform öffnen (dreamjob.io)</span
                 >
               </div>
               <div class="step" id="objStep3">
                 <span class="n">3</span>
-                <span data-i18n="guide.step3"
+                <span data-i18n="guide.step3">Deinen Traumjob finden</span>
+              </div>
+              <div class="step" id="objStep4">
+                <span class="n">4</span>
+                <span data-i18n="guide.step4">Anschreiben tippen</span>
+              </div>
+              <div class="step" id="objStep5">
+                <span class="n">5</span>
+                <span data-i18n="guide.step5"
+                  >Richtigen Lebenslauf finden &amp; vorbereiten</span
+                >
+              </div>
+              <div class="step" id="objStep6">
+                <span class="n">6</span>
+                <span data-i18n="guide.step6"
                   >Absenden, bevor die Uhr 12 schlägt</span
                 >
               </div>
@@ -88,6 +132,8 @@
                       type="video/mp4"
                     ></video>
                   </div>
+                  <!-- Bewerbungs-Flow: browser mini-game, rendered by bewerbung.js -->
+                  <div id="tjFlow"></div>
                   <div class="nr1_login" style="display: none">
                     <h1 data-i18n="login.heading">
                       Computer gesperrt!<br />
@@ -112,11 +158,16 @@
                   <!-- Drag and Drop -->
                   <div class="screen_2" id="screen_2" style="display: none">
                     <div class="screen">
-                      <h1 id="taskHeadline" data-i18n="task.findCv">
-                        Finde den richtigen Lebenslauf!
-                      </h1>
+                      <!-- The Hase gives this instruction in the left rail, so the
+                           headline stays hidden here until the submit phase. -->
+                      <h1 id="taskHeadline" style="display: none"></h1>
                       <div class="file_explorer" id="file_explorer">
-                        <h3 data-i18n="explorer.title">📁 Datei-Explorer</h3>
+                        <div class="fe-titlebar">
+                          <div class="dots"><i></i><i></i><i></i></div>
+                          <span class="fe-name" data-i18n="explorer.title"
+                            >📁 Datei-Explorer</span
+                          >
+                        </div>
                         <div class="docs" id="docsA"></div>
                       </div>
                     </div>
@@ -126,24 +177,54 @@
                     <p id="gameOverBody" data-i18n="gameover.body">
                       Die Bewerbungsfrist ist abgelaufen. Versuch's nochmal!
                     </p>
+                    <div class="portal-tip">
+                      <span class="ti">💡</span>
+                      <span data-i18n="tip.betterPortals"
+                        >Tipp: Versuch's nächstes Mal mit
+                        <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die
+                        sind viel einfacher zu bedienen, da klappt's bestimmt!</span
+                      >
+                    </div>
                     <button id="restartBtn" data-i18n="gameover.restart">
                       Nochmal versuchen
                     </button>
                   </div>
                   <div class="nr3_win" style="display: none" id="nr3_win">
-                    <h2 data-i18n="win.heading">🎉 Glückwunsch!</h2>
-                    <p>
-                      <span data-i18n="win.appliedPre"
-                        >Du hast dich rechtzeitig in
-                      </span>
-                      <nobr><span id="timeTaken">0.0</span></nobr>
-                      <span data-i18n="win.appliedPost"> beworben!</span>
-                    </p>
-                    <p>
-                      <span data-i18n="win.remainingPre"
-                        >Verbleibende Zeit: </span
-                      ><span id="timeRemaining">0.0</span>!
-                    </p>
+                    <h2 id="winHeading" data-i18n="win.heading">
+                      🎉 Glückwunsch!
+                    </h2>
+                    <!-- normal win (played through the application) -->
+                    <div id="winNormal">
+                      <p>
+                        <span data-i18n="win.appliedPre"
+                          >Du hast dich rechtzeitig in
+                        </span>
+                        <nobr><span id="timeTaken">0.0</span></nobr>
+                        <span data-i18n="win.appliedPost"> beworben!</span>
+                      </p>
+                      <p>
+                        <span data-i18n="win.remainingPre"
+                          >Verbleibende Zeit: </span
+                        ><span id="timeRemaining">0.0</span>!
+                      </p>
+                      <div class="portal-tip">
+                        <span class="ti">💡</span>
+                        <span data-i18n="tip.betterPortals"
+                          >Tipp: Versuch's nächstes Mal mit
+                          <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die
+                          sind viel einfacher zu bedienen, da klappt's
+                          bestimmt!</span
+                        >
+                      </div>
+                    </div>
+                    <!-- shortcut win (typed jobs.derstandard.at / finden.at) -->
+                    <div id="winShortcut" style="display: none">
+                      <div class="win-badge">🏆</div>
+                      <p data-i18n="win.shortcut.body">
+                        Du hast direkt die richtige Webadresse eingegeben — hol
+                        dir dein Goodie, du bist schon top (und eingestellt)! 😉
+                      </p>
+                    </div>
                   </div>
                   <div id="filePreview" class="file-preview">
                     <div class="file-preview-inner">
@@ -394,7 +475,9 @@
         </div>
       </div>
     </div>
-    <script src="lang.js"></script>
-    <script src="script.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bewerbung.js"></script>
+    <script src="js/start.js"></script>
   </body>
 </html>

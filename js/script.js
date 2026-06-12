@@ -91,7 +91,7 @@ function tick() {
   // after one minute — speed up and show guide once
   if (remainingTime <= 240 && !speedBoosted) {
     speedBoosted = true;
-    SPEED = 2.5;
+    SPEED = 1.5;
     showGuide(t("guide.oneMinutePassed"), 4000);
   }
 
@@ -588,15 +588,28 @@ passwordInput.onkeydown = (e) => {
     // Einfache Validierung (nur Demo-Zwecke)
     if (username && password === GAME_SETTINGS.correctPassword) {
       loginBox.style.display = "none";
-      gameBox.style.display = "block";
       markStep("objStep1");
-      showGuide(t("guide.rememberFile"), 3000);
+      // After unlocking, run the Bewerbungs-Flow (browser mini-game).
+      // Its CV-upload step hands back to showFileExplorer().
+      if (typeof window.startBewerbungsFlow === "function") {
+        window.startBewerbungsFlow();
+      } else {
+        showFileExplorer();
+      }
     } else {
       showGuide(t("guide.wrongPassword"), 3000);
       applyPunishment();
     }
   }
 };
+
+// Shown after the Bewerbungs-Flow's "CV hochladen" step: the existing
+// file-explorer task where the player finds the right Lebenslauf.
+function showFileExplorer() {
+  loginBox.style.display = "none";
+  gameBox.style.display = "block";
+  showGuide(t("guide.rememberFile"), 3000);
+}
 
 const file_explorer = document.getElementById("file_explorer");
 const docsA = document.getElementById("docsA");
@@ -709,10 +722,11 @@ previewSave.addEventListener("click", () => {
   closePreview();
   applyButton.style.display = "block";
   activateApplyPhase();
-  markStep("objStep2");
-  // change headline
+  markStep("objStep5");
+  // change headline (revealed only now, for the submit phase)
   file_explorer.style.display = "none";
   taskHeadline.textContent = t("task.submit");
+  taskHeadline.style.display = "";
   showGuide(t("guide.submitNow"), 4000);
 });
 
@@ -795,19 +809,35 @@ function makeDoc({ ext, name, content = "" }) {
   return el;
 }
 
-function showWinScreen() {
+function showWinScreen(shortcut) {
   gameWon = true;
-  const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
-  markStep("objStep3");
+  markStep("objStep6");
   winBox.style.display = "block";
-  const takenMinutes = Math.floor(timeTaken / 60);
-  const takenSeconds = Math.floor(timeTaken % 60);
-  timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
-  const minutes = Math.floor(remainingTime / 60);
-  const seconds = Math.floor(remainingTime % 60);
-  timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+  const headingEl = document.getElementById("winHeading");
+  const normalEl = document.getElementById("winNormal");
+  const shortcutEl = document.getElementById("winShortcut");
+
+  if (shortcut) {
+    // Won by typing a genuinely good portal — no application, just a victory lap.
+    if (headingEl) headingEl.textContent = t("win.shortcut.heading");
+    if (normalEl) normalEl.style.display = "none";
+    if (shortcutEl) shortcutEl.style.display = "";
+  } else {
+    if (headingEl) headingEl.textContent = t("win.heading");
+    if (normalEl) normalEl.style.display = "";
+    if (shortcutEl) shortcutEl.style.display = "none";
+    const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
+    const takenMinutes = Math.floor(timeTaken / 60);
+    const takenSeconds = Math.floor(timeTaken % 60);
+    timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = Math.floor(remainingTime % 60);
+    timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    showGuide(t("guide.success"), 0);
+  }
+
   stopTimer();
-  showGuide(t("guide.success"), 0);
   screen_2EL.style.display = "none";
 }
 
