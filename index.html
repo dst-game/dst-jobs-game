@@ -27,8 +27,12 @@
         <div class="dj-field">
           <label for="tjDream">Dein Traumjob</label>
           <div class="dj-input-wrap">
-            <input id="tjDream" class="dj-input" autocomplete="off"
-              placeholder="z. B. Katzenstreichler, Drachenflüsterer…" />
+            <input
+              id="tjDream"
+              class="dj-input"
+              autocomplete="off"
+              placeholder="z. B. Katzenstreichler, Drachenflüsterer…"
+            />
           </div>
         </div>
         <button class="tj-start" id="tjStartBtn">
@@ -36,7 +40,6 @@
         </button>
       </div>
     </div>
-
 
     <!-- ============ SETTING OPTION 3 · SCHREIBTISCH ============ -->
     <!-- 3 Zonen: Hase (links) · Laptop = Bühne (Mitte) · Uhr (rechts) -->
@@ -172,17 +175,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="nr4_gameover" style="display: none" id="nr4_gameover">
-                    <h2 id="gameOverHeading" data-i18n="gameover.heading">💀 Zu spät!</h2>
+                  <div
+                    class="nr4_gameover"
+                    style="display: none"
+                    id="nr4_gameover"
+                  >
+                    <h2 id="gameOverHeading" data-i18n="gameover.heading">
+                      💀 Zu spät!
+                    </h2>
                     <p id="gameOverBody" data-i18n="gameover.body">
                       Die Bewerbungsfrist ist abgelaufen. Versuch's nochmal!
                     </p>
                     <div class="portal-tip">
                       <span class="ti">💡</span>
                       <span data-i18n="tip.betterPortals"
-                        >Tipp: Versuch's nächstes Mal mit
-                        <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die
-                        sind viel einfacher zu bedienen, da klappt's bestimmt!</span
+                        >Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder
+                        <b>jobs.derstandard.at</b> — die sind viel einfacher zu
+                        bedienen, da klappt's bestimmt!</span
                       >
                     </div>
                     <button id="restartBtn" data-i18n="gameover.restart">
@@ -209,11 +218,10 @@
                       </p>
                       <div class="portal-tip">
                         <span class="ti">💡</span>
-                        <span data-i18n="tip.betterPortals"
+                        <span data-i18n="tip.betterPortalsWin"
                           >Tipp: Versuch's nächstes Mal mit
-                          <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die
-                          sind viel einfacher zu bedienen, da klappt's
-                          bestimmt!</span
+                          <b>finden.at</b> oder <b>jobs.derstandard.at</b> — da
+                          geht das alles schnell und unkomplizert!</span
                         >
                       </div>
                     </div>
@@ -387,7 +395,17 @@
               <div class="crown"></div>
             </div>
             <div class="tj-clock-digital" id="gameDigital">
-              <div class="time" id="time">11:55:00</div>
+              <div class="time-row">
+                <div class="time" id="time">11:55:00</div>
+                <button
+                  id="slowBtn"
+                  class="slow-btn"
+                  style="display: none"
+                  title="Tempo verlangsamen"
+                >
+                  🐢
+                </button>
+              </div>
               <div class="lbl" data-i18n="clock.localtime">Ortszeit</div>
             </div>
             <div class="timer">

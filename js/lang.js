@@ -74,7 +74,10 @@ const TRANSLATIONS = {
     "gameover.discard.body":
       "Du hast deine Bewerbung gelöscht. Das war wohl nix.",
     "gameover.restart": "Nochmal versuchen",
-    "tip.betterPortals": "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die sind viel einfacher zu bedienen, da klappt's bestimmt!",
+    "tip.betterPortals":
+      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die sind viel einfacher zu bedienen, da klappt's bestimmt!",
+    "tip.betterPortalsWin":
+      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — da geht das alles schnell und unkomplizert!",
 
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
@@ -164,7 +167,8 @@ const TRANSLATIONS = {
     "flow.chip.3": "Sofortstart",
     "flow.chip.4": "Top-Gehalt",
     "flow.duty.1": "Jeden Tag aufstehen und das tun, wovon andere nur träumen",
-    "flow.duty.2": "Die Welt ein kleines bisschen besser (und pünktlicher) machen",
+    "flow.duty.2":
+      "Die Welt ein kleines bisschen besser (und pünktlicher) machen",
     "flow.duty.3": "Eng mit einem sehr nervösen Hasen zusammenarbeiten",
     "flow.perk.1": "Unbegrenzt Möhren am Arbeitsplatz",
     "flow.perk.2": "Eine Uhr, die nie zwölf schlägt (theoretisch)",
@@ -230,13 +234,16 @@ const TRANSLATIONS = {
       "Falsche Adresse! Tipp genau dreamjob.io — sonst kostet’s Zeit.",
     "flow.guide.shortcutWin":
       "Clever! Du kennst die wirklich guten Portale — und hast damit sofort gewonnen!",
-    "flow.ad.banner": "🎉 GLÜCKWUNSCH! Du bist heute der 1.000.000ste Besucher! Klick HIER für deinen Preis!! 🎁",
+    "flow.ad.banner":
+      "🎉 GLÜCKWUNSCH! Du bist heute der 1.000.000ste Besucher! Klick HIER für deinen Preis!! 🎁",
     "flow.cookie.title": "🍪 Wir lieben deine Daten!",
-    "flow.cookie.body": "Diese Seite nutzt 1.482 Cookies & 73 „Partner“, um dir endlich „relevante“ Jobs zu zeigen.",
+    "flow.cookie.body":
+      "Diese Seite nutzt 1.482 Cookies & 73 „Partner“, um dir endlich „relevante“ Jobs zu zeigen.",
     "flow.cookie.accept": "ALLE AKZEPTIEREN ✓",
     "flow.cookie.reject": "ablehnen",
     "flow.chat.bubble": "💬 Hi! Kann ich dir beim Suchen helfen?",
-    "flow.chat.reply": "Der Chatbot ist leider keine Hilfe. Such einfach weiter — der Hase glaubt an dich!",
+    "flow.chat.reply":
+      "Der Chatbot ist leider keine Hilfe. Such einfach weiter — der Hase glaubt an dich!",
     "flow.sort.label": "Sortieren: Zufällig ▾",
     "flow.badge.top": "⭐ Top-Treffer",
     "flow.badge.ad": "Anzeige",
@@ -272,7 +279,8 @@ const TRANSLATIONS = {
     "flow.d11.tags": "Saisonal,Frostig",
     "flow.results.more": "Mehr Treffer laden ▼",
     "flow.news.title": "📧 Verpass nie wieder deinen Traumjob!",
-    "flow.news.body": "Trag dich für 4× tägliche Job-Mails ein. Abbestellen jederzeit möglich (irgendwo).",
+    "flow.news.body":
+      "Trag dich für 4× tägliche Job-Mails ein. Abbestellen jederzeit möglich (irgendwo).",
     "flow.news.accept": "JA, BITTE MAILS ✓",
     "flow.news.reject": "nein danke",
   },
@@ -334,7 +342,10 @@ const TRANSLATIONS = {
     "gameover.discard.heading": "🗑️ All gone!",
     "gameover.discard.body": "You deleted your application. That's on you.",
     "gameover.restart": "Try again",
-    "tip.betterPortals": "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — they are much easier to use, you'll nail it!",
+    "tip.betterPortals":
+      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — they are much easier to use, you'll nail it!",
+    "tip.betterPortalsWin":
+      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — fast and easy!",
 
     // — Apply button —
     "apply.button": "Submit application",
@@ -412,7 +423,8 @@ const TRANSLATIONS = {
     "flow.detail.apply": "Apply now",
     "flow.detail.deadlinePost": " · Deadline 12:00",
     "flow.detail.co": "Future Industries",
-    "flow.detail.meta": "Cloud Cuckoo Land · hybrid · immediate start · permanent",
+    "flow.detail.meta":
+      "Cloud Cuckoo Land · hybrid · immediate start · permanent",
     "flow.detail.introPre": "You always dreamed of becoming a “",
     "flow.detail.introPost":
       "”? Then today is your day. We're looking for exactly you – and the clock is ticking. Deadline is twelve sharp.",
@@ -486,13 +498,16 @@ const TRANSLATIONS = {
       "Wrong address! Type exactly dreamjob.io — or it costs you time.",
     "flow.guide.shortcutWin":
       "Clever! You know the genuinely good portals — and just won instantly!",
-    "flow.ad.banner": "🎉 CONGRATULATIONS! You are today’s 1,000,000th visitor! Click HERE for your prize!! 🎁",
+    "flow.ad.banner":
+      "🎉 CONGRATULATIONS! You are today’s 1,000,000th visitor! Click HERE for your prize!! 🎁",
     "flow.cookie.title": "🍪 We love your data!",
-    "flow.cookie.body": "This site uses 1,482 cookies & 73 “partners” to finally show you “relevant” jobs.",
+    "flow.cookie.body":
+      "This site uses 1,482 cookies & 73 “partners” to finally show you “relevant” jobs.",
     "flow.cookie.accept": "ACCEPT ALL ✓",
     "flow.cookie.reject": "reject",
     "flow.chat.bubble": "💬 Hi! Can I help you search?",
-    "flow.chat.reply": "The chatbot is no help at all. Just keep looking — the Rabbit believes in you!",
+    "flow.chat.reply":
+      "The chatbot is no help at all. Just keep looking — the Rabbit believes in you!",
     "flow.sort.label": "Sort: Random ▾",
     "flow.badge.top": "⭐ Top match",
     "flow.badge.ad": "Ad",
@@ -528,7 +543,8 @@ const TRANSLATIONS = {
     "flow.d11.tags": "Seasonal,Frosty",
     "flow.results.more": "Load more results ▼",
     "flow.news.title": "📧 Never miss your dream job again!",
-    "flow.news.body": "Sign up for 4× daily job emails. Unsubscribe anytime (somewhere).",
+    "flow.news.body":
+      "Sign up for 4× daily job emails. Unsubscribe anytime (somewhere).",
     "flow.news.accept": "YES, SPAM ME ✓",
     "flow.news.reject": "no thanks",
   },

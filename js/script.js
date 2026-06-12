@@ -91,8 +91,10 @@ function tick() {
   // after one minute — speed up and show guide once
   if (remainingTime <= 240 && !speedBoosted) {
     speedBoosted = true;
-    SPEED = 1.5;
+    SPEED = 2;
     showGuide(t("guide.oneMinutePassed"), 4000);
+    const slowBtn = document.getElementById("slowBtn");
+    if (slowBtn) slowBtn.style.display = "inline-flex";
   }
 
   // after half time
@@ -189,6 +191,8 @@ function resetTimer() {
   halfTimePassed = false;
   lastMinute = false;
   SPEED = 1;
+  const slowBtn = document.getElementById("slowBtn");
+  if (slowBtn) slowBtn.style.display = "none";
   remainingTime = GAME_SETTINGS.gameDuration;
   clearClockCritical();
   updateDeskClock(0);
@@ -555,6 +559,13 @@ startBtn.addEventListener("click", () => {
 
 restartBtn.addEventListener("click", () => {
   location.reload();
+});
+
+document.getElementById("slowBtn").addEventListener("click", () => {
+  SPEED = 1;
+  const slowBtn = document.getElementById("slowBtn");
+  slowBtn.style.display = "none";
+  showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
 });
 
 // for testing purposes - click video to skip intro - change eventlistener to ended for production
