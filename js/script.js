@@ -91,7 +91,7 @@ function tick() {
   // after one minute — speed up and show guide once
   if (remainingTime <= 240 && !speedBoosted) {
     speedBoosted = true;
-    SPEED = 2.5;
+    SPEED = 1.5;
     showGuide(t("guide.oneMinutePassed"), 4000);
   }
 
