@@ -82,9 +82,9 @@ const TRANSLATIONS = {
       "Du hast deine Bewerbung gelöscht. Das war wohl nix.",
     "gameover.restart": "Nochmal versuchen",
     "tip.betterPortals":
-      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die sind viel einfacher zu bedienen, da klappt's bestimmt!",
+      "Tipp: Versuch's nächstes Mal mit <b>jobs.derstandard.at</b> — da klappt's bestimmt!",
     "tip.betterPortalsWin":
-      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — da geht das alles schnell und unkomplizert!",
+      "Tipp: Versuch's nächstes Mal mit <b>jobs.derstandard.at</b> — da geht das schnell und unkompliziert!",
 
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
@@ -356,9 +356,9 @@ const TRANSLATIONS = {
     "gameover.discard.body": "You deleted your application. That's on you.",
     "gameover.restart": "Try again",
     "tip.betterPortals":
-      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — they are much easier to use, you'll nail it!",
+      "Tip: Next time try <b>jobs.derstandard.at</b> — it's much easier to use, you'll nail it!",
     "tip.betterPortalsWin":
-      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — fast and easy!",
+      "Tip: Next time try <b>jobs.derstandard.at</b> — it's fast and easy!",
 
     // — Apply button —
     "apply.button": "Submit application",

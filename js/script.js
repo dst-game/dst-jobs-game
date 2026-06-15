@@ -928,6 +928,20 @@ function showWinScreen(shortcut) {
 
   stopTimer();
   screen_2EL.style.display = "none";
+
+  // Wire up jobs.derstandard.at as a real link using the player's Traumjob
+  const dstUrl = `https://jobs.derstandard.at/suche/oesterreich/${encodeURIComponent(_traumjob)}`;
+  document.querySelectorAll("#nr3_win b").forEach((el) => {
+    if (el.textContent.trim() === "jobs.derstandard.at") {
+      const a = document.createElement("a");
+      a.href = dstUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = el.textContent;
+      a.className = "dst-win-link";
+      el.replaceWith(a);
+    }
+  });
 }
 
 function showGameOverScreen(reason) {
@@ -994,6 +1008,10 @@ function loadGame(docs) {
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
 }
+
+const _traumjob = (() => {
+  try { return localStorage.getItem("tj_traumjob") || ""; } catch (e) { return ""; }
+})();
 
 const DOCS = [
   {
@@ -1343,6 +1361,7 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
+    ${_traumjob ? `<p class="cv-job-headline">Bewerbung als ${_traumjob}</p>` : ""}
     <div class="missing-image">
     <img src="https://dummyimage.com/100/00ff48/ff0000.png&text=Image+not+Found" />
     </div>

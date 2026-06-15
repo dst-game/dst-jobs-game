@@ -810,6 +810,17 @@ h1 {
 }
 
 /* ─── Camera ──────────────────────────────────────────────────── */
+.cv-job-headline {
+  font-family: var(--tj-font-display);
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--tj-blue-soft);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--tj-line);
+}
+
 .missing-image {
   display: flex;
   flex-direction: column;
@@ -1209,6 +1220,19 @@ h1 {
 }
 .portal-tip b {
   color: var(--tj-gold-soft);
+}
+
+a.dst-win-link {
+  color: var(--tj-gold-soft);
+  text-decoration: underline;
+  text-decoration-color: rgba(227, 179, 65, 0.4);
+  text-underline-offset: 2px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+a.dst-win-link:hover {
+  color: var(--tj-gold);
+  text-decoration-color: var(--tj-gold);
 }
 
 /* ─── Game Over Screen ────────────────────────────────────────── */
