@@ -768,6 +768,13 @@ function openPreview(name, content) {
     applyPunishment();
     showGuide(t("guide.wrongFile"), 2000);
   } else {
+    const traumjob = getTraumjob();
+    if (traumjob) {
+      const headline = document.createElement("p");
+      headline.className = "cv-job-headline";
+      headline.textContent = `Bewerbung als ${traumjob}`;
+      previewBody.insertBefore(headline, previewBody.firstChild);
+    }
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
@@ -900,6 +907,7 @@ function makeDoc({ ext, name, content = "" }) {
 
 function showWinScreen(shortcut) {
   gameWon = true;
+  _lbRemainingAtWin = remainingTime;
   markStep("objStep6");
   winBox.style.display = "block";
 
@@ -930,7 +938,7 @@ function showWinScreen(shortcut) {
   screen_2EL.style.display = "none";
 
   // Wire up jobs.derstandard.at as a real link using the player's Traumjob
-  const dstUrl = `https://jobs.derstandard.at/suche/oesterreich/${encodeURIComponent(_traumjob)}`;
+  const dstUrl = `https://jobs.derstandard.at/suche/oesterreich/${encodeURIComponent(getTraumjob())}`;
   document.querySelectorAll("#nr3_win b").forEach((el) => {
     if (el.textContent.trim() === "jobs.derstandard.at") {
       const a = document.createElement("a");
@@ -1009,9 +1017,9 @@ function loadGame(docs) {
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
 }
 
-const _traumjob = (() => {
+function getTraumjob() {
   try { return localStorage.getItem("tj_traumjob") || ""; } catch (e) { return ""; }
-})();
+}
 
 const DOCS = [
   {
@@ -1361,7 +1369,6 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
-    ${_traumjob ? `<p class="cv-job-headline">Bewerbung als ${_traumjob}</p>` : ""}
     <div class="missing-image">
     <img src="https://dummyimage.com/100/00ff48/ff0000.png&text=Image+not+Found" />
     </div>
@@ -1468,3 +1475,103 @@ buildAnalogTicks();
 updateDeskClock(0);
 
 loadGame(DOCS);
+
+// ─── Leaderboard ──────────────────────────────────────────────────
+const LEADERBOARD_KEY = "tj_leaderboard";
+let _lbRemainingAtWin = 0;
+
+function lbLoad() {
+  try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || []; }
+  catch (e) { return []; }
+}
+
+function lbSave(nickname) {
+  const scores = lbLoad();
+  scores.push({ nickname: nickname.trim(), remaining: _lbRemainingAtWin, dreamjob: getTraumjob() });
+  scores.sort((a, b) => b.remaining - a.remaining);
+  const trimmed = scores.slice(0, 20);
+  try { localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed)); } catch (e) {}
+  return trimmed;
+}
+
+function lbGrade(remaining) {
+  if (remaining > 120) return { label: "A+", cls: "g-a" };
+  if (remaining > 90)  return { label: "A",  cls: "g-a" };
+  if (remaining > 60)  return { label: "A-", cls: "g-a" };
+  if (remaining > 30)  return { label: "B",  cls: "g-b" };
+  if (remaining > 15)  return { label: "B-", cls: "g-b" };
+  return { label: "C", cls: "g-c" };
+}
+
+function lbFmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${pad2(m)}:${pad2(s)}`;
+}
+
+function lbRender(scores, myIndex) {
+  const list = document.getElementById("lbList");
+  if (!list) return;
+  list.innerHTML = "";
+  scores.forEach((entry, i) => {
+    const rank = i + 1;
+    const isMe = i === myIndex;
+    const rowCls = ["lb-row"];
+    if (rank === 1) rowCls.push("r1");
+    else if (rank === 2) rowCls.push("r2");
+    else if (rank === 3) rowCls.push("r3");
+    if (isMe) rowCls.push("me");
+    const row = document.createElement("div");
+    row.className = rowCls.join(" ");
+    row.style.animationDelay = `${(i * 0.07).toFixed(2)}s`;
+    row.innerHTML = `
+      <div class="rank">${rank}</div>
+      <div class="name"><b>${entry.nickname}${isMe ? '<span class="lb-chip">DU</span>' : ""}</b><span>${entry.dreamjob || ""}</span></div>
+      <div class="score"><b>${lbFmt(entry.remaining)}</b><span>übrig</span></div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function showLeaderboard() {
+  const overlay = document.getElementById("leaderboardOverlay");
+  const nicknameStep = document.getElementById("lbNicknameStep");
+  const boardStep = document.getElementById("lbBoardStep");
+  const scoreDisplay = document.getElementById("lbScoreDisplay");
+  if (!overlay) return;
+  if (scoreDisplay) scoreDisplay.textContent = lbFmt(_lbRemainingAtWin);
+  nicknameStep.style.display = "flex";
+  boardStep.style.display = "none";
+  overlay.style.display = "flex";
+  const input = document.getElementById("lbNicknameInput");
+  if (input) setTimeout(() => input.focus(), 50);
+}
+
+function lbSubmit() {
+  const input = document.getElementById("lbNicknameInput");
+  const nickname = input ? input.value.trim() : "";
+  if (!nickname) {
+    if (input) { input.focus(); input.style.borderColor = "var(--tj-danger)"; }
+    return;
+  }
+  const scores = lbSave(nickname);
+  const myIndex = scores.findIndex((e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin);
+  document.getElementById("lbNicknameStep").style.display = "none";
+  document.getElementById("lbBoardStep").style.display = "flex";
+  lbRender(scores, myIndex);
+}
+
+// Wire up open button on win screen
+document.getElementById("lbOpenBtn").addEventListener("click", showLeaderboard);
+
+// Wire up nickname submit (button + Enter)
+document.getElementById("lbSubmitBtn").addEventListener("click", lbSubmit);
+document.getElementById("lbNicknameInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") lbSubmit();
+});
+document.getElementById("lbNicknameInput").addEventListener("input", () => {
+  document.getElementById("lbNicknameInput").style.borderColor = "";
+});
+
+// Restart from leaderboard
+document.getElementById("lbRestartBtn").addEventListener("click", () => location.reload());

@@ -233,6 +233,9 @@
                         dir dein Goodie, du bist schon top (und eingestellt)! 😉
                       </p>
                     </div>
+                    <button id="lbOpenBtn" class="tj-btn tj-btn--secondary win-lb-btn">
+                      Zum Leaderboard
+                    </button>
                   </div>
                   <div id="filePreview" class="file-preview">
                     <div class="file-preview-inner">
@@ -392,6 +395,54 @@
                             </svg>
                           </button>
                           <span data-i18n="mom.call.hangup">Auflegen</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Leaderboard overlay -->
+                  <div
+                    id="leaderboardOverlay"
+                    class="lb-overlay"
+                    style="display: none"
+                  >
+                    <!-- Step 1: Nickname input -->
+                    <div id="lbNicknameStep" class="lb-nickname-step">
+                      <div class="lb-nickname-card">
+                        <div class="lb-nickname-badge">✦ Spiel beendet</div>
+                        <h3 class="lb-nickname-title">Bestenliste</h3>
+                        <p class="lb-nickname-score">
+                          Deine Restzeit: <strong id="lbScoreDisplay">0:00</strong>
+                        </p>
+                        <p class="lb-nickname-hint">Gib deinen Spitznamen ein, um eingetragen zu werden.</p>
+                        <input
+                          type="text"
+                          id="lbNicknameInput"
+                          class="lb-nickname-input"
+                          placeholder="Dein Spitzname"
+                          maxlength="20"
+                          autocomplete="off"
+                        />
+                        <button id="lbSubmitBtn" class="tj-btn tj-btn--primary">
+                          Eintragen &amp; anzeigen
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Step 2: Board -->
+                    <div id="lbBoardStep" class="lb-board-wrap" style="display: none">
+                      <div class="tj-board">
+                        <div class="lb-head">
+                          <div class="badge">✦ Spiel beendet</div>
+                          <h3>Bestenliste</h3>
+                          <p class="lb-quote">„Speed gewinnt. Die Bestenliste lügt nicht."</p>
+                        </div>
+                        <div class="lb-cols">
+                          <div>Rang</div>
+                          <div class="c-n">Spieler</div>
+                          <div class="c-r">Restzeit</div>
+                        </div>
+                        <div class="lb-list" id="lbList"></div>
+                        <div class="lb-actions">
+                          <button id="lbRestartBtn" class="tj-btn tj-btn--primary">Nochmal spielen</button>
                         </div>
                       </div>
                     </div>
