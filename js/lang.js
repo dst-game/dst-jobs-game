@@ -51,6 +51,8 @@ const TRANSLATIONS = {
     "captcha.logo": "🤖 Ich bin kein Roboter",
     "captcha.confirm": "Bestätigen",
     "captcha.wrong": "Falsche Auswahl! Bitte erneut versuchen.",
+    "captcha.roboterLabel": "Ich bin ein Roboter.",
+    "captcha.roboterError": "Roboter dürfen sich nicht bewerben! 🤖",
     "captcha.bus": "Wähle alle Bilder mit einem 🚌 Bus",
     "captcha.briefcase": "Wähle alle Bilder mit einem 💼 Koffer",
     "captcha.coffee": "Wähle alle Bilder mit einem ☕ Kaffee",
@@ -66,6 +68,11 @@ const TRANSLATIONS = {
     "mom.reply": "Antworten",
     "mom.ignore": "Ignorieren",
     "mom.sent": "Bin gerade dabei 🙏",
+    "mom.call.status": "Eingehender Anruf ...",
+    "mom.call.accept": "Annehmen",
+    "mom.call.hangup": "Auflegen",
+    "mom.call.mistake":
+      "Hab mich verwählt, sorry!! 😅 Viel Erfolg bei der Bewerbung — ich drück die Daumen! 🤞",
 
     // — Game over —
     "gameover.heading": "💀 Zu spät!",
@@ -133,8 +140,7 @@ const TRANSLATIONS = {
     "guide.cameraUnavailable": "Kamera nicht verfügbar!",
     "guide.success": "Jippie, du hast es geschafft!",
     "guide.timeUp": "Zeit abgelaufen! Game Over!",
-    "guide.discardedFiles":
-      "Du hast deine Bewerbung gelöscht... Gut gemacht! /s",
+    "guide.discardedFiles": "Du hast deine Bewerbung gelöscht... Gut gemacht!",
     "guide.halfTime":
       "Tick, tack... Die Hälfte der Zeit ist schon vorbei! Beeil dich!",
     "guide.oneMinutePassed":
@@ -320,6 +326,8 @@ const TRANSLATIONS = {
     "captcha.logo": "🤖 I'm not a robot",
     "captcha.confirm": "Confirm",
     "captcha.wrong": "Wrong selection! Please try again.",
+    "captcha.roboterLabel": "I am a robot.",
+    "captcha.roboterError": "Robots may not apply! 🤖",
     "captcha.bus": "Select all images with a 🚌 bus",
     "captcha.briefcase": "Select all images with a 💼 briefcase",
     "captcha.coffee": "Select all images with a ☕ coffee",
@@ -335,6 +343,11 @@ const TRANSLATIONS = {
     "mom.reply": "Reply",
     "mom.ignore": "Ignore",
     "mom.sent": "On it right now 🙏",
+    "mom.call.status": "Incoming call ...",
+    "mom.call.accept": "Accept",
+    "mom.call.hangup": "Hang up",
+    "mom.call.mistake":
+      "Wrong number, sorry!! 😅 Good luck with the application — fingers crossed! 🤞",
 
     // — Game over —
     "gameover.heading": "💀 Too late!",
@@ -399,7 +412,7 @@ const TRANSLATIONS = {
     "guide.smile": "Smile!",
     "guide.cameraUnavailable": "Camera not available!",
     "guide.timeUp": "Time's up! Game Over!",
-    "guide.discardedFiles": "You discarded your application... Good job! /s",
+    "guide.discardedFiles": "You discarded your application... Good job!",
     "guide.success": "Woohoo, you made it!",
     "guide.halfTime": "Tick tock... Half the time is already gone! Hurry up!",
     "guide.oneMinutePassed":

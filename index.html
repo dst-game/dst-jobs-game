@@ -307,6 +307,16 @@
                       ></div>
                       <div class="captcha-grid" id="captchaGrid"></div>
                       <div class="captcha-error" id="captchaError"></div>
+                      <div class="captcha-robot-row" id="captchaRobotRow">
+                        <div class="captcha-robot-box" id="robotCheckBox">
+                          <span class="captcha-robot-tick">✓</span>
+                        </div>
+                        <span
+                          class="captcha-robot-label"
+                          id="robotCheckLabel"
+                          data-i18n="captcha.roboterLabel"
+                        >Ich bin ein Roboter.</span>
+                      </div>
                       <div class="captcha-footer">
                         <button
                           class="captcha-confirm-btn"
@@ -344,6 +354,44 @@
                           >
                             Ignorieren
                           </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Mom Call overlay — shown when file explorer first appears -->
+                  <div
+                    id="momCallOverlay"
+                    class="mom-call-overlay"
+                    style="display: none"
+                  >
+                    <div class="mom-call-card">
+                      <div class="mom-call-avatar">👩</div>
+                      <div class="mom-call-name" data-i18n="mom.name">Mama</div>
+                      <div class="mom-call-status" data-i18n="mom.call.status">Eingehender Anruf ...</div>
+                      <div class="mom-call-actions">
+                        <div class="mom-call-action">
+                          <button
+                            class="mom-call-accept"
+                            id="momCallAcceptBtn"
+                            aria-label="Annehmen"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6.6 10.8C7.8 13.2 9.8 15.2 12.2 16.4L14.2 14.4C14.5 14.1 14.9 14 15.3 14.2C16.5 14.6 17.8 14.8 19 14.8C19.6 14.8 20 15.2 20 15.8V19C20 19.6 19.6 20 19 20C10.2 20 3 12.8 3 4C3 3.4 3.4 3 4 3H7C7.6 3 8 3.4 8 4C8 5.2 8.2 6.5 8.6 7.7C8.8 8.1 8.7 8.5 8.4 8.8L6.6 10.8Z" fill="currentColor"/>
+                            </svg>
+                          </button>
+                          <span data-i18n="mom.call.accept">Annehmen</span>
+                        </div>
+                        <div class="mom-call-action">
+                          <button
+                            class="mom-call-hangup"
+                            id="momCallHangupBtn"
+                            aria-label="Auflegen"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6.6 10.8C7.8 13.2 9.8 15.2 12.2 16.4L14.2 14.4C14.5 14.1 14.9 14 15.3 14.2C16.5 14.6 17.8 14.8 19 14.8C19.6 14.8 20 15.2 20 15.8V19C20 19.6 19.6 20 19 20C10.2 20 3 12.8 3 4C3 3.4 3.4 3 4 3H7C7.6 3 8 3.4 8 4C8 5.2 8.2 6.5 8.6 7.7C8.8 8.1 8.7 8.5 8.4 8.8L6.6 10.8Z" fill="currentColor" transform="rotate(135 12 12)"/>
+                            </svg>
+                          </button>
+                          <span data-i18n="mom.call.hangup">Auflegen</span>
                         </div>
                       </div>
                     </div>

@@ -62,6 +62,7 @@ let momIgnored = false;
 let momReplied = false;
 let momAngryIndex = -1; // index into MOM_ANGRY_MSGS, -1 = not started
 let momTypewriterTimer = null;
+let momCallHandled = false; // true after call accepted — suppresses later SMS messages
 const MOM_ANGRY_MSGS = ["mom.msg2", "mom.msg3", "mom.msg4"];
 const now = () => performance.now();
 
@@ -319,6 +320,9 @@ const captchaGrid = document.getElementById("captchaGrid");
 const captchaInstruct = document.getElementById("captchaInstruction");
 const captchaError = document.getElementById("captchaError");
 const captchaConfirm = document.getElementById("captchaConfirm");
+const robotCheckBox = document.getElementById("robotCheckBox");
+const robotCheckRow = document.getElementById("captchaRobotRow");
+let robotChecked = false;
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -374,6 +378,8 @@ function openCaptcha() {
   captchaInstruct.textContent = t(captchaCurrentCategory.instructionKey);
   captchaError.textContent = "";
   captchaSelectedCounts = new Map();
+  robotChecked = false;
+  robotCheckBox.classList.remove("checked");
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
   showGuide(t("guide.notRobot"), 3000);
@@ -390,7 +396,27 @@ function closeCaptcha() {
   captchaError.textContent = "";
 }
 
+robotCheckRow.addEventListener("click", () => {
+  robotChecked = !robotChecked;
+  robotCheckBox.classList.toggle("checked", robotChecked);
+});
+
 captchaConfirm.addEventListener("click", () => {
+  if (robotChecked) {
+    applyPunishment();
+    captchaError.textContent = t("captcha.roboterError");
+    captchaGrid.classList.remove("shake");
+    void captchaGrid.offsetWidth;
+    captchaGrid.classList.add("shake");
+    setTimeout(() => captchaGrid.classList.remove("shake"), 500);
+    setTimeout(() => {
+      captchaError.textContent = "";
+      robotChecked = false;
+      robotCheckBox.classList.remove("checked");
+    }, 2500);
+    return;
+  }
+
   const selectedIndices = new Set(
     [...captchaGrid.querySelectorAll(".captcha-tile.selected")].map((el) =>
       parseInt(el.dataset.index),
@@ -415,12 +441,12 @@ captchaConfirm.addEventListener("click", () => {
     captchaGrid.classList.add("shake");
     setTimeout(() => {
       captchaGrid.classList.remove("shake");
-    }, 500);
-    setTimeout(() => {
-      captchaError.textContent = "";
       captchaSelectedCounts = new Map();
       buildCaptchaGrid();
-    }, 2500);
+    }, 600);
+    setTimeout(() => {
+      captchaError.textContent = "";
+    }, 2000);
   }
 });
 
@@ -496,9 +522,48 @@ function savePhoto() {
 }
 
 function checkAndShowMomToast() {
+  if (momCallHandled) return;
   if (photoAdded && typoFixed) {
     showMomToast("mom.msg1");
   }
+}
+
+function showMomCall() {
+  const callOverlay = document.getElementById("momCallOverlay");
+  if (!callOverlay) return;
+  callOverlay.style.display = "flex";
+}
+window.showMomCall = showMomCall;
+
+function showMomMistakeToast() {
+  const overlay = document.getElementById("momOverlay");
+  const msgEl = document.getElementById("momMsg");
+  const replyArea = document.getElementById("momReplyArea");
+  const replyBtn = document.getElementById("momReplyBtn");
+  const ignoreBtn = document.getElementById("momIgnoreBtn");
+  if (!overlay) return;
+
+  replyBtn.style.display = "none";
+  ignoreBtn.style.display = "none";
+  replyArea.innerHTML = "";
+
+  clearInterval(momTypewriterTimer);
+  msgEl.textContent = "";
+  const typed = document.createTextNode("");
+  msgEl.appendChild(typed);
+  const full = t("mom.call.mistake");
+  let i = 0;
+  momTypewriterTimer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) {
+      clearInterval(momTypewriterTimer);
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 2500);
+    }
+  }, 72);
+
+  overlay.style.display = "flex";
 }
 
 function showMomToast(msgKey) {
@@ -620,6 +685,7 @@ function showFileExplorer() {
   loginBox.style.display = "none";
   gameBox.style.display = "block";
   showGuide(t("guide.rememberFile"), 3000);
+  setTimeout(showMomCall, 350);
 }
 
 const file_explorer = document.getElementById("file_explorer");
@@ -757,6 +823,18 @@ captureBtn.addEventListener("click", capturePhoto);
 retakeBtn.addEventListener("click", retakePhoto);
 savePhotoBtn.addEventListener("click", savePhoto);
 cameraCloseBtn.addEventListener("click", stopCamera);
+
+// ─── Mom Call handlers ───────────────────────────────────────────
+document.getElementById("momCallAcceptBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+  momCallHandled = true;
+  momReplied = true;
+  showMomMistakeToast();
+});
+
+document.getElementById("momCallHangupBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+});
 
 // ─── Mom SMS handlers ────────────────────────────────────────────
 document.getElementById("momIgnoreBtn").addEventListener("click", () => {
