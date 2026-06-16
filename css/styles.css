@@ -174,8 +174,14 @@ h1 {
   transform: scale(0.94);
 }
 @keyframes slow-btn-appear {
-  from { opacity: 0; transform: scale(0.7); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ─── Punishment label ───────────────────────────────────────── */
@@ -1204,7 +1210,483 @@ h1 {
 }
 
 /* Lebensläufe */
+#lebenslauf-graphic {
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: linear-gradient(180deg, #ffffcc, #ffccff);
+  border: 8px ridge #999;
+  font-family:
+    "Comic Sans MS",
+    Comic Sans,
+    cursive;
+  color: #000;
+  transform: rotate(-0.5deg);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+#lebenslauf-graphic:before {
+  content: "GRAPHIC DESIGN IS MY PASSION";
+  position: absolute;
+  top: 10px;
+  right: -50px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff00ff;
+  transform: rotate(25deg);
+  text-shadow: 2px 2px 0 yellow;
+}
+#lebenslauf-graphic .wordart {
+  text-align: center;
+  font-size: 56px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  background: linear-gradient(#00ffff, #0000ff);
 
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    2px 2px 0 #fff,
+    4px 4px 0 #ff00ff,
+    6px 6px 0 #00ff00;
+  margin-bottom: 15px;
+}
+#lebenslauf-graphic .hero {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  width: 100%;
+}
+#lebenslauf-graphic .hero img {
+  flex: 1 1 320px;
+  width: 100%;
+  max-width: 450px;
+  min-width: 250px;
+  border: 12px groove hotpink;
+  transform: rotate(-2deg);
+  filter: saturate(1.4) contrast(1.2);
+  box-shadow: 10px 10px 0 lime;
+}
+#lebenslauf-graphic .intro {
+  flex: 1 1 250px;
+  background: #ffffffaa;
+  border: 4px dashed red;
+  padding: 15px;
+  font-size: 20px;
+}
+#lebenslauf-graphic .blink {
+  color: red;
+  font-weight: bold;
+}
+#lebenslauf-graphic .section {
+  margin: 18px 0;
+  background: #fff;
+  border: 5px double #00f;
+  padding: 12px;
+}
+#lebenslauf-graphic .section h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  color: #ff00ff;
+  text-decoration: underline wavy;
+}
+#lebenslauf-graphic ul {
+  margin: 0;
+  padding-left: 25px;
+}
+#lebenslauf-graphic .footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  background: yellow;
+  border: 3px dashed black;
+  padding: 10px;
+}
+#lebenslauf-graphic .marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 24px;
+  color: red;
+  margin: 10px 0;
+}
+@media (max-width: 700px) {
+  #lebenslauf-graphic .wordart {
+    font-size: 38px;
+  }
+  #lebenslauf-graphic .intro {
+    font-size: 16px;
+  }
+  #lebenslauf-graphic .section h2 {
+    font-size: 22px;
+  }
+}
+
+#lebenslauf-maus {
+  max-width: 920px;
+  margin: auto;
+  padding: clamp(18px, 4vw, 38px);
+  font-family:
+    "Comic Sans MS",
+    Comic Sans,
+    cursive;
+  color: #5b3b35;
+  background:
+    radial-gradient(circle at top left, #fff6a8 0 12%, transparent 13%),
+    linear-gradient(135deg, #ffe1ef, #fff7cc 45%, #dff8d8);
+  border: 8px wavy #ff9ac8;
+  border-radius: 36px;
+  box-shadow: 0 12px 30px rgba(255, 150, 190, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+#lebenslauf-maus * {
+  box-sizing: border-box;
+}
+
+#lebenslauf-maus:before {
+  content: "☀️";
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: clamp(48px, 8vw, 88px);
+  animation: maus-sun 4s infinite alternate ease-in-out;
+}
+
+#lebenslauf-maus:after {
+  content: "🐭 🧀 🐭 🧀 🐭";
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 22px;
+  opacity: 0.65;
+}
+
+@keyframes maus-sun {
+  from {
+    transform: rotate(-8deg) scale(1);
+  }
+  to {
+    transform: rotate(8deg) scale(1.08);
+  }
+}
+
+#lebenslauf-maus .kopf {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) 1fr;
+  gap: clamp(18px, 4vw, 34px);
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+#lebenslauf-maus img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 32px;
+  border: 8px dotted #ff9ac8;
+  background: #fff;
+  padding: 8px;
+  transform: rotate(-2deg);
+  box-shadow: 12px 12px 0 #ffd18a;
+}
+
+#lebenslauf-maus h1 {
+  margin: 0;
+  font-size: clamp(42px, 8vw, 82px);
+  line-height: 0.95;
+  color: #ff75b7;
+  text-shadow:
+    3px 3px 0 #fff,
+    6px 6px 0 #ffd18a;
+}
+
+#lebenslauf-maus .claim {
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: #ffffffaa;
+  border: 4px dashed #98d889;
+  border-radius: 24px;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: bold;
+}
+
+#lebenslauf-maus .kontakt {
+  margin-top: 12px;
+  font-size: 18px;
+  background: #fff8;
+  border-radius: 18px;
+  padding: 10px 14px;
+}
+
+#lebenslauf-maus .bereich {
+  margin: 18px 0;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 5px solid #ffb5d5;
+  border-radius: 28px;
+  outline: 4px dashed #ffd18a;
+  outline-offset: 5px;
+}
+
+#lebenslauf-maus h2 {
+  margin: 0 0 10px;
+  color: #ff7aaa;
+  font-size: clamp(24px, 4vw, 34px);
+}
+
+#lebenslauf-maus p,
+#lebenslauf-maus li {
+  font-size: clamp(16px, 2.4vw, 20px);
+  line-height: 1.45;
+}
+
+#lebenslauf-maus ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+#lebenslauf-maus li::marker {
+  content: "🐭 ";
+}
+
+#lebenslauf-maus .badgebox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#lebenslauf-maus .badge {
+  background: #dff8d8;
+  border: 3px solid #ffd18a;
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-weight: bold;
+}
+
+#lebenslauf-maus .footer {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #7a4b39;
+  background: #fff6a8;
+  border: 4px dotted #ff9ac8;
+  border-radius: 22px;
+  padding: 14px;
+}
+
+/* Tablet & Handy */
+
+@media (max-width: 600px) {
+  #lebenslauf-maus {
+    padding: 18px 14px 34px;
+    border-width: 5px;
+    border-radius: 24px;
+  }
+
+  #lebenslauf-maus:before {
+    top: 8px;
+    right: 12px;
+    font-size: 46px;
+    opacity: 0.75;
+  }
+
+  #lebenslauf-maus:after {
+    font-size: 17px;
+  }
+
+  #lebenslauf-maus .kopf {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    text-align: center;
+  }
+
+  #lebenslauf-maus img {
+    max-width: 280px;
+    margin: 0 auto;
+    display: block;
+    border-width: 5px;
+    border-radius: 24px;
+    padding: 6px;
+    transform: rotate(-1deg);
+    box-shadow: 7px 7px 0 #ffd18a;
+  }
+
+  #lebenslauf-maus h1 {
+    font-size: clamp(34px, 11vw, 56px);
+    line-height: 1;
+  }
+
+  #lebenslauf-maus .claim {
+    font-size: 18px;
+    padding: 12px 14px;
+  }
+
+  #lebenslauf-maus .kontakt {
+    font-size: 16px;
+  }
+
+  #lebenslauf-maus .bereich {
+    padding: 15px;
+    border-width: 4px;
+    border-radius: 22px;
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+
+  #lebenslauf-maus h2 {
+    font-size: 25px;
+  }
+
+  #lebenslauf-maus p,
+  #lebenslauf-maus li {
+    font-size: 16px;
+  }
+
+  #lebenslauf-maus .badgebox {
+    justify-content: center;
+  }
+}
+
+/* Kleine Smartphones */
+
+@media (max-width: 450px) {
+  #lebenslauf-maus {
+    padding: 14px 10px 28px;
+    border-width: 4px;
+    border-radius: 18px;
+  }
+
+  #lebenslauf-maus:before {
+    font-size: 34px;
+    top: 6px;
+    right: 8px;
+  }
+
+  #lebenslauf-maus:after {
+    font-size: 14px;
+    bottom: 4px;
+  }
+
+  #lebenslauf-maus img {
+    max-width: 220px;
+    border-width: 4px;
+    padding: 4px;
+    box-shadow: 5px 5px 0 #ffd18a;
+  }
+
+  #lebenslauf-maus h1 {
+    font-size: 30px;
+    text-shadow:
+      2px 2px 0 #fff,
+      4px 4px 0 #ffd18a;
+  }
+
+  #lebenslauf-maus .claim {
+    font-size: 15px;
+    padding: 10px;
+    border-width: 2px;
+    border-radius: 16px;
+  }
+
+  #lebenslauf-maus .kontakt {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  #lebenslauf-maus .bereich {
+    margin: 12px 0;
+    padding: 12px;
+    border-width: 3px;
+    border-radius: 18px;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+
+  #lebenslauf-maus h2 {
+    font-size: 22px;
+  }
+
+  #lebenslauf-maus p,
+  #lebenslauf-maus li {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  #lebenslauf-maus ul {
+    padding-left: 16px;
+  }
+
+  #lebenslauf-maus .badgebox {
+    gap: 6px;
+  }
+
+  #lebenslauf-maus .badge {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  #lebenslauf-maus .footer {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+#notes-editor {
+  max-width: 520px;
+  padding: 22px 24px;
+  background: #fffdf7;
+  border: 1px solid #e7dcc7;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(60, 45, 20, 0.12);
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #2d2a26;
+  line-height: 1.55;
+}
+
+#notes-editor p {
+  margin: 0 0 14px;
+}
+
+#notes-editor strong {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+#notes-editor hr {
+  border: 0;
+  height: 1px;
+  background: #eadfc9;
+  margin: 14px 0 18px;
+}
+
+#notes-editor p:last-child {
+  font-size: 15px;
+  white-space: normal;
+}
+
+#notes-editor p:last-child::first-line {
+  font-weight: 700;
+}
+
+#notes-editor p:last-child br {
+  content: "";
+}
+
+#notes-editor p:last-child {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 30px,
+    rgba(214, 198, 166, 0.35) 31px
+  );
+  padding: 10px 12px;
+  border-radius: 10px;
+}
 .cv-game {
   font-family: var(--tj-font-mono);
   background-color: #fff;
@@ -1506,7 +1988,226 @@ h1 {
     gap: 2em;
   }
 }
-
+#lebenslauf-correct {
+  font-family: var(--tj-font-mono);
+  background-color: #fff;
+  padding: clamp(0.6em, 2.5vw, 3em);
+  width: 100%;
+}
+#lebenslauf-correct * {
+  box-sizing: border-box;
+  line-height: 1.45em;
+}
+#lebenslauf-correct .content {
+  background-color: #0a082c;
+  color: #fff;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: clamp(1em, 3vw, 4em);
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+  gap: clamp(1.2em, 3vw, 5em);
+  border: 2px solid rgba(21, 241, 243, 0.45);
+  box-shadow:
+    0 0 25px rgba(21, 241, 243, 0.25),
+    inset 0 0 30px rgba(242, 10, 239, 0.12);
+  overflow: hidden;
+}
+#lebenslauf-correct .left,
+#lebenslauf-correct .right {
+  min-width: 0;
+}
+#lebenslauf-correct .right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9em, 1.5vw, 1.3em);
+}
+#lebenslauf-correct .missing-image {
+  width: 100%;
+  background: rgba(242, 10, 239, 0.08);
+  border: 1px solid rgba(21, 241, 243, 0.65);
+  padding: clamp(0.6em, 1.5vw, 1em);
+  box-shadow: 0 0 24px rgba(242, 10, 239, 0.35);
+}
+#lebenslauf-correct .missing-image img {
+  display: block;
+  width: min(100%, 260px);
+  height: auto;
+  margin: 0 auto;
+  image-rendering: pixelated;
+}
+#lebenslauf-correct .cvname {
+  display: inline-block;
+  font-family: var(--tj-font-display);
+  color: #f20aef;
+  font-size: clamp(2.1rem, 5vw, 2.5rem);
+  line-height: 1.02em;
+  margin: 0 0 0.15em;
+  text-shadow: 0 0 12px rgba(242, 10, 239, 0.55);
+  overflow-wrap: anywhere;
+}
+#lebenslauf-correct .dreamjobjob {
+  color: #d6fffa;
+  margin: 0 0 1.2em;
+  font-size: clamp(0.95rem, 1.1vw, 1.35rem);
+  overflow-wrap: anywhere;
+}
+#lebenslauf-correct h2 {
+  font-family: var(--tj-font-display);
+  font-size: clamp(1rem, 1.2vw, 1.6rem);
+  line-height: 1.2em;
+  letter-spacing: clamp(1px, 0.2vw, 2px);
+  color: #15f1f3;
+  text-transform: uppercase;
+  margin: 0 0 0.8em;
+}
+#lebenslauf-correct p,
+#lebenslauf-correct li,
+#lebenslauf-correct .stat {
+  font-size: clamp(0.9rem, 0.85vw, 1.1rem);
+}
+#lebenslauf-correct p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+#lebenslauf-correct hr {
+  border: 0;
+  border-top: 1px solid rgba(21, 241, 243, 0.35);
+  margin: clamp(1em, 2vw, 1.5em) 0;
+}
+#lebenslauf-correct strong {
+  color: #15f1f3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#lebenslauf-correct .cvname {
+  text-transform: none;
+  letter-spacing: 0;
+}
+#lebenslauf-correct .typo {
+  color: #f20aef;
+  text-decoration: underline wavy #15f1f3;
+  text-underline-offset: 0.2em;
+}
+#lebenslauf-correct .sidebox {
+  border: 1px solid rgba(242, 10, 239, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+  padding: clamp(0.9em, 1.6vw, 1.2em);
+  box-shadow: 0 0 18px rgba(242, 10, 239, 0.25);
+  min-width: 0;
+}
+#lebenslauf-correct .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6em;
+}
+#lebenslauf-correct .stat {
+  padding: 0.7em;
+  background: rgba(242, 10, 239, 0.08);
+  border: 1px solid rgba(242, 10, 239, 0.3);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#lebenslauf-correct .stat b {
+  display: block;
+  color: #15f1f3;
+  font-family: var(--tj-font-display);
+  font-size: clamp(1rem, 1.1vw, 1.25rem);
+  line-height: 1.2em;
+}
+#lebenslauf-correct .badges {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#lebenslauf-correct .badges li {
+  margin-bottom: 0.5em;
+  padding: 0.45em 0.6em;
+  background: rgba(21, 241, 243, 0.08);
+  border-left: 3px solid #15f1f3;
+}
+#lebenslauf-correct .pillbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 1em;
+}
+#lebenslauf-correct .pill {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  border: 1px solid rgba(21, 241, 243, 0.6);
+  background: rgba(21, 241, 243, 0.08);
+  color: #d6fffa;
+  border-radius: 999px;
+  font-size: clamp(0.78rem, 0.75vw, 0.95rem);
+}
+@media (min-width: 1400px) {
+  #lebenslauf-correct .content {
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
+  }
+}
+@media (max-width: 950px) {
+  #lebenslauf-correct {
+    padding: 0;
+  }
+  #lebenslauf-correct .content {
+    grid-template-columns: 1fr;
+    gap: 1.6em;
+  }
+  #lebenslauf-correct .right {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+  #lebenslauf-correct .sidebox {
+    height: 100%;
+  }
+}
+@media (max-width: 700px) {
+  #lebenslauf-correct .content {
+    padding: 1.1em;
+  }
+  #lebenslauf-correct .right {
+    grid-template-columns: 1fr;
+  }
+  #lebenslauf-correct .cvname {
+    font-size: clamp(2rem, 10vw, 3.6rem);
+  }
+  #lebenslauf-correct .missing-image img {
+    width: min(100%, 220px);
+  }
+}
+@media (max-width: 500px) {
+  #lebenslauf-correct .content {
+    padding: 0.85em;
+    border-left: 0;
+    border-right: 0;
+  }
+  #lebenslauf-correct .cvname {
+    font-size: clamp(1.8rem, 12vw, 3rem);
+  }
+  #lebenslauf-correct .dreamjobjob {
+    font-size: 0.95rem;
+  }
+  #lebenslauf-correct .stat-grid {
+    grid-template-columns: 1fr;
+  }
+  #lebenslauf-correct .missing-image img {
+    width: min(100%, 170px);
+  }
+  #lebenslauf-correct p,
+  #lebenslauf-correct li,
+  #lebenslauf-correct .stat {
+    font-size: 0.9rem;
+  }
+  #lebenslauf-correct h2 {
+    font-size: 1rem;
+  }
+  #lebenslauf-correct hr {
+    margin: 0.9em 0;
+  }
+}
 /* Lebensläufe ENDE */
 
 /* ============================================================
@@ -2168,12 +2869,14 @@ h1 {
      proportional at any screen width (and the glow still grows with urgency) */
   border-width: max(2px, calc(var(--size) * 0.018));
   box-shadow:
-    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16) rgba(31, 211, 255, 0.55),
+    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16)
+      rgba(31, 211, 255, 0.55),
     inset 0 0 calc(var(--size) * 0.14) rgba(31, 211, 255, 0.12);
 }
 .tj-desk .clock-card .tj-clock-analog[data-critical] {
   box-shadow:
-    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2) rgba(255, 53, 84, 0.7),
+    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2)
+      rgba(255, 53, 84, 0.7),
     inset 0 0 calc(var(--size) * 0.14) rgba(255, 53, 84, 0.16);
 }
 .tj-desk .clock-card .tj-clock-digital {
