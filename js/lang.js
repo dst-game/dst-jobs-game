@@ -37,6 +37,25 @@ const TRANSLATIONS = {
     "win.shortcut.body":
       "Du hast direkt die richtige Webadresse eingegeben — hol dir dein Goodie, du bist schon top (und quasi eingestellt)! 😉",
 
+    // — Leaderboard —
+    "lb.openBtn": "Zum Leaderboard",
+    "lb.badge": "✦ Spiel beendet",
+    "lb.title": "Bestenliste",
+    "lb.scoreLabel": "Deine Restzeit:",
+    "lb.hint": "Gib deinen Spitznamen ein, um eingetragen zu werden.",
+    "lb.inputPlaceholder": "Dein Spitzname",
+    "lb.submitBtn": "Eintragen & anzeigen",
+    "lb.quote": "„Speed gewinnt. Die Bestenliste lügt nicht.“",
+    "lb.colRank": "Rang",
+    "lb.colPlayer": "Spieler",
+    "lb.colTime": "Restzeit",
+    "lb.restartBtn": "Nochmal spielen",
+    "lb.chip": "DU",
+    "lb.timeLeft": "übrig",
+
+    // — CV Vorschau —
+    "cv.jobHeadlinePre": "Bewerbung als ",
+
     // — File preview —
     "preview.save": "💾 Speichern",
 
@@ -51,6 +70,8 @@ const TRANSLATIONS = {
     "captcha.logo": "🤖 Ich bin kein Roboter",
     "captcha.confirm": "Bestätigen",
     "captcha.wrong": "Falsche Auswahl! Bitte erneut versuchen.",
+    "captcha.roboterLabel": "Ich bin ein Roboter.",
+    "captcha.roboterError": "Roboter dürfen sich nicht bewerben! 🤖",
     "captcha.bus": "Wähle alle Bilder mit einem 🚌 Bus",
     "captcha.briefcase": "Wähle alle Bilder mit einem 💼 Koffer",
     "captcha.coffee": "Wähle alle Bilder mit einem ☕ Kaffee",
@@ -66,6 +87,11 @@ const TRANSLATIONS = {
     "mom.reply": "Antworten",
     "mom.ignore": "Ignorieren",
     "mom.sent": "Bin gerade dabei 🙏",
+    "mom.call.status": "Eingehender Anruf ...",
+    "mom.call.accept": "Annehmen",
+    "mom.call.hangup": "Auflegen",
+    "mom.call.mistake":
+      "Hab mich verwählt, sorry!! 😅 Viel Erfolg bei der Bewerbung — ich drück die Daumen! 🤞",
 
     // — Game over —
     "gameover.heading": "💀 Zu spät!",
@@ -75,9 +101,9 @@ const TRANSLATIONS = {
       "Du hast deine Bewerbung gelöscht. Das war wohl nix.",
     "gameover.restart": "Nochmal versuchen",
     "tip.betterPortals":
-      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — die sind viel einfacher zu bedienen, da klappt's bestimmt!",
+      "Tipp: Versuch's nächstes Mal mit <b>jobs.derstandard.at</b> — da klappt's bestimmt!",
     "tip.betterPortalsWin":
-      "Tipp: Versuch's nächstes Mal mit <b>finden.at</b> oder <b>jobs.derstandard.at</b> — da geht das alles schnell und unkomplizert!",
+      "Tipp: Versuch's nächstes Mal mit <b>jobs.derstandard.at</b> — da geht das schnell und unkompliziert!",
 
     // — Apply button —
     "apply.button": "Bewerbung abschicken",
@@ -133,8 +159,7 @@ const TRANSLATIONS = {
     "guide.cameraUnavailable": "Kamera nicht verfügbar!",
     "guide.success": "Jippie, du hast es geschafft!",
     "guide.timeUp": "Zeit abgelaufen! Game Over!",
-    "guide.discardedFiles":
-      "Du hast deine Bewerbung gelöscht... Gut gemacht! /s",
+    "guide.discardedFiles": "Du hast deine Bewerbung gelöscht... Gut gemacht!",
     "guide.halfTime":
       "Tick, tack... Die Hälfte der Zeit ist schon vorbei! Beeil dich!",
     "guide.oneMinutePassed":
@@ -306,6 +331,25 @@ const TRANSLATIONS = {
     "win.shortcut.body":
       "You typed the right web address straight away — go grab your goodie, you’re already a pro (and basically hired)! 😉",
 
+    // — Leaderboard —
+    "lb.openBtn": "To Leaderboard",
+    "lb.badge": "✦ Game over",
+    "lb.title": "Leaderboard",
+    "lb.scoreLabel": "Your remaining time:",
+    "lb.hint": "Enter your nickname to be added to the leaderboard.",
+    "lb.inputPlaceholder": "Your nickname",
+    "lb.submitBtn": "Submit & view",
+    "lb.quote": "“Speed wins. The leaderboard never lies.”",
+    "lb.colRank": "Rank",
+    "lb.colPlayer": "Player",
+    "lb.colTime": "Time left",
+    "lb.restartBtn": "Play again",
+    "lb.chip": "YOU",
+    "lb.timeLeft": "left",
+
+    // — CV preview —
+    "cv.jobHeadlinePre": "Application as ",
+
     // — File preview —
     "preview.save": "💾 Save",
 
@@ -320,6 +364,8 @@ const TRANSLATIONS = {
     "captcha.logo": "🤖 I'm not a robot",
     "captcha.confirm": "Confirm",
     "captcha.wrong": "Wrong selection! Please try again.",
+    "captcha.roboterLabel": "I am a robot.",
+    "captcha.roboterError": "Robots may not apply! 🤖",
     "captcha.bus": "Select all images with a 🚌 bus",
     "captcha.briefcase": "Select all images with a 💼 briefcase",
     "captcha.coffee": "Select all images with a ☕ coffee",
@@ -335,6 +381,11 @@ const TRANSLATIONS = {
     "mom.reply": "Reply",
     "mom.ignore": "Ignore",
     "mom.sent": "On it right now 🙏",
+    "mom.call.status": "Incoming call ...",
+    "mom.call.accept": "Accept",
+    "mom.call.hangup": "Hang up",
+    "mom.call.mistake":
+      "Wrong number, sorry!! 😅 Good luck with the application — fingers crossed! 🤞",
 
     // — Game over —
     "gameover.heading": "💀 Too late!",
@@ -343,9 +394,9 @@ const TRANSLATIONS = {
     "gameover.discard.body": "You deleted your application. That's on you.",
     "gameover.restart": "Try again",
     "tip.betterPortals":
-      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — they are much easier to use, you'll nail it!",
+      "Tip: Next time try <b>jobs.derstandard.at</b> — it's much easier to use, you'll nail it!",
     "tip.betterPortalsWin":
-      "Tip: Next time try <b>finden.at</b> or <b>jobs.derstandard.at</b> — fast and easy!",
+      "Tip: Next time try <b>jobs.derstandard.at</b> — it's fast and easy!",
 
     // — Apply button —
     "apply.button": "Submit application",
@@ -399,7 +450,7 @@ const TRANSLATIONS = {
     "guide.smile": "Smile!",
     "guide.cameraUnavailable": "Camera not available!",
     "guide.timeUp": "Time's up! Game Over!",
-    "guide.discardedFiles": "You discarded your application... Good job! /s",
+    "guide.discardedFiles": "You discarded your application... Good job!",
     "guide.success": "Woohoo, you made it!",
     "guide.halfTime": "Tick tock... Half the time is already gone! Hurry up!",
     "guide.oneMinutePassed":

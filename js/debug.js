@@ -21,6 +21,7 @@
       document.getElementById("captchaScreen"),
       document.querySelector(".nr4_camerascreen"),
       document.getElementById("momOverlay"),
+      document.getElementById("momCallOverlay"),
       document.getElementById("tjFlow"),
     ];
     screens.forEach(function (el) {
@@ -88,6 +89,9 @@
         var fe = document.getElementById("file_explorer");
         if (fe) fe.style.display = "";
         if (typeof window.showGuide === "function") window.showGuide("DEBUG: File Explorer");
+        setTimeout(function () {
+          if (typeof window.showMomCall === "function") window.showMomCall();
+        }, 350);
       },
     },
     {
