@@ -233,7 +233,7 @@
                         dir dein Goodie, du bist schon top (und eingestellt)! 😉
                       </p>
                     </div>
-                    <button id="lbOpenBtn" class="tj-btn tj-btn--secondary win-lb-btn">
+                    <button id="lbOpenBtn" class="tj-btn tj-btn--secondary win-lb-btn" data-i18n="lb.openBtn">
                       Zum Leaderboard
                     </button>
                   </div>
@@ -408,21 +408,22 @@
                     <!-- Step 1: Nickname input -->
                     <div id="lbNicknameStep" class="lb-nickname-step">
                       <div class="lb-nickname-card">
-                        <div class="lb-nickname-badge">✦ Spiel beendet</div>
-                        <h3 class="lb-nickname-title">Bestenliste</h3>
+                        <div class="lb-nickname-badge" data-i18n="lb.badge">✦ Spiel beendet</div>
+                        <h3 class="lb-nickname-title" data-i18n="lb.title">Bestenliste</h3>
                         <p class="lb-nickname-score">
-                          Deine Restzeit: <strong id="lbScoreDisplay">0:00</strong>
+                          <span data-i18n="lb.scoreLabel">Deine Restzeit:</span> <strong id="lbScoreDisplay">0:00</strong>
                         </p>
-                        <p class="lb-nickname-hint">Gib deinen Spitznamen ein, um eingetragen zu werden.</p>
+                        <p class="lb-nickname-hint" data-i18n="lb.hint">Gib deinen Spitznamen ein, um eingetragen zu werden.</p>
                         <input
                           type="text"
                           id="lbNicknameInput"
                           class="lb-nickname-input"
                           placeholder="Dein Spitzname"
+                          data-i18n-placeholder="lb.inputPlaceholder"
                           maxlength="20"
                           autocomplete="off"
                         />
-                        <button id="lbSubmitBtn" class="tj-btn tj-btn--primary">
+                        <button id="lbSubmitBtn" class="tj-btn tj-btn--primary" data-i18n="lb.submitBtn">
                           Eintragen &amp; anzeigen
                         </button>
                       </div>
@@ -431,18 +432,18 @@
                     <div id="lbBoardStep" class="lb-board-wrap" style="display: none">
                       <div class="tj-board">
                         <div class="lb-head">
-                          <div class="badge">✦ Spiel beendet</div>
-                          <h3>Bestenliste</h3>
-                          <p class="lb-quote">„Speed gewinnt. Die Bestenliste lügt nicht."</p>
+                          <div class="badge" data-i18n="lb.badge">✦ Spiel beendet</div>
+                          <h3 data-i18n="lb.title">Bestenliste</h3>
+                          <p class="lb-quote" data-i18n="lb.quote">„Speed gewinnt. Die Bestenliste lügt nicht."</p>
                         </div>
                         <div class="lb-cols">
-                          <div>Rang</div>
-                          <div class="c-n">Spieler</div>
-                          <div class="c-r">Restzeit</div>
+                          <div data-i18n="lb.colRank">Rang</div>
+                          <div class="c-n" data-i18n="lb.colPlayer">Spieler</div>
+                          <div class="c-r" data-i18n="lb.colTime">Restzeit</div>
                         </div>
                         <div class="lb-list" id="lbList"></div>
                         <div class="lb-actions">
-                          <button id="lbRestartBtn" class="tj-btn tj-btn--primary">Nochmal spielen</button>
+                          <button id="lbRestartBtn" class="tj-btn tj-btn--primary" data-i18n="lb.restartBtn">Nochmal spielen</button>
                         </div>
                       </div>
                     </div>

@@ -37,6 +37,25 @@ const TRANSLATIONS = {
     "win.shortcut.body":
       "Du hast direkt die richtige Webadresse eingegeben — hol dir dein Goodie, du bist schon top (und quasi eingestellt)! 😉",
 
+    // — Leaderboard —
+    "lb.openBtn": "Zum Leaderboard",
+    "lb.badge": "✦ Spiel beendet",
+    "lb.title": "Bestenliste",
+    "lb.scoreLabel": "Deine Restzeit:",
+    "lb.hint": "Gib deinen Spitznamen ein, um eingetragen zu werden.",
+    "lb.inputPlaceholder": "Dein Spitzname",
+    "lb.submitBtn": "Eintragen & anzeigen",
+    "lb.quote": "„Speed gewinnt. Die Bestenliste lügt nicht.“",
+    "lb.colRank": "Rang",
+    "lb.colPlayer": "Spieler",
+    "lb.colTime": "Restzeit",
+    "lb.restartBtn": "Nochmal spielen",
+    "lb.chip": "DU",
+    "lb.timeLeft": "übrig",
+
+    // — CV Vorschau —
+    "cv.jobHeadlinePre": "Bewerbung als ",
+
     // — File preview —
     "preview.save": "💾 Speichern",
 
@@ -311,6 +330,25 @@ const TRANSLATIONS = {
     "win.shortcut.heading": "🏆 Hired on the spot!",
     "win.shortcut.body":
       "You typed the right web address straight away — go grab your goodie, you’re already a pro (and basically hired)! 😉",
+
+    // — Leaderboard —
+    "lb.openBtn": "To Leaderboard",
+    "lb.badge": "✦ Game over",
+    "lb.title": "Leaderboard",
+    "lb.scoreLabel": "Your remaining time:",
+    "lb.hint": "Enter your nickname to be added to the leaderboard.",
+    "lb.inputPlaceholder": "Your nickname",
+    "lb.submitBtn": "Submit & view",
+    "lb.quote": "“Speed wins. The leaderboard never lies.”",
+    "lb.colRank": "Rank",
+    "lb.colPlayer": "Player",
+    "lb.colTime": "Time left",
+    "lb.restartBtn": "Play again",
+    "lb.chip": "YOU",
+    "lb.timeLeft": "left",
+
+    // — CV preview —
+    "cv.jobHeadlinePre": "Application as ",
 
     // — File preview —
     "preview.save": "💾 Save",

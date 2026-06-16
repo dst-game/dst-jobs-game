@@ -772,7 +772,7 @@ function openPreview(name, content) {
     if (traumjob) {
       const headline = document.createElement("p");
       headline.className = "cv-job-headline";
-      headline.textContent = `Bewerbung als ${traumjob}`;
+      headline.textContent = t("cv.jobHeadlinePre") + traumjob;
       previewBody.insertBefore(headline, previewBody.firstChild);
     }
     photoAdded = false;
@@ -1494,14 +1494,6 @@ function lbSave(nickname) {
   return trimmed;
 }
 
-function lbGrade(remaining) {
-  if (remaining > 120) return { label: "A+", cls: "g-a" };
-  if (remaining > 90)  return { label: "A",  cls: "g-a" };
-  if (remaining > 60)  return { label: "A-", cls: "g-a" };
-  if (remaining > 30)  return { label: "B",  cls: "g-b" };
-  if (remaining > 15)  return { label: "B-", cls: "g-b" };
-  return { label: "C", cls: "g-c" };
-}
 
 function lbFmt(sec) {
   const m = Math.floor(sec / 60);
@@ -1526,8 +1518,8 @@ function lbRender(scores, myIndex) {
     row.style.animationDelay = `${(i * 0.07).toFixed(2)}s`;
     row.innerHTML = `
       <div class="rank">${rank}</div>
-      <div class="name"><b>${entry.nickname}${isMe ? '<span class="lb-chip">DU</span>' : ""}</b><span>${entry.dreamjob || ""}</span></div>
-      <div class="score"><b>${lbFmt(entry.remaining)}</b><span>übrig</span></div>
+      <div class="name"><b>${entry.nickname}${isMe ? `<span class="lb-chip">${t("lb.chip")}</span>` : ""}</b><span>${entry.dreamjob || ""}</span></div>
+      <div class="score"><b>${lbFmt(entry.remaining)}</b><span>${t("lb.timeLeft")}</span></div>
     `;
     list.appendChild(row);
   });
