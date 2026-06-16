@@ -62,6 +62,7 @@ let momIgnored = false;
 let momReplied = false;
 let momAngryIndex = -1; // index into MOM_ANGRY_MSGS, -1 = not started
 let momTypewriterTimer = null;
+let momCallHandled = false; // true after call accepted — suppresses later SMS messages
 const MOM_ANGRY_MSGS = ["mom.msg2", "mom.msg3", "mom.msg4"];
 const now = () => performance.now();
 
@@ -319,6 +320,9 @@ const captchaGrid = document.getElementById("captchaGrid");
 const captchaInstruct = document.getElementById("captchaInstruction");
 const captchaError = document.getElementById("captchaError");
 const captchaConfirm = document.getElementById("captchaConfirm");
+const robotCheckBox = document.getElementById("robotCheckBox");
+const robotCheckRow = document.getElementById("captchaRobotRow");
+let robotChecked = false;
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -374,6 +378,8 @@ function openCaptcha() {
   captchaInstruct.textContent = t(captchaCurrentCategory.instructionKey);
   captchaError.textContent = "";
   captchaSelectedCounts = new Map();
+  robotChecked = false;
+  robotCheckBox.classList.remove("checked");
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
   showGuide(t("guide.notRobot"), 3000);
@@ -390,7 +396,27 @@ function closeCaptcha() {
   captchaError.textContent = "";
 }
 
+robotCheckRow.addEventListener("click", () => {
+  robotChecked = !robotChecked;
+  robotCheckBox.classList.toggle("checked", robotChecked);
+});
+
 captchaConfirm.addEventListener("click", () => {
+  if (robotChecked) {
+    applyPunishment();
+    captchaError.textContent = t("captcha.roboterError");
+    captchaGrid.classList.remove("shake");
+    void captchaGrid.offsetWidth;
+    captchaGrid.classList.add("shake");
+    setTimeout(() => captchaGrid.classList.remove("shake"), 500);
+    setTimeout(() => {
+      captchaError.textContent = "";
+      robotChecked = false;
+      robotCheckBox.classList.remove("checked");
+    }, 2500);
+    return;
+  }
+
   const selectedIndices = new Set(
     [...captchaGrid.querySelectorAll(".captcha-tile.selected")].map((el) =>
       parseInt(el.dataset.index),
@@ -415,12 +441,12 @@ captchaConfirm.addEventListener("click", () => {
     captchaGrid.classList.add("shake");
     setTimeout(() => {
       captchaGrid.classList.remove("shake");
-    }, 500);
-    setTimeout(() => {
-      captchaError.textContent = "";
       captchaSelectedCounts = new Map();
       buildCaptchaGrid();
-    }, 2500);
+    }, 600);
+    setTimeout(() => {
+      captchaError.textContent = "";
+    }, 2000);
   }
 });
 
@@ -496,9 +522,48 @@ function savePhoto() {
 }
 
 function checkAndShowMomToast() {
+  if (momCallHandled) return;
   if (photoAdded && typoFixed) {
     showMomToast("mom.msg1");
   }
+}
+
+function showMomCall() {
+  const callOverlay = document.getElementById("momCallOverlay");
+  if (!callOverlay) return;
+  callOverlay.style.display = "flex";
+}
+window.showMomCall = showMomCall;
+
+function showMomMistakeToast() {
+  const overlay = document.getElementById("momOverlay");
+  const msgEl = document.getElementById("momMsg");
+  const replyArea = document.getElementById("momReplyArea");
+  const replyBtn = document.getElementById("momReplyBtn");
+  const ignoreBtn = document.getElementById("momIgnoreBtn");
+  if (!overlay) return;
+
+  replyBtn.style.display = "none";
+  ignoreBtn.style.display = "none";
+  replyArea.innerHTML = "";
+
+  clearInterval(momTypewriterTimer);
+  msgEl.textContent = "";
+  const typed = document.createTextNode("");
+  msgEl.appendChild(typed);
+  const full = t("mom.call.mistake");
+  let i = 0;
+  momTypewriterTimer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) {
+      clearInterval(momTypewriterTimer);
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 2500);
+    }
+  }, 72);
+
+  overlay.style.display = "flex";
 }
 
 function showMomToast(msgKey) {
@@ -620,6 +685,7 @@ function showFileExplorer() {
   loginBox.style.display = "none";
   gameBox.style.display = "block";
   showGuide(t("guide.rememberFile"), 3000);
+  setTimeout(showMomCall, 350);
 }
 
 const file_explorer = document.getElementById("file_explorer");
@@ -702,6 +768,13 @@ function openPreview(name, content) {
     applyPunishment();
     showGuide(t("guide.wrongFile"), 2000);
   } else {
+    const traumjob = getTraumjob();
+    if (traumjob) {
+      const headline = document.createElement("p");
+      headline.className = "cv-job-headline";
+      headline.textContent = t("cv.jobHeadlinePre") + traumjob;
+      previewBody.insertBefore(headline, previewBody.firstChild);
+    }
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
@@ -757,6 +830,18 @@ captureBtn.addEventListener("click", capturePhoto);
 retakeBtn.addEventListener("click", retakePhoto);
 savePhotoBtn.addEventListener("click", savePhoto);
 cameraCloseBtn.addEventListener("click", stopCamera);
+
+// ─── Mom Call handlers ───────────────────────────────────────────
+document.getElementById("momCallAcceptBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+  momCallHandled = true;
+  momReplied = true;
+  showMomMistakeToast();
+});
+
+document.getElementById("momCallHangupBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+});
 
 // ─── Mom SMS handlers ────────────────────────────────────────────
 document.getElementById("momIgnoreBtn").addEventListener("click", () => {
@@ -822,6 +907,7 @@ function makeDoc({ ext, name, content = "" }) {
 
 function showWinScreen(shortcut) {
   gameWon = true;
+  _lbRemainingAtWin = remainingTime;
   markStep("objStep6");
   winBox.style.display = "block";
 
@@ -850,6 +936,20 @@ function showWinScreen(shortcut) {
 
   stopTimer();
   screen_2EL.style.display = "none";
+
+  // Wire up jobs.derstandard.at as a real link using the player's Traumjob
+  const dstUrl = `https://jobs.derstandard.at/suche/oesterreich/${encodeURIComponent(getTraumjob())}`;
+  document.querySelectorAll("#nr3_win b").forEach((el) => {
+    if (el.textContent.trim() === "jobs.derstandard.at") {
+      const a = document.createElement("a");
+      a.href = dstUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = el.textContent;
+      a.className = "dst-win-link";
+      el.replaceWith(a);
+    }
+  });
 }
 
 function showGameOverScreen(reason) {
@@ -915,6 +1015,10 @@ function loadGame(docs) {
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
+}
+
+function getTraumjob() {
+  try { return localStorage.getItem("tj_traumjob") || ""; } catch (e) { return ""; }
 }
 
 const DOCS = [
@@ -1371,3 +1475,95 @@ buildAnalogTicks();
 updateDeskClock(0);
 
 loadGame(DOCS);
+
+// ─── Leaderboard ──────────────────────────────────────────────────
+const LEADERBOARD_KEY = "tj_leaderboard";
+let _lbRemainingAtWin = 0;
+
+function lbLoad() {
+  try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || []; }
+  catch (e) { return []; }
+}
+
+function lbSave(nickname) {
+  const scores = lbLoad();
+  scores.push({ nickname: nickname.trim(), remaining: _lbRemainingAtWin, dreamjob: getTraumjob() });
+  scores.sort((a, b) => b.remaining - a.remaining);
+  const trimmed = scores.slice(0, 20);
+  try { localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed)); } catch (e) {}
+  return trimmed;
+}
+
+
+function lbFmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${pad2(m)}:${pad2(s)}`;
+}
+
+function lbRender(scores, myIndex) {
+  const list = document.getElementById("lbList");
+  if (!list) return;
+  list.innerHTML = "";
+  scores.forEach((entry, i) => {
+    const rank = i + 1;
+    const isMe = i === myIndex;
+    const rowCls = ["lb-row"];
+    if (rank === 1) rowCls.push("r1");
+    else if (rank === 2) rowCls.push("r2");
+    else if (rank === 3) rowCls.push("r3");
+    if (isMe) rowCls.push("me");
+    const row = document.createElement("div");
+    row.className = rowCls.join(" ");
+    row.style.animationDelay = `${(i * 0.07).toFixed(2)}s`;
+    row.innerHTML = `
+      <div class="rank">${rank}</div>
+      <div class="name"><b>${entry.nickname}${isMe ? `<span class="lb-chip">${t("lb.chip")}</span>` : ""}</b><span>${entry.dreamjob || ""}</span></div>
+      <div class="score"><b>${lbFmt(entry.remaining)}</b><span>${t("lb.timeLeft")}</span></div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function showLeaderboard() {
+  const overlay = document.getElementById("leaderboardOverlay");
+  const nicknameStep = document.getElementById("lbNicknameStep");
+  const boardStep = document.getElementById("lbBoardStep");
+  const scoreDisplay = document.getElementById("lbScoreDisplay");
+  if (!overlay) return;
+  if (scoreDisplay) scoreDisplay.textContent = lbFmt(_lbRemainingAtWin);
+  nicknameStep.style.display = "flex";
+  boardStep.style.display = "none";
+  overlay.style.display = "flex";
+  const input = document.getElementById("lbNicknameInput");
+  if (input) setTimeout(() => input.focus(), 50);
+}
+
+function lbSubmit() {
+  const input = document.getElementById("lbNicknameInput");
+  const nickname = input ? input.value.trim() : "";
+  if (!nickname) {
+    if (input) { input.focus(); input.style.borderColor = "var(--tj-danger)"; }
+    return;
+  }
+  const scores = lbSave(nickname);
+  const myIndex = scores.findIndex((e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin);
+  document.getElementById("lbNicknameStep").style.display = "none";
+  document.getElementById("lbBoardStep").style.display = "flex";
+  lbRender(scores, myIndex);
+}
+
+// Wire up open button on win screen
+document.getElementById("lbOpenBtn").addEventListener("click", showLeaderboard);
+
+// Wire up nickname submit (button + Enter)
+document.getElementById("lbSubmitBtn").addEventListener("click", lbSubmit);
+document.getElementById("lbNicknameInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") lbSubmit();
+});
+document.getElementById("lbNicknameInput").addEventListener("input", () => {
+  document.getElementById("lbNicknameInput").style.borderColor = "";
+});
+
+// Restart from leaderboard
+document.getElementById("lbRestartBtn").addEventListener("click", () => location.reload());
