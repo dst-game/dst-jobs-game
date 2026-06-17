@@ -770,10 +770,8 @@ function openPreview(name, content) {
   } else {
     const traumjob = getTraumjob();
     if (traumjob) {
-      const headline = document.createElement("p");
-      headline.className = "cv-job-headline";
-      headline.textContent = t("cv.jobHeadlinePre") + traumjob;
-      previewBody.insertBefore(headline, previewBody.firstChild);
+      const headline = document.getElementById("dreamjobjob");
+      headline.textContent = traumjob;
     }
     photoAdded = false;
     typoFixed = false;
@@ -1018,7 +1016,11 @@ function loadGame(docs) {
 }
 
 function getTraumjob() {
-  try { return localStorage.getItem("tj_traumjob") || ""; } catch (e) { return ""; }
+  try {
+    return localStorage.getItem("tj_traumjob") || "";
+  } catch (e) {
+    return "";
+  }
 }
 
 const DOCS = [
@@ -1531,7 +1533,7 @@ const DOCS = [
       </div>
       <hr />
       <p><strong class="cvname">Patricia Patternwoman</strong></p>
-      <p class="dreamjobjob"></p>
+      <p id="dreamjobjob"></p>
       <hr />
       <p>
         <strong>Profil</strong><br />
@@ -1683,19 +1685,27 @@ const LEADERBOARD_KEY = "tj_leaderboard";
 let _lbRemainingAtWin = 0;
 
 function lbLoad() {
-  try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || []; }
-  catch (e) { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
 }
 
 function lbSave(nickname) {
   const scores = lbLoad();
-  scores.push({ nickname: nickname.trim(), remaining: _lbRemainingAtWin, dreamjob: getTraumjob() });
+  scores.push({
+    nickname: nickname.trim(),
+    remaining: _lbRemainingAtWin,
+    dreamjob: getTraumjob(),
+  });
   scores.sort((a, b) => b.remaining - a.remaining);
   const trimmed = scores.slice(0, 20);
-  try { localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed)); } catch (e) {}
+  try {
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
+  } catch (e) {}
   return trimmed;
 }
-
 
 function lbFmt(sec) {
   const m = Math.floor(sec / 60);
@@ -1745,11 +1755,16 @@ function lbSubmit() {
   const input = document.getElementById("lbNicknameInput");
   const nickname = input ? input.value.trim() : "";
   if (!nickname) {
-    if (input) { input.focus(); input.style.borderColor = "var(--tj-danger)"; }
+    if (input) {
+      input.focus();
+      input.style.borderColor = "var(--tj-danger)";
+    }
     return;
   }
   const scores = lbSave(nickname);
-  const myIndex = scores.findIndex((e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin);
+  const myIndex = scores.findIndex(
+    (e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin,
+  );
   document.getElementById("lbNicknameStep").style.display = "none";
   document.getElementById("lbBoardStep").style.display = "flex";
   lbRender(scores, myIndex);
@@ -1768,4 +1783,6 @@ document.getElementById("lbNicknameInput").addEventListener("input", () => {
 });
 
 // Restart from leaderboard
-document.getElementById("lbRestartBtn").addEventListener("click", () => location.reload());
+document
+  .getElementById("lbRestartBtn")
+  .addEventListener("click", () => location.reload());
