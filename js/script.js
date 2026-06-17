@@ -62,6 +62,7 @@ let momIgnored = false;
 let momReplied = false;
 let momAngryIndex = -1; // index into MOM_ANGRY_MSGS, -1 = not started
 let momTypewriterTimer = null;
+let momCallHandled = false; // true after call accepted — suppresses later SMS messages
 const MOM_ANGRY_MSGS = ["mom.msg2", "mom.msg3", "mom.msg4"];
 const now = () => performance.now();
 
@@ -91,8 +92,10 @@ function tick() {
   // after one minute — speed up and show guide once
   if (remainingTime <= 240 && !speedBoosted) {
     speedBoosted = true;
-    SPEED = 2.5;
+    SPEED = 2;
     showGuide(t("guide.oneMinutePassed"), 4000);
+    const slowBtn = document.getElementById("slowBtn");
+    if (slowBtn) slowBtn.style.display = "inline-flex";
   }
 
   // after half time
@@ -189,6 +192,8 @@ function resetTimer() {
   halfTimePassed = false;
   lastMinute = false;
   SPEED = 1;
+  const slowBtn = document.getElementById("slowBtn");
+  if (slowBtn) slowBtn.style.display = "none";
   remainingTime = GAME_SETTINGS.gameDuration;
   clearClockCritical();
   updateDeskClock(0);
@@ -315,6 +320,9 @@ const captchaGrid = document.getElementById("captchaGrid");
 const captchaInstruct = document.getElementById("captchaInstruction");
 const captchaError = document.getElementById("captchaError");
 const captchaConfirm = document.getElementById("captchaConfirm");
+const robotCheckBox = document.getElementById("robotCheckBox");
+const robotCheckRow = document.getElementById("captchaRobotRow");
+let robotChecked = false;
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -370,6 +378,8 @@ function openCaptcha() {
   captchaInstruct.textContent = t(captchaCurrentCategory.instructionKey);
   captchaError.textContent = "";
   captchaSelectedCounts = new Map();
+  robotChecked = false;
+  robotCheckBox.classList.remove("checked");
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
   showGuide(t("guide.notRobot"), 3000);
@@ -386,7 +396,27 @@ function closeCaptcha() {
   captchaError.textContent = "";
 }
 
+robotCheckRow.addEventListener("click", () => {
+  robotChecked = !robotChecked;
+  robotCheckBox.classList.toggle("checked", robotChecked);
+});
+
 captchaConfirm.addEventListener("click", () => {
+  if (robotChecked) {
+    applyPunishment();
+    captchaError.textContent = t("captcha.roboterError");
+    captchaGrid.classList.remove("shake");
+    void captchaGrid.offsetWidth;
+    captchaGrid.classList.add("shake");
+    setTimeout(() => captchaGrid.classList.remove("shake"), 500);
+    setTimeout(() => {
+      captchaError.textContent = "";
+      robotChecked = false;
+      robotCheckBox.classList.remove("checked");
+    }, 2500);
+    return;
+  }
+
   const selectedIndices = new Set(
     [...captchaGrid.querySelectorAll(".captcha-tile.selected")].map((el) =>
       parseInt(el.dataset.index),
@@ -411,12 +441,12 @@ captchaConfirm.addEventListener("click", () => {
     captchaGrid.classList.add("shake");
     setTimeout(() => {
       captchaGrid.classList.remove("shake");
-    }, 500);
-    setTimeout(() => {
-      captchaError.textContent = "";
       captchaSelectedCounts = new Map();
       buildCaptchaGrid();
-    }, 2500);
+    }, 600);
+    setTimeout(() => {
+      captchaError.textContent = "";
+    }, 2000);
   }
 });
 
@@ -492,9 +522,48 @@ function savePhoto() {
 }
 
 function checkAndShowMomToast() {
+  if (momCallHandled) return;
   if (photoAdded && typoFixed) {
     showMomToast("mom.msg1");
   }
+}
+
+function showMomCall() {
+  const callOverlay = document.getElementById("momCallOverlay");
+  if (!callOverlay) return;
+  callOverlay.style.display = "flex";
+}
+window.showMomCall = showMomCall;
+
+function showMomMistakeToast() {
+  const overlay = document.getElementById("momOverlay");
+  const msgEl = document.getElementById("momMsg");
+  const replyArea = document.getElementById("momReplyArea");
+  const replyBtn = document.getElementById("momReplyBtn");
+  const ignoreBtn = document.getElementById("momIgnoreBtn");
+  if (!overlay) return;
+
+  replyBtn.style.display = "none";
+  ignoreBtn.style.display = "none";
+  replyArea.innerHTML = "";
+
+  clearInterval(momTypewriterTimer);
+  msgEl.textContent = "";
+  const typed = document.createTextNode("");
+  msgEl.appendChild(typed);
+  const full = t("mom.call.mistake");
+  let i = 0;
+  momTypewriterTimer = setInterval(() => {
+    typed.textContent = full.slice(0, ++i);
+    if (i >= full.length) {
+      clearInterval(momTypewriterTimer);
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 2500);
+    }
+  }, 72);
+
+  overlay.style.display = "flex";
 }
 
 function showMomToast(msgKey) {
@@ -557,6 +626,13 @@ restartBtn.addEventListener("click", () => {
   location.reload();
 });
 
+document.getElementById("slowBtn").addEventListener("click", () => {
+  SPEED = 1;
+  const slowBtn = document.getElementById("slowBtn");
+  slowBtn.style.display = "none";
+  showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
+});
+
 // for testing purposes - click video to skip intro - change eventlistener to ended for production
 introVideo.addEventListener("click", () => {
   gameScreen();
@@ -588,15 +664,29 @@ passwordInput.onkeydown = (e) => {
     // Einfache Validierung (nur Demo-Zwecke)
     if (username && password === GAME_SETTINGS.correctPassword) {
       loginBox.style.display = "none";
-      gameBox.style.display = "block";
       markStep("objStep1");
-      showGuide(t("guide.rememberFile"), 3000);
+      // After unlocking, run the Bewerbungs-Flow (browser mini-game).
+      // Its CV-upload step hands back to showFileExplorer().
+      if (typeof window.startBewerbungsFlow === "function") {
+        window.startBewerbungsFlow();
+      } else {
+        showFileExplorer();
+      }
     } else {
       showGuide(t("guide.wrongPassword"), 3000);
       applyPunishment();
     }
   }
 };
+
+// Shown after the Bewerbungs-Flow's "CV hochladen" step: the existing
+// file-explorer task where the player finds the right Lebenslauf.
+function showFileExplorer() {
+  loginBox.style.display = "none";
+  gameBox.style.display = "block";
+  showGuide(t("guide.rememberFile"), 3000);
+  setTimeout(showMomCall, 350);
+}
 
 const file_explorer = document.getElementById("file_explorer");
 const docsA = document.getElementById("docsA");
@@ -678,6 +768,11 @@ function openPreview(name, content) {
     applyPunishment();
     showGuide(t("guide.wrongFile"), 2000);
   } else {
+    const traumjob = getTraumjob();
+    if (traumjob) {
+      const headline = document.getElementById("dreamjobjob");
+      headline.textContent = traumjob;
+    }
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
@@ -709,10 +804,11 @@ previewSave.addEventListener("click", () => {
   closePreview();
   applyButton.style.display = "block";
   activateApplyPhase();
-  markStep("objStep2");
-  // change headline
+  markStep("objStep5");
+  // change headline (revealed only now, for the submit phase)
   file_explorer.style.display = "none";
   taskHeadline.textContent = t("task.submit");
+  taskHeadline.style.display = "";
   showGuide(t("guide.submitNow"), 4000);
 });
 
@@ -732,6 +828,18 @@ captureBtn.addEventListener("click", capturePhoto);
 retakeBtn.addEventListener("click", retakePhoto);
 savePhotoBtn.addEventListener("click", savePhoto);
 cameraCloseBtn.addEventListener("click", stopCamera);
+
+// ─── Mom Call handlers ───────────────────────────────────────────
+document.getElementById("momCallAcceptBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+  momCallHandled = true;
+  momReplied = true;
+  showMomMistakeToast();
+});
+
+document.getElementById("momCallHangupBtn").addEventListener("click", () => {
+  document.getElementById("momCallOverlay").style.display = "none";
+});
 
 // ─── Mom SMS handlers ────────────────────────────────────────────
 document.getElementById("momIgnoreBtn").addEventListener("click", () => {
@@ -795,20 +903,51 @@ function makeDoc({ ext, name, content = "" }) {
   return el;
 }
 
-function showWinScreen() {
+function showWinScreen(shortcut) {
   gameWon = true;
-  const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
-  markStep("objStep3");
+  _lbRemainingAtWin = remainingTime;
+  markStep("objStep6");
   winBox.style.display = "block";
-  const takenMinutes = Math.floor(timeTaken / 60);
-  const takenSeconds = Math.floor(timeTaken % 60);
-  timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
-  const minutes = Math.floor(remainingTime / 60);
-  const seconds = Math.floor(remainingTime % 60);
-  timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+  const headingEl = document.getElementById("winHeading");
+  const normalEl = document.getElementById("winNormal");
+  const shortcutEl = document.getElementById("winShortcut");
+
+  if (shortcut) {
+    // Won by typing a genuinely good portal — no application, just a victory lap.
+    if (headingEl) headingEl.textContent = t("win.shortcut.heading");
+    if (normalEl) normalEl.style.display = "none";
+    if (shortcutEl) shortcutEl.style.display = "";
+  } else {
+    if (headingEl) headingEl.textContent = t("win.heading");
+    if (normalEl) normalEl.style.display = "";
+    if (shortcutEl) shortcutEl.style.display = "none";
+    const timeTaken = GAME_SETTINGS.gameDuration - remainingTime;
+    const takenMinutes = Math.floor(timeTaken / 60);
+    const takenSeconds = Math.floor(timeTaken % 60);
+    timeTakenEl.textContent = `${takenMinutes}:${takenSeconds.toString().padStart(2, "0")}`;
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = Math.floor(remainingTime % 60);
+    timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    showGuide(t("guide.success"), 0);
+  }
+
   stopTimer();
-  showGuide(t("guide.success"), 0);
   screen_2EL.style.display = "none";
+
+  // Wire up jobs.derstandard.at as a real link using the player's Traumjob
+  const dstUrl = `https://jobs.derstandard.at/suche/oesterreich/${encodeURIComponent(getTraumjob())}`;
+  document.querySelectorAll("#nr3_win b").forEach((el) => {
+    if (el.textContent.trim() === "jobs.derstandard.at") {
+      const a = document.createElement("a");
+      a.href = dstUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = el.textContent;
+      a.className = "dst-win-link";
+      el.replaceWith(a);
+    }
+  });
 }
 
 function showGameOverScreen(reason) {
@@ -874,6 +1013,14 @@ function loadGame(docs) {
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
+}
+
+function getTraumjob() {
+  try {
+    return localStorage.getItem("tj_traumjob") || "";
+  } catch (e) {
+    return "";
+  }
 }
 
 const DOCS = [
@@ -1185,142 +1332,344 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_neu.pdf",
     content: `
-    <div class="lebenslauf">  <p><strong>Max Mustermann</strong> [FOTO EINFÜGEN]<br>
-      Software Developer · max.mustermann@email.at</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Junior Developer (2021–2024)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p>
-      <hr>
-      <p><strong>Referenzen</strong><br>
-      [Referenz folgt]</p></div>
+  
+<div id="lebenslauf-graphic">
+  <div class="wordart">THOMAS CRUISE</div>
+
+  <div class="marquee">
+    ★ AVAILABLE FOR GRAPHIC DESIGN ★ 
+  </div>
+
+  <div class="hero">
+    <img
+      src="https://hypership.uk/uploads/20260616082732_00_graphic.png"
+      alt="Thomas Cruise Lebenslauf"
+    />
+
+    <div class="intro">
+      <strong>Thomas Cruise</strong><br />
+      Senior Graphic Wizard™<br />
+      📧 graphic_impossible@scientology.com<br />
+      🌐 myspace.com/thomascruise2007<br /><br />
+
+      <span class="blink"> ★ Winner of "Best ClipArt Placement 2009" ★ </span>
+    </div>
+   
+  </div>
+
+  <div class="section">
+    <h2>Berufserfahrung</h2>
+
+      <p>***</p>
+    <p>
+      <strong>Lead WordArt Engineer</strong><br />
+      Microsoft FrontPage Fanclub (2014–heute)
+    </p>
+
+    <p>
+      <strong>Freelance JPEG Compressor</strong><br />
+      Diverse Foren-Signaturen & Counter-Strike-Clans (2008–2014)
+    </p>
+
+    <p>
+      <strong>Intern bei Paint</strong><br />
+      MS Paint Ultimate Edition (2006–2008)
+    </p>
+      <p>***</p>
+  </div>
+
+  <div class="section">
+    <h2>Fähigkeiten</h2>
+
+      <p>***</p>
+    <ul>
+      <li>PowerPoint Übergänge auf Maximum</li>
+      <li>WordArt (Expert Level)</li>
+
+      <li>ClipArt-Montage</li>
+
+      <li>MySpace Profil Optimierung</li>
+      <li>HTML Tabellen Layouts ohne CSS</li>
+    </ul>
+      <p>***</p>
+  </div>
+
+  <div class="section">
+    <h2>Software Kenntnisse</h2>
+
+      <p>***</p>
+    <ul>
+      <li>Microsoft Word 2003 ★★★★★</li>
+      <li>Paint ★★★★★</li>
+      <li>Internet Explorer ★★★★★</li>
+      <li>Winamp Skins ★★★★★</li>
+      <li>Photoshop CS2 (Testversion) ★★★☆☆</li>
+    </ul>
+      <p>  <p>***</p></p>
+  </div>
+
+  <div class="section">
+    <h2>Referenzen</h2>
+   <p>***</p>
+    <p>
+      „Bitte hör auf Designs zu machen.“<br />
+      — ehemaliger Kunde
+    </p>
+
+    <p>
+      „Das ist technisch gesehen eine Webseite.“<br />
+      — unabhängiger Gutachter
+    </p>
+    <p>***</p>
+  </div>
+
+  <div class="footer">
+    Optimiert für Internet Explorer 6 • 1024×768 empfohlen • Best viewed with
+    17" Röhrenmonitor
+  </div>
+</div>
+
     `,
   },
   {
     ext: "PDF",
     name: "lebenslauf_final.pdf",
     content: `
-      <div class="lebenslauf">  <p><strong>Max Mustermann</strong><br>
-      Software Developer · max.mustermann@email.at</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Developer (TODO: Datum prüfen)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js, TypeScript</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p> </div>
+<div id="lebenslauf-maus">
+  <div class="kopf">
+    <img
+      src="https://hypership.uk/uploads/20260616085123_00_gustaver.jpg"
+      alt="Mausiger Lebenslauf"
+    />
+
+    <div>
+      <h1>Gustav Mäuschen</h1>
+      <div class="claim">„Morgenstund hat Kaffee im Mund.“ ☕🐭</div>
+      <div class="kontakt">
+        Motivierte Teilzeit-Maus · schabernack@mausmail.at<br />
+        Bereit, heute meine vollen 50% zu geben.
+      </div>
+    </div>
+  </div>
+
+  <div class="bereich">
+    <h2>Profil</h2>
+    <p>
+      Ich bin just a Maus who needs money für Schabernack. Sehr süß, sehr
+      bemüht, sehr sonnenscheinmäßig unterwegs. Ich bringe gute Laune, kleine
+      Pfötchen und eine überraschend starke Motivation für halbwegs wichtige
+      Aufgaben mit.
+    </p>
+  </div>
+
+  <div class="bereich">
+    <h2>Fähigkeiten</h2>
+    <ul>
+      <li>Käsebasierte Problemlösung</li>
+      <li>50% Einsatz mit 100% Cute-Faktor</li>
+      <li>Kaffee trinken und dabei wichtig schauen</li>
+
+      <li>Schabernack planen</li>
+
+      <li>Sehr kleine, aber ernst gemeinte Excel-Tabellen</li>
+      <li>Motiviert nicken in Meetings</li>
+    </ul>
+
+    <div class="badgebox">
+      <span class="badge">cute</span>
+      <span class="badge">mausig</span>
+      <span class="badge">pastell</span>
+      <span class="badge">kaffee</span>
+      <span class="badge">schabernack-ready</span>
+    </div>
+  </div>
+
+  <div class="bereich">
+    <h2>Ausbildung</h2>
+    <p>
+      <strong>Akademie für kleine Dinge mit großer Wirkung</strong><br />
+      Diplom in Mausmanagement & Snack Logistics
+    </p>
+  </div>
+  <div class="bereich">
+    <h2>Referenzen</h2>
+    <p>
+      „Kommt vielleicht zu spät, aber dafür sehr lieb.“<br />
+      — ehemaliger Käsegeber
+    </p>
+  </div>
+  <div class="bereich">
+    <h2>Berufserfahrung</h2>
+    <p>
+      <strong>Junior Schabernack Consultant</strong><br />
+      Käse & Chaos GmbH · 2022–heute
+    </p>
+    <p>
+      <strong>Assistant to the Regional Sonnenstrahl</strong><br />
+      Maus Office Collective · 2020–2022
+    </p>
+  </div>
+
+  <div class="footer">
+    🐭 verfügbar ab sofort · bevorzugt nach Kaffee · bezahlt gerne in Geld oder
+    Käse 🧀
+  </div>
+</div>
+
+  
     `,
   },
   {
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
-    <div class="missing-image">
-    <img src="https://dummyimage.com/100/00ff48/ff0000.png&text=Image+not+Found" />
-    </div>
-      <p><strong>Max Mustermann</strong><br>
-      Software Developer · max.mustermann@email.at · +43 699 9876543</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Developer (2021–2024)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js, TypeScript, Git</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p>
-      <hr>
-      <p>Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.</p>
+  <div id="lebenslauf-correct">
+  <div class="content">
+    <main class="left">
+      <div class="missing-image">
+        <img
+          src="https://hypership.uk/uploads/20260616093708_00_imgnotfound.png"
+        />
+      </div>
+      <hr />
+      <p><strong class="cvname">Patricia Patternwoman</strong></p>
+      <p id="dreamjobjob"></p>
+      <hr />
+      <p>
+        <strong>Profil</strong><br />
+        Erfahrung in kompetitiven Multiplayer- und
+        Story-Spielen. Bekannt für strategisches Denken, Ausdauer bei
+        schwierigen Challenges und die Fähigkeit, komplexe Systeme schnell zu
+        verstehen. Motiviert durch Fortschritt, Teamplay und das Freischalten
+        neuer Achievements.
+      </p>
+      <hr />
+      <p>
+        <strong>Spielerfahrung</strong><br />
+        Open World Enthusiast (2020–heute)<br />
+        Koop-Strategin (2018–heute)<br />
+        Achievement Hunter (2016–heute)
+      </p>
+      <hr />
+      <p>
+        <strong>Gaming Highlights</strong></p>
+      <ul>
+  <li>
+    Clair Obscur: Expedition 33 — mehrere anspruchsvolle Bosskämpfe erfolgreich gemeistert.
+  </li>
+  <li>
+    Assassin's Creed Shadows — zahlreiche Gebiete vollständig erkundet und Nebenmissionen abgeschlossen.
+  </li>
+  <li>
+    Baldur's Gate 3 — verschiedene Story-Pfade und Builds getestet.
+  </li>
+  <li>
+    Fortnite — regelmäßige Top-Platzierungen in saisonalen Events.
+  </li>
+  <li>
+    Minecraft — umfangreiche Survival- und Kreativprojekte umgesetzt.
+  </li>
+</ul>
+      
+      <hr />
+      <p>
+        <strong>Skills</strong><br />
+        Strategie · Teamplay · Ressourcenmanagement · Problemlösung · Ausdauer ·
+        Reaktionsgeschwindigkeit · Orientierung · Kommunikation · Questplanung ·
+        Achievement Tracking
+      </p>
+      <hr />
+      <p>
+        <strong>Achievements</strong><br />
+        100%-Abschlüsse in mehreren Open-World-Spielen.<br />
+        Seltene Ingame-Erfolge freigeschaltet.<br />
+        Zahlreiche Koop-Kampagnen erfolgreich abgeschlossen.<br />
+        Langjährige Erfahrung mit RPGs, Action-Adventures und Strategiespielen.
+      </p>
+      <hr />
+      <p>
+        <strong>Lieblingsgenres</strong><br />
+        RPG · Open World · Adventure · Strategie · Survival · Koop · Sandbox
+      </p>
+      <hr />
+      <p>
+        Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.
+      </p>
+    </main>
+    <aside class="right">
+      <div class="sidebox">
+        <h2>Player Card</h2>
+        <div class="stat-grid">
+          <div class="stat"><b>LVL 37</b> Explorer</div>
+          <div class="stat"><b>XP 14.800</b> Next Level Soon</div>
+          <div class="stat"><b>Class</b> Adventurer</div>
+          <div class="stat"><b>Role</b> Team Player</div>
+        </div>
+      </div>
+      <div class="sidebox">
+        <h2>Badges</h2>
+        <ul class="badges">
+          <li>Explorer Badge</li>
+          <li>Quest Completion Badge</li>
+          <li>Teamplay Badge</li>
+          <li>Bossfight Badge</li>
+          <li>Collector Badge</li>
+        </ul>
+      </div>
+      <div class="sidebox">
+        <h2>Current Quest</h2>
+        <p>
+          Das nächste große Abenteuer finden und dabei möglichst viele
+          Achievements freischalten.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>
     `,
   },
   {
     ext: "DOCX",
     name: "motivationsschreiben.docx",
     content: `
-      <p><strong>Motivationsschreiben</strong><br>
-      Max Mustermann · max.mustermann@email.at</p>
-      <hr>
-      <p>Sehr geehrte Damen und Herren,</p>
-      <p>hiermit bewerbe ich mich auf die ausgeschriebene Stelle als Software Developer bei Ihrem Unternehmen.</p>
-      <p>Mit meiner mehrjährigen Erfahrung in der Webentwicklung bin ich überzeugt, einen wertvollen Beitrag leisten zu können.</p>
-      <p>Mit freundlichen Grüßen,<br>Max Mustermann</p>
+     <img
+      src="https://hypership.uk/uploads/20260616082039_00_spngememe.png"
+      alt="spongebob" width="100%"
+    />
     `,
   },
   {
     ext: "PDF",
     name: "zeugnisse_scan.pdf",
     content: `
-      <p><strong>Zeugnisse — Scan</strong></p>
-      <hr>
-      <p>HTL Wien — Abschlusszeugnis 2020<br>
-      Gesamtnote: Gut</p>
-      <hr>
-      <p>Praktikumszeugnis DST GmbH 2019<br>
-      „Max hat hervorragende Leistungen erbracht."</p>
+         <img
+      src="https://hypership.uk/uploads/20260616090824_00_ryley.png"
+      alt="ryleyrobinson" width="100%"
+    />
     `,
   },
-  {
-    ext: "PDF",
-    name: "portfolio.pdf",
-    content: `
-      <p><strong>Portfolio — Max Mustermann</strong></p>
-      <hr>
-      <p><strong>Projekt 1:</strong> E-Commerce-Plattform (React, Node.js)<br>
-      <strong>Projekt 2:</strong> Interne HR-App (Vue, PostgreSQL)<br>
-      <strong>Projekt 3:</strong> CLI-Tool für Datenmigration (Python)</p>
-      <hr>
-      <p><em>Weitere Projekte auf GitHub verfügbar.</em></p>
-    `,
-  },
-  {
-    ext: "PDF",
-    name: "referenzschreiben_dstgmbh.pdf",
-    content: `
-      <p><strong>Referenzschreiben</strong><br>
-      DST GmbH · Wien</p>
-      <hr>
-      <p>Herr Mustermann war von 2021 bis 2024 in unserem Unternehmen tätig und hat in dieser Zeit stets zuverlässige und qualitativ hochwertige Arbeit geleistet.</p>
-      <p>Wir empfehlen ihn uneingeschränkt weiter.</p>
-      <p><em>— HR-Abteilung, DST GmbH</em></p>
-    `,
-  },
+
   {
     ext: "PNG",
     name: "foto_bewerbung.png",
-    content: `<p><em>[Bewerbungsfoto — Vorschau nicht verfügbar]</em></p>`,
+    content: `<img src="https://hypership.uk/uploads/20260616124832_00_593d999ade165331c70dbab9a6cd44e5.jpg" alt="oldguy" width="100%">`,
   },
-  {
-    ext: "XLSX",
-    name: "gehaltsvorstellung.xlsx",
-    content: `
-      <p><strong>Gehaltsvorstellung</strong></p>
-      <hr>
-      <p>Brutto/Jahr: € 58.000<br>
-      Verhandelbar: Ja<br>
-      Startdatum: 01.06.2024</p>
-    `,
-  },
+
   {
     ext: "TXT",
     name: "notizen_interview.txt",
     content: `
-      <p><strong>Notizen — Vorstellungsgespräch</strong></p>
-      <hr>
-      <p>- Fragen zu Teamstruktur stellen<br>
-      - Remote-Policy erfragen<br>
-      - Stack: TypeScript? Microservices?<br>
-      - Onboarding-Prozess?<br>
-      - TODO: Referenzen nochmal prüfen!!</p>
+     <div id="notes-editor">
+  <p><strong>Notizen — Vorstellungsgespräch</strong></p>
+  <hr>
+  <p>
+    - Fragen ob gratis Kaffee?<br>
+    - Homeoffice?<br>
+    - zu spät kommen schlimm?<br>
+    - Lieblingstier<br>
+   <span style="font-weight: bold; color:pink"> - TODO: Neues Foto hochladen &amp; Auf Typos kontolliern</span>
+  </p>
+</div>
     `,
   },
 ];
@@ -1330,3 +1679,110 @@ buildAnalogTicks();
 updateDeskClock(0);
 
 loadGame(DOCS);
+
+// ─── Leaderboard ──────────────────────────────────────────────────
+const LEADERBOARD_KEY = "tj_leaderboard";
+let _lbRemainingAtWin = 0;
+
+function lbLoad() {
+  try {
+    return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function lbSave(nickname) {
+  const scores = lbLoad();
+  scores.push({
+    nickname: nickname.trim(),
+    remaining: _lbRemainingAtWin,
+    dreamjob: getTraumjob(),
+  });
+  scores.sort((a, b) => b.remaining - a.remaining);
+  const trimmed = scores.slice(0, 20);
+  try {
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
+  } catch (e) {}
+  return trimmed;
+}
+
+function lbFmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${pad2(m)}:${pad2(s)}`;
+}
+
+function lbRender(scores, myIndex) {
+  const list = document.getElementById("lbList");
+  if (!list) return;
+  list.innerHTML = "";
+  scores.forEach((entry, i) => {
+    const rank = i + 1;
+    const isMe = i === myIndex;
+    const rowCls = ["lb-row"];
+    if (rank === 1) rowCls.push("r1");
+    else if (rank === 2) rowCls.push("r2");
+    else if (rank === 3) rowCls.push("r3");
+    if (isMe) rowCls.push("me");
+    const row = document.createElement("div");
+    row.className = rowCls.join(" ");
+    row.style.animationDelay = `${(i * 0.07).toFixed(2)}s`;
+    row.innerHTML = `
+      <div class="rank">${rank}</div>
+      <div class="name"><b>${entry.nickname}${isMe ? `<span class="lb-chip">${t("lb.chip")}</span>` : ""}</b><span>${entry.dreamjob || ""}</span></div>
+      <div class="score"><b>${lbFmt(entry.remaining)}</b><span>${t("lb.timeLeft")}</span></div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function showLeaderboard() {
+  const overlay = document.getElementById("leaderboardOverlay");
+  const nicknameStep = document.getElementById("lbNicknameStep");
+  const boardStep = document.getElementById("lbBoardStep");
+  const scoreDisplay = document.getElementById("lbScoreDisplay");
+  if (!overlay) return;
+  if (scoreDisplay) scoreDisplay.textContent = lbFmt(_lbRemainingAtWin);
+  nicknameStep.style.display = "flex";
+  boardStep.style.display = "none";
+  overlay.style.display = "flex";
+  const input = document.getElementById("lbNicknameInput");
+  if (input) setTimeout(() => input.focus(), 50);
+}
+
+function lbSubmit() {
+  const input = document.getElementById("lbNicknameInput");
+  const nickname = input ? input.value.trim() : "";
+  if (!nickname) {
+    if (input) {
+      input.focus();
+      input.style.borderColor = "var(--tj-danger)";
+    }
+    return;
+  }
+  const scores = lbSave(nickname);
+  const myIndex = scores.findIndex(
+    (e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin,
+  );
+  document.getElementById("lbNicknameStep").style.display = "none";
+  document.getElementById("lbBoardStep").style.display = "flex";
+  lbRender(scores, myIndex);
+}
+
+// Wire up open button on win screen
+document.getElementById("lbOpenBtn").addEventListener("click", showLeaderboard);
+
+// Wire up nickname submit (button + Enter)
+document.getElementById("lbSubmitBtn").addEventListener("click", lbSubmit);
+document.getElementById("lbNicknameInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") lbSubmit();
+});
+document.getElementById("lbNicknameInput").addEventListener("input", () => {
+  document.getElementById("lbNicknameInput").style.borderColor = "";
+});
+
+// Restart from leaderboard
+document
+  .getElementById("lbRestartBtn")
+  .addEventListener("click", () => location.reload());

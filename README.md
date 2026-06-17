@@ -140,10 +140,16 @@ file has been saved.
 ```
 dst-jobs-game/
 ├── index.html       — markup and desk layout
-├── styles.css       — all styles (design tokens, desk, screens, responsive)
-├── script.js        — all game logic
-├── lang.js          — German/English translations (default German)
-├── fonts.css        — local @font-face declarations (offline)
+├── css/
+│   ├── styles.css     — core styles (design tokens, desk, screens, responsive)
+│   ├── start.css      — full-screen start screen (#tjStart)
+│   ├── bewerbung.css  — Bewerbungs-Flow browser mini-game (#tjFlow)
+│   └── fonts.css      — local @font-face declarations (offline)
+├── js/
+│   ├── script.js      — core game logic
+│   ├── lang.js        — German/English translations (default German)
+│   ├── start.js       — start screen: dream-job entry → intro video
+│   └── bewerbung.js   — Bewerbungs-Flow (URL → find job → cover letter)
 ├── assets/fonts/    — Chakra Petch, Cormorant Garamond, Share Tech Mono
 ├── images/          — laptop SVG, intro video, post-it, cat, decorative assets
 └── designGuide.html — design-system reference (colours, type, components)
