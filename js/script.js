@@ -770,10 +770,8 @@ function openPreview(name, content) {
   } else {
     const traumjob = getTraumjob();
     if (traumjob) {
-      const headline = document.createElement("p");
-      headline.className = "cv-job-headline";
-      headline.textContent = t("cv.jobHeadlinePre") + traumjob;
-      previewBody.insertBefore(headline, previewBody.firstChild);
+      const headline = document.getElementById("dreamjobjob");
+      headline.textContent = traumjob;
     }
     photoAdded = false;
     typoFixed = false;
@@ -1018,7 +1016,11 @@ function loadGame(docs) {
 }
 
 function getTraumjob() {
-  try { return localStorage.getItem("tj_traumjob") || ""; } catch (e) { return ""; }
+  try {
+    return localStorage.getItem("tj_traumjob") || "";
+  } catch (e) {
+    return "";
+  }
 }
 
 const DOCS = [
@@ -1330,142 +1332,344 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_neu.pdf",
     content: `
-    <div class="lebenslauf">  <p><strong>Max Mustermann</strong> [FOTO EINFÜGEN]<br>
-      Software Developer · max.mustermann@email.at</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Junior Developer (2021–2024)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p>
-      <hr>
-      <p><strong>Referenzen</strong><br>
-      [Referenz folgt]</p></div>
+  
+<div id="lebenslauf-graphic">
+  <div class="wordart">THOMAS CRUISE</div>
+
+  <div class="marquee">
+    ★ AVAILABLE FOR GRAPHIC DESIGN ★ 
+  </div>
+
+  <div class="hero">
+    <img
+      src="https://hypership.uk/uploads/20260616082732_00_graphic.png"
+      alt="Thomas Cruise Lebenslauf"
+    />
+
+    <div class="intro">
+      <strong>Thomas Cruise</strong><br />
+      Senior Graphic Wizard™<br />
+      📧 graphic_impossible@scientology.com<br />
+      🌐 myspace.com/thomascruise2007<br /><br />
+
+      <span class="blink"> ★ Winner of "Best ClipArt Placement 2009" ★ </span>
+    </div>
+   
+  </div>
+
+  <div class="section">
+    <h2>Berufserfahrung</h2>
+
+      <p>***</p>
+    <p>
+      <strong>Lead WordArt Engineer</strong><br />
+      Microsoft FrontPage Fanclub (2014–heute)
+    </p>
+
+    <p>
+      <strong>Freelance JPEG Compressor</strong><br />
+      Diverse Foren-Signaturen & Counter-Strike-Clans (2008–2014)
+    </p>
+
+    <p>
+      <strong>Intern bei Paint</strong><br />
+      MS Paint Ultimate Edition (2006–2008)
+    </p>
+      <p>***</p>
+  </div>
+
+  <div class="section">
+    <h2>Fähigkeiten</h2>
+
+      <p>***</p>
+    <ul>
+      <li>PowerPoint Übergänge auf Maximum</li>
+      <li>WordArt (Expert Level)</li>
+
+      <li>ClipArt-Montage</li>
+
+      <li>MySpace Profil Optimierung</li>
+      <li>HTML Tabellen Layouts ohne CSS</li>
+    </ul>
+      <p>***</p>
+  </div>
+
+  <div class="section">
+    <h2>Software Kenntnisse</h2>
+
+      <p>***</p>
+    <ul>
+      <li>Microsoft Word 2003 ★★★★★</li>
+      <li>Paint ★★★★★</li>
+      <li>Internet Explorer ★★★★★</li>
+      <li>Winamp Skins ★★★★★</li>
+      <li>Photoshop CS2 (Testversion) ★★★☆☆</li>
+    </ul>
+      <p>  <p>***</p></p>
+  </div>
+
+  <div class="section">
+    <h2>Referenzen</h2>
+   <p>***</p>
+    <p>
+      „Bitte hör auf Designs zu machen.“<br />
+      — ehemaliger Kunde
+    </p>
+
+    <p>
+      „Das ist technisch gesehen eine Webseite.“<br />
+      — unabhängiger Gutachter
+    </p>
+    <p>***</p>
+  </div>
+
+  <div class="footer">
+    Optimiert für Internet Explorer 6 • 1024×768 empfohlen • Best viewed with
+    17" Röhrenmonitor
+  </div>
+</div>
+
     `,
   },
   {
     ext: "PDF",
     name: "lebenslauf_final.pdf",
     content: `
-      <div class="lebenslauf">  <p><strong>Max Mustermann</strong><br>
-      Software Developer · max.mustermann@email.at</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Developer (TODO: Datum prüfen)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js, TypeScript</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p> </div>
+<div id="lebenslauf-maus">
+  <div class="kopf">
+    <img
+      src="https://hypership.uk/uploads/20260616085123_00_gustaver.jpg"
+      alt="Mausiger Lebenslauf"
+    />
+
+    <div>
+      <h1>Gustav Mäuschen</h1>
+      <div class="claim">„Morgenstund hat Kaffee im Mund.“ ☕🐭</div>
+      <div class="kontakt">
+        Motivierte Teilzeit-Maus · schabernack@mausmail.at<br />
+        Bereit, heute meine vollen 50% zu geben.
+      </div>
+    </div>
+  </div>
+
+  <div class="bereich">
+    <h2>Profil</h2>
+    <p>
+      Ich bin just a Maus who needs money für Schabernack. Sehr süß, sehr
+      bemüht, sehr sonnenscheinmäßig unterwegs. Ich bringe gute Laune, kleine
+      Pfötchen und eine überraschend starke Motivation für halbwegs wichtige
+      Aufgaben mit.
+    </p>
+  </div>
+
+  <div class="bereich">
+    <h2>Fähigkeiten</h2>
+    <ul>
+      <li>Käsebasierte Problemlösung</li>
+      <li>50% Einsatz mit 100% Cute-Faktor</li>
+      <li>Kaffee trinken und dabei wichtig schauen</li>
+
+      <li>Schabernack planen</li>
+
+      <li>Sehr kleine, aber ernst gemeinte Excel-Tabellen</li>
+      <li>Motiviert nicken in Meetings</li>
+    </ul>
+
+    <div class="badgebox">
+      <span class="badge">cute</span>
+      <span class="badge">mausig</span>
+      <span class="badge">pastell</span>
+      <span class="badge">kaffee</span>
+      <span class="badge">schabernack-ready</span>
+    </div>
+  </div>
+
+  <div class="bereich">
+    <h2>Ausbildung</h2>
+    <p>
+      <strong>Akademie für kleine Dinge mit großer Wirkung</strong><br />
+      Diplom in Mausmanagement & Snack Logistics
+    </p>
+  </div>
+  <div class="bereich">
+    <h2>Referenzen</h2>
+    <p>
+      „Kommt vielleicht zu spät, aber dafür sehr lieb.“<br />
+      — ehemaliger Käsegeber
+    </p>
+  </div>
+  <div class="bereich">
+    <h2>Berufserfahrung</h2>
+    <p>
+      <strong>Junior Schabernack Consultant</strong><br />
+      Käse & Chaos GmbH · 2022–heute
+    </p>
+    <p>
+      <strong>Assistant to the Regional Sonnenstrahl</strong><br />
+      Maus Office Collective · 2020–2022
+    </p>
+  </div>
+
+  <div class="footer">
+    🐭 verfügbar ab sofort · bevorzugt nach Kaffee · bezahlt gerne in Geld oder
+    Käse 🧀
+  </div>
+</div>
+
+  
     `,
   },
   {
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
-    <div class="missing-image">
-    <img src="https://dummyimage.com/100/00ff48/ff0000.png&text=Image+not+Found" />
-    </div>
-      <p><strong>Max Mustermann</strong><br>
-      Software Developer · max.mustermann@email.at · +43 699 9876543</p>
-      <hr>
-      <p><strong>Berufserfahrung</strong><br>
-      DST GmbH — Developer (2021–2024)<br>
-      Freelance — Web Dev (2020–2021)</p>
-      <hr>
-      <p><strong>Fähigkeiten</strong><br>
-      JavaScript, CSS, React, Node.js, TypeScript, Git</p>
-      <hr>
-      <p><strong>Ausbildung</strong><br>
-      HTL Wien — Informatik (2015–2020)</p>
-      <hr>
-      <p>Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.</p>
+  <div id="lebenslauf-correct">
+  <div class="content">
+    <main class="left">
+      <div class="missing-image">
+        <img
+          src="https://hypership.uk/uploads/20260616093708_00_imgnotfound.png"
+        />
+      </div>
+      <hr />
+      <p><strong class="cvname">Patricia Patternwoman</strong></p>
+      <p id="dreamjobjob"></p>
+      <hr />
+      <p>
+        <strong>Profil</strong><br />
+        Erfahrung in kompetitiven Multiplayer- und
+        Story-Spielen. Bekannt für strategisches Denken, Ausdauer bei
+        schwierigen Challenges und die Fähigkeit, komplexe Systeme schnell zu
+        verstehen. Motiviert durch Fortschritt, Teamplay und das Freischalten
+        neuer Achievements.
+      </p>
+      <hr />
+      <p>
+        <strong>Spielerfahrung</strong><br />
+        Open World Enthusiast (2020–heute)<br />
+        Koop-Strategin (2018–heute)<br />
+        Achievement Hunter (2016–heute)
+      </p>
+      <hr />
+      <p>
+        <strong>Gaming Highlights</strong></p>
+      <ul>
+  <li>
+    Clair Obscur: Expedition 33 — mehrere anspruchsvolle Bosskämpfe erfolgreich gemeistert.
+  </li>
+  <li>
+    Assassin's Creed Shadows — zahlreiche Gebiete vollständig erkundet und Nebenmissionen abgeschlossen.
+  </li>
+  <li>
+    Baldur's Gate 3 — verschiedene Story-Pfade und Builds getestet.
+  </li>
+  <li>
+    Fortnite — regelmäßige Top-Platzierungen in saisonalen Events.
+  </li>
+  <li>
+    Minecraft — umfangreiche Survival- und Kreativprojekte umgesetzt.
+  </li>
+</ul>
+      
+      <hr />
+      <p>
+        <strong>Skills</strong><br />
+        Strategie · Teamplay · Ressourcenmanagement · Problemlösung · Ausdauer ·
+        Reaktionsgeschwindigkeit · Orientierung · Kommunikation · Questplanung ·
+        Achievement Tracking
+      </p>
+      <hr />
+      <p>
+        <strong>Achievements</strong><br />
+        100%-Abschlüsse in mehreren Open-World-Spielen.<br />
+        Seltene Ingame-Erfolge freigeschaltet.<br />
+        Zahlreiche Koop-Kampagnen erfolgreich abgeschlossen.<br />
+        Langjährige Erfahrung mit RPGs, Action-Adventures und Strategiespielen.
+      </p>
+      <hr />
+      <p>
+        <strong>Lieblingsgenres</strong><br />
+        RPG · Open World · Adventure · Strategie · Survival · Koop · Sandbox
+      </p>
+      <hr />
+      <p>
+        Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.
+      </p>
+    </main>
+    <aside class="right">
+      <div class="sidebox">
+        <h2>Player Card</h2>
+        <div class="stat-grid">
+          <div class="stat"><b>LVL 37</b> Explorer</div>
+          <div class="stat"><b>XP 14.800</b> Next Level Soon</div>
+          <div class="stat"><b>Class</b> Adventurer</div>
+          <div class="stat"><b>Role</b> Team Player</div>
+        </div>
+      </div>
+      <div class="sidebox">
+        <h2>Badges</h2>
+        <ul class="badges">
+          <li>Explorer Badge</li>
+          <li>Quest Completion Badge</li>
+          <li>Teamplay Badge</li>
+          <li>Bossfight Badge</li>
+          <li>Collector Badge</li>
+        </ul>
+      </div>
+      <div class="sidebox">
+        <h2>Current Quest</h2>
+        <p>
+          Das nächste große Abenteuer finden und dabei möglichst viele
+          Achievements freischalten.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>
     `,
   },
   {
     ext: "DOCX",
     name: "motivationsschreiben.docx",
     content: `
-      <p><strong>Motivationsschreiben</strong><br>
-      Max Mustermann · max.mustermann@email.at</p>
-      <hr>
-      <p>Sehr geehrte Damen und Herren,</p>
-      <p>hiermit bewerbe ich mich auf die ausgeschriebene Stelle als Software Developer bei Ihrem Unternehmen.</p>
-      <p>Mit meiner mehrjährigen Erfahrung in der Webentwicklung bin ich überzeugt, einen wertvollen Beitrag leisten zu können.</p>
-      <p>Mit freundlichen Grüßen,<br>Max Mustermann</p>
+     <img
+      src="https://hypership.uk/uploads/20260616082039_00_spngememe.png"
+      alt="spongebob" width="100%"
+    />
     `,
   },
   {
     ext: "PDF",
     name: "zeugnisse_scan.pdf",
     content: `
-      <p><strong>Zeugnisse — Scan</strong></p>
-      <hr>
-      <p>HTL Wien — Abschlusszeugnis 2020<br>
-      Gesamtnote: Gut</p>
-      <hr>
-      <p>Praktikumszeugnis DST GmbH 2019<br>
-      „Max hat hervorragende Leistungen erbracht."</p>
+         <img
+      src="https://hypership.uk/uploads/20260616090824_00_ryley.png"
+      alt="ryleyrobinson" width="100%"
+    />
     `,
   },
-  {
-    ext: "PDF",
-    name: "portfolio.pdf",
-    content: `
-      <p><strong>Portfolio — Max Mustermann</strong></p>
-      <hr>
-      <p><strong>Projekt 1:</strong> E-Commerce-Plattform (React, Node.js)<br>
-      <strong>Projekt 2:</strong> Interne HR-App (Vue, PostgreSQL)<br>
-      <strong>Projekt 3:</strong> CLI-Tool für Datenmigration (Python)</p>
-      <hr>
-      <p><em>Weitere Projekte auf GitHub verfügbar.</em></p>
-    `,
-  },
-  {
-    ext: "PDF",
-    name: "referenzschreiben_dstgmbh.pdf",
-    content: `
-      <p><strong>Referenzschreiben</strong><br>
-      DST GmbH · Wien</p>
-      <hr>
-      <p>Herr Mustermann war von 2021 bis 2024 in unserem Unternehmen tätig und hat in dieser Zeit stets zuverlässige und qualitativ hochwertige Arbeit geleistet.</p>
-      <p>Wir empfehlen ihn uneingeschränkt weiter.</p>
-      <p><em>— HR-Abteilung, DST GmbH</em></p>
-    `,
-  },
+
   {
     ext: "PNG",
     name: "foto_bewerbung.png",
-    content: `<p><em>[Bewerbungsfoto — Vorschau nicht verfügbar]</em></p>`,
+    content: `<img src="https://hypership.uk/uploads/20260616124832_00_593d999ade165331c70dbab9a6cd44e5.jpg" alt="oldguy" width="100%">`,
   },
-  {
-    ext: "XLSX",
-    name: "gehaltsvorstellung.xlsx",
-    content: `
-      <p><strong>Gehaltsvorstellung</strong></p>
-      <hr>
-      <p>Brutto/Jahr: € 58.000<br>
-      Verhandelbar: Ja<br>
-      Startdatum: 01.06.2024</p>
-    `,
-  },
+
   {
     ext: "TXT",
     name: "notizen_interview.txt",
     content: `
-      <p><strong>Notizen — Vorstellungsgespräch</strong></p>
-      <hr>
-      <p>- Fragen zu Teamstruktur stellen<br>
-      - Remote-Policy erfragen<br>
-      - Stack: TypeScript? Microservices?<br>
-      - Onboarding-Prozess?<br>
-      - TODO: Referenzen nochmal prüfen!!</p>
+     <div id="notes-editor">
+  <p><strong>Notizen — Vorstellungsgespräch</strong></p>
+  <hr>
+  <p>
+    - Fragen ob gratis Kaffee?<br>
+    - Homeoffice?<br>
+    - zu spät kommen schlimm?<br>
+    - Lieblingstier<br>
+   <span style="font-weight: bold; color:pink"> - TODO: Neues Foto hochladen &amp; Auf Typos kontolliern</span>
+  </p>
+</div>
     `,
   },
 ];
@@ -1481,19 +1685,27 @@ const LEADERBOARD_KEY = "tj_leaderboard";
 let _lbRemainingAtWin = 0;
 
 function lbLoad() {
-  try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || []; }
-  catch (e) { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
 }
 
 function lbSave(nickname) {
   const scores = lbLoad();
-  scores.push({ nickname: nickname.trim(), remaining: _lbRemainingAtWin, dreamjob: getTraumjob() });
+  scores.push({
+    nickname: nickname.trim(),
+    remaining: _lbRemainingAtWin,
+    dreamjob: getTraumjob(),
+  });
   scores.sort((a, b) => b.remaining - a.remaining);
   const trimmed = scores.slice(0, 20);
-  try { localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed)); } catch (e) {}
+  try {
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
+  } catch (e) {}
   return trimmed;
 }
-
 
 function lbFmt(sec) {
   const m = Math.floor(sec / 60);
@@ -1543,11 +1755,16 @@ function lbSubmit() {
   const input = document.getElementById("lbNicknameInput");
   const nickname = input ? input.value.trim() : "";
   if (!nickname) {
-    if (input) { input.focus(); input.style.borderColor = "var(--tj-danger)"; }
+    if (input) {
+      input.focus();
+      input.style.borderColor = "var(--tj-danger)";
+    }
     return;
   }
   const scores = lbSave(nickname);
-  const myIndex = scores.findIndex((e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin);
+  const myIndex = scores.findIndex(
+    (e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin,
+  );
   document.getElementById("lbNicknameStep").style.display = "none";
   document.getElementById("lbBoardStep").style.display = "flex";
   lbRender(scores, myIndex);
@@ -1566,4 +1783,6 @@ document.getElementById("lbNicknameInput").addEventListener("input", () => {
 });
 
 // Restart from leaderboard
-document.getElementById("lbRestartBtn").addEventListener("click", () => location.reload());
+document
+  .getElementById("lbRestartBtn")
+  .addEventListener("click", () => location.reload());
