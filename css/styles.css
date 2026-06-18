@@ -239,6 +239,10 @@ h1 {
   color: var(--tj-text);
 }
 
+.tj-desk video#introVideo{
+  width: 100%;
+}
+
 .nr1_login_box input {
   font-family: var(--tj-font-mono);
   font-size: 2.2cqw;
@@ -3074,10 +3078,11 @@ a.dst-win-link:hover {
   }
 
   /* bump the container-relative sizes up since the container is now narrow */
-  .tj-desk .portrait {
-    width: 16cqw;
-    height: 21cqw;
+  .tj-desk div.potrait img#hase{
+    width: 50em;
+    padding-top: 5em;
   }
+
   .tj-desk .portrait .emoji {
     font-size: 11cqw;
   }

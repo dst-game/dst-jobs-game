@@ -713,6 +713,12 @@ const cameraCloseBtn = document.getElementById("camera-close-btn");
 const taskHeadline = document.getElementById("taskHeadline");
 const guideText = document.getElementById("guideText");
 const guideCard = document.querySelector(".tj-desk .guide-card");
+const guidePortraitImg = document.querySelector(".tj-desk .portrait img");
+const guideIdleSrc = "images/idle.png";
+const guideExplainSrc = "images/idle2explain.gif";
+const guideDisappointedSrc = "images/disappointed.gif";
+const guideVictorySrc = "images/victory.gif";
+let guidePortraitTimer = null;
 const timebarFill = document.getElementById("timebarFill");
 // Desk stage clock elements
 const gameDesk = document.getElementById("gameDesk");
@@ -728,6 +734,14 @@ let typewriterTimer = null;
 // types the new line out character-by-character with a blinking caret.
 function showGuide(text) {
   if (!guideText) return;
+  if (guidePortraitImg) {
+    clearTimeout(guidePortraitTimer);
+    guidePortraitImg.src = guideIdleSrc;
+    guidePortraitImg.src = guideExplainSrc + "?t=" + Date.now();
+    guidePortraitTimer = setTimeout(() => {
+      guidePortraitImg.src = guideIdleSrc;
+    }, 4500);
+  }
   clearInterval(typewriterTimer);
   const full = String(text);
   guideText.textContent = "";
@@ -905,6 +919,10 @@ function makeDoc({ ext, name, content = "" }) {
 
 function showWinScreen(shortcut) {
   gameWon = true;
+  if (guidePortraitImg) {
+    clearTimeout(guidePortraitTimer);
+    guidePortraitImg.src = guideVictorySrc;
+  }
   _lbRemainingAtWin = remainingTime;
   markStep("objStep6");
   winBox.style.display = "block";
@@ -951,6 +969,10 @@ function showWinScreen(shortcut) {
 }
 
 function showGameOverScreen(reason) {
+  if (guidePortraitImg) {
+    clearTimeout(guidePortraitTimer);
+    guidePortraitImg.src = guideDisappointedSrc;
+  }
   const headingEl = document.getElementById("gameOverHeading");
   const bodyEl = document.getElementById("gameOverBody");
   if (reason === "discard") {
