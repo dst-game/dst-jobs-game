@@ -476,14 +476,17 @@ function capturePhoto() {
   const ctx = canvas.getContext("2d");
   ctx.drawImage(videoEl, 0, 0);
 
+  //CHANGE
+
   // Green terminal filter: grayscale → green channel only
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const d = imageData.data;
   for (let i = 0; i < d.length; i += 4) {
-    const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-    d[i] = 0;
-    d[i + 1] = Math.min(255, gray * 1.2);
-    d[i + 2] = 0;
+    const gray = (d[i] + d[i + 1] + d[i + 2]) / 3 / 255; // 0..1
+
+    d[i] = Math.min(255, 0 + gray * 255);
+    d[i + 1] = 50;
+    d[i + 2] = Math.min(255, 180 + gray * (170 - 180));
   }
   ctx.putImageData(imageData, 0, 0);
 
@@ -734,7 +737,7 @@ let typewriterTimer = null;
 // types the new line out character-by-character with a blinking caret.
 function showGuide(text) {
   if (!guideText) return;
-  if (guidePortraitImg) {
+  if (guidePortraitImg && !gameWon && !gameOver) {
     clearTimeout(guidePortraitTimer);
     guidePortraitImg.src = guideIdleSrc;
     guidePortraitImg.src = guideExplainSrc + "?t=" + Date.now();
@@ -1550,7 +1553,7 @@ const DOCS = [
     <main class="left">
       <div class="missing-image">
         <img
-          src="https://hypership.uk/uploads/20260616093708_00_imgnotfound.png"
+          src="images/nopfp.png"
         />
       </div>
       <hr />
@@ -1725,7 +1728,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) {}
+  } catch (e) { }
   return trimmed;
 }
 
