@@ -239,7 +239,7 @@ h1 {
   color: var(--tj-text);
 }
 
-.tj-desk video#introVideo{
+.tj-desk video#introVideo {
   width: 100%;
 }
 
@@ -2785,7 +2785,9 @@ a.dst-win-link:hover {
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  transform: scale(1.9);
   display: none;
+  margin-top: 40px;
 }
 .tj-desk .portrait.has-art .art {
   display: block;
@@ -3078,7 +3080,7 @@ a.dst-win-link:hover {
   }
 
   /* bump the container-relative sizes up since the container is now narrow */
-  .tj-desk div.potrait img#hase{
+  .tj-desk div.potrait img#hase {
     width: 50em;
     padding-top: 5em;
   }
