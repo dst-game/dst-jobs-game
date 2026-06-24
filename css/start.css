@@ -9,9 +9,14 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  overflow: hidden;
+  overflow-x: hidden;
+  /* allow the content to scroll instead of being clipped when the viewport is
+     too short for the whole stack (the start button was getting cut off) */
+  overflow-y: auto;
   display: flex;
-  align-items: center;
+  /* `safe center` falls back to top-alignment when the content is taller than
+     the viewport, so nothing (incl. the button) is ever clipped */
+  align-items: safe center;
   justify-content: center;
   isolation: isolate;
   background: var(--tj-ink-900);
@@ -137,10 +142,13 @@
 /* --- VARIANT A — CINEMATIC CENTERED --- */
 #tjStart .va {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 100%; text-align: center; gap: 30px; padding: 6vmin;
+  /* min-height (not height) so the stack can grow taller than the viewport and
+     scroll, while still centering vertically when it fits */
+  min-height: 100%; height: auto; text-align: center;
+  gap: clamp(16px, 3.2vmin, 30px); padding: clamp(24px, 5vmin, 64px);
 }
 #tjStart .va .tj-eyebrow { margin-bottom: 4px; }
-#tjStart .va .tj-headline { font-size: clamp(40px, 8.4vw, 108px); }
+#tjStart .va .tj-headline { font-size: clamp(36px, 6.4vw, 92px); }
 #tjStart .va .va-sub {
   max-width: 560px; font-size: clamp(15px, 1.7vw, 18px);
   color: var(--tj-muted); line-height: 1.5;

@@ -49,7 +49,7 @@
 
   function ensureTimerRunning() {
     // Make the desk visible and start the timer if not already running
-    var timerRail = document.querySelector(".clock-rail");
+    var timerRail = document.querySelector(".clock-card");
     if (timerRail) timerRail.style.display = "flex";
     var cattail = document.querySelector(".cattail");
     if (cattail) cattail.style.display = "flex";

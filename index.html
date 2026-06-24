@@ -71,6 +71,41 @@
               </div>
             </div>
           </div>
+          <!-- clock (5 vor 12) — now lives in the left rail, below the rabbit -->
+          <div class="clock-card">
+            <div class="deadline" data-i18n="clock.deadline">
+              Annahmeschluss · 12:00
+            </div>
+            <div class="tj-clock-analog" id="gameAnalog">
+              <div class="hand hour" id="clkH"></div>
+              <div class="hand minute" id="clkM"></div>
+              <div class="hand second" id="clkS"></div>
+              <div class="cap"></div>
+              <div class="crown"></div>
+            </div>
+            <div class="tj-clock-digital" id="gameDigital">
+              <div class="time-row">
+                <div class="time" id="time">11:55:00</div>
+                <button
+                  id="slowBtn"
+                  class="slow-btn"
+                  style="display: none"
+                  title="Tempo verlangsamen"
+                >
+                  🐢
+                </button>
+              </div>
+            </div>
+            <div class="timer">
+              <div class="track">
+                <div class="fill" id="timebarFill" style="width: 100%"></div>
+              </div>
+              <div class="note" data-i18n="clock.penaltyNote">
+                Fehler = <b>Zeitstrafe</b>
+              </div>
+              <div class="punishment-label" id="punishmentLabel"></div>
+            </div>
+          </div>
         </aside>
 
         <!-- CENTER · Laptop = Hauptbühne -->
@@ -440,46 +475,6 @@
             Los — die Uhr wartet auf niemanden!
           </div>
         </main>
-
-        <!-- RIGHT · Uhr (5 vor 12) -->
-        <aside class="rail clock-rail">
-          <div class="clock-card">
-            <div class="deadline" data-i18n="clock.deadline">
-              Annahmeschluss · 12:00
-            </div>
-            <div class="tj-clock-analog" id="gameAnalog">
-              <div class="hand hour" id="clkH"></div>
-              <div class="hand minute" id="clkM"></div>
-              <div class="hand second" id="clkS"></div>
-              <div class="cap"></div>
-              <div class="crown"></div>
-            </div>
-            <div class="tj-clock-digital" id="gameDigital">
-              <div class="time-row">
-                <div class="time" id="time">11:55:00</div>
-                <button
-                  id="slowBtn"
-                  class="slow-btn"
-                  style="display: none"
-                  title="Tempo verlangsamen"
-                >
-                  🐢
-                </button>
-              </div>
-              <div class="lbl" data-i18n="clock.localtime">Ortszeit</div>
-            </div>
-            <div class="timer">
-              <div class="lbl" data-i18n="clock.fristLabel">Frist</div>
-              <div class="track">
-                <div class="fill" id="timebarFill" style="width: 100%"></div>
-              </div>
-              <div class="note" data-i18n="clock.penaltyNote">
-                Fehler = <b>Zeitstrafe</b>
-              </div>
-              <div class="punishment-label" id="punishmentLabel"></div>
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
 

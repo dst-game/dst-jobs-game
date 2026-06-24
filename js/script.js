@@ -617,7 +617,7 @@ const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
 const postit = document.querySelector(".postit");
-const timer = document.querySelector(".clock-rail");
+const timer = document.querySelector(".clock-card");
 
 startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";

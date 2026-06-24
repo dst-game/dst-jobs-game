@@ -2669,16 +2669,60 @@ a.dst-win-link:hover {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 2.05fr) minmax(0, 0.95fr);
+  /* left info rail (rabbit + guidance + clock) · laptop = main stage */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr);
   align-items: center;
   gap: 2.4cqw;
   padding: 1.4cqw 3cqw 3cqw;
+  /* Cap the scene width on big screens and center it. Becoming a
+     container-query container makes all the cqw sizing inside the rails,
+     clock and rabbit resolve against THIS capped width — so a 27" monitor
+     shows the same balanced, readable layout (just centered) instead of
+     scaling everything up with the full viewport width. */
+  width: min(100%, 1600px);
+  margin-inline: auto;
+  container-type: inline-size;
 }
 .tj-desk .rail {
   align-self: stretch;
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+/* the left rail now stacks the guide card above the clock card, kept as a
+   compact group centered vertically (so they don't stretch to fill tall
+   screens, which left a huge empty rabbit card and a clock pinned to the
+   bottom) */
+.tj-desk .guide-rail {
+  gap: 1.8cqw;
+  justify-content: center;
+}
+.tj-desk .guide-rail .guide-card,
+.tj-desk .guide-rail .clock-card {
+  flex: 0 0 auto;
+}
+/* clock is a touch smaller now that it shares the rail with the rabbit
+   (desktop only — the narrow-screen layout below keeps the big clock) */
+@media (min-width: 821px) {
+  .tj-desk .guide-rail .clock-card {
+    gap: 0.7cqw;
+    padding: 1.1cqw;
+  }
+  .tj-desk .guide-rail .clock-card .tj-clock-analog {
+    --size: 7.5cqw;
+  }
+  .tj-desk .guide-rail .clock-card .tj-clock-digital .time {
+    font-size: 2cqw;
+  }
+  /* trim the rabbit window so the guide card + clock both fit the rail */
+  .tj-desk .guide-rail .portrait {
+    width: 5cqw;
+    height: 6.5cqw;
+  }
+  .tj-desk .guide-rail .guide-card {
+    gap: 1cqw;
+    padding: 1.4cqw;
+  }
 }
 .tj-desk .rail-head {
   display: flex;
@@ -2899,7 +2943,8 @@ a.dst-win-link:hover {
   height: 100%;
 }
 .tj-desk .laptop-stage .tj-laptop {
-  --w: 100%;
+  /* fill the column but never grow huge on wide monitors */
+  --w: min(100%, 820px);
 }
 .tj-desk .laptop-stage .tj-laptop .lid {
   box-shadow:
