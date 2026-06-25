@@ -53,6 +53,7 @@ let speedBoosted = false; // true once SPEED has been raised
 let clockCritical = false; // digital critical (final 30s)
 let halfTimePassed = false; // half-time guide message
 let lastMinute = false; // analog red alarm outline (final 60s)
+let immunityActive = false;
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
@@ -187,6 +188,7 @@ function resetTimer() {
   lastTick = 0;
   effectiveElapsed = 0;
   penaltySeconds = 0;
+  immunityActive = false;
   speedBoosted = false;
   clockCritical = false;
   halfTimePassed = false;
@@ -297,20 +299,26 @@ function deactivateApplyPhase() {
 }
 
 function applyPunishment() {
-  // trigger only if not game over or won
-  if (gameOver || gameWon) return;
+  if (gameOver || gameWon || immunityActive) return;
   const label = document.getElementById("punishmentLabel");
   const amount = GAME_SETTINGS.punishmentAmount;
+
+  // block immediately so rapid-fire typos can't queue multiple punishments
+  immunityActive = true;
 
   flashMistake();
   label.textContent = `-${amount}s`;
   label.classList.remove("animate");
-  void label.offsetWidth; // force reflow to restart animation
+  void label.offsetWidth;
   label.classList.add("animate");
 
   setTimeout(() => {
     penaltySeconds += amount;
-  }, 800); // matches animation duration
+    // keep immunity for 2 more seconds after the penalty lands
+    setTimeout(() => {
+      immunityActive = false;
+    }, 1200);
+  }, 800);
 }
 
 // ─── CAPTCHA ──────────────────────────────────────────────────────
@@ -1728,7 +1736,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) { }
+  } catch (e) {}
   return trimmed;
 }
 
