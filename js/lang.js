@@ -324,7 +324,7 @@ const TRANSLATIONS = {
   en: {
     // — Start screen (Traumjob overlay) —
     "start.eyebrow": "Dream Job · 5 vor 12",
-    "start.headline": "What's your dream job?",
+    "start.headline": "Tell us what your Dream Job would be",
     "start.sub":
       "It's <span class=\"tj-serif\">five to twelve.</span> Tell us what you dream of — then the race against the clock begins.",
     "start.fieldLabel": "Your dream job",

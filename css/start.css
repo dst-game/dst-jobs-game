@@ -9,10 +9,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  overflow-x: hidden;
-  /* allow the content to scroll instead of being clipped when the viewport is
-     too short for the whole stack (the start button was getting cut off) */
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   /* `safe center` falls back to top-alignment when the content is taller than
      the viewport, so nothing (incl. the button) is ever clipped */
@@ -144,11 +141,13 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   /* min-height (not height) so the stack can grow taller than the viewport and
      scroll, while still centering vertically when it fits */
-  min-height: 100%; height: auto; text-align: center;
-  gap: clamp(16px, 3.2vmin, 30px); padding: clamp(24px, 5vmin, 64px);
+  /* exactly the viewport height — content is centered inside and can never
+     push the overlay taller than the screen, so there is no scrollbar */
+  height: 100%; text-align: center;
+  gap: clamp(14px, 2.6vmin, 26px); padding: clamp(20px, 4vmin, 52px);
 }
 #tjStart .va .tj-eyebrow { margin-bottom: 4px; }
-#tjStart .va .tj-headline { font-size: clamp(36px, 6.4vw, 92px); }
+#tjStart .va .tj-headline { font-size: clamp(30px, 5vw, 74px); max-width: 14ch; }
 #tjStart .va .va-sub {
   max-width: 560px; font-size: clamp(15px, 1.7vw, 18px);
   color: var(--tj-muted); line-height: 1.5;
