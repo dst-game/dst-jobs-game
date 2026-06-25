@@ -11,7 +11,9 @@
   z-index: 9999;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  /* `safe center` falls back to top-alignment when the content is taller than
+     the viewport, so nothing (incl. the button) is ever clipped */
+  align-items: safe center;
   justify-content: center;
   isolation: isolate;
   background: var(--tj-ink-900);
@@ -137,10 +139,15 @@
 /* --- VARIANT A — CINEMATIC CENTERED --- */
 #tjStart .va {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 100%; text-align: center; gap: 30px; padding: 6vmin;
+  /* min-height (not height) so the stack can grow taller than the viewport and
+     scroll, while still centering vertically when it fits */
+  /* exactly the viewport height — content is centered inside and can never
+     push the overlay taller than the screen, so there is no scrollbar */
+  height: 100%; text-align: center;
+  gap: clamp(14px, 2.6vmin, 26px); padding: clamp(20px, 4vmin, 52px);
 }
 #tjStart .va .tj-eyebrow { margin-bottom: 4px; }
-#tjStart .va .tj-headline { font-size: clamp(40px, 8.4vw, 108px); }
+#tjStart .va .tj-headline { font-size: clamp(30px, 5vw, 74px); max-width: 14ch; }
 #tjStart .va .va-sub {
   max-width: 560px; font-size: clamp(15px, 1.7vw, 18px);
   color: var(--tj-muted); line-height: 1.5;

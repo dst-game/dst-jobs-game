@@ -17,6 +17,15 @@ const DEFAULT_LANG = "de";
 
 const TRANSLATIONS = {
   de: {
+    // — Start screen (Traumjob overlay) —
+    "start.eyebrow": "Traumjob · 5 vor 12",
+    "start.headline": "Was ist dein Traumjob?",
+    "start.sub":
+      "Es ist <span class=\"tj-serif\">fünf vor zwölf.</span> Sag uns, wovon du träumst — dann beginnt das Rennen gegen die Uhr.",
+    "start.fieldLabel": "Dein Traumjob",
+    "start.placeholder": "z. B. Katzenstreichler, Drachenflüsterer…",
+    "start.btn": "Augen auf — Spiel starten <span class=\"arrow\">→</span>",
+
     // — Intro / Login —
     "intro.heading": "Willkommen bei<br>5 vor 12!",
     "intro.startBtn": "Spiel starten",
@@ -231,7 +240,7 @@ const TRANSLATIONS = {
     "flow.apply.step": "Anschreiben · der Hase diktiert",
     "flow.apply.h2": "Tipp dein Anschreiben",
     "flow.apply.forPre": "für ",
-    "flow.apply.dicLabel": "Schreib genau nach, was der Hase sagt",
+    "flow.apply.dicLabel": "Tipp den Text genau so ab, wie er hier steht",
     "flow.apply.placeholder":
       "Hier lostippen — Buchstabe für Buchstabe, genau wie diktiert…",
     "flow.apply.hintDefault":
@@ -250,6 +259,8 @@ const TRANSLATIONS = {
     "flow.guide.resultsWrong":
       "Nicht ganz — welche Stelle hast du eingegeben? Genau die suchst du.",
     "flow.guide.detail": "Das ist es! Klick „Jetzt bewerben“ — die Zeit rennt.",
+    "flow.guide.applyScreen":
+      "Mach einfach das, was auf dem Bildschirm steht — tipp den Text genau so ab!",
     "flow.guide.applyPre": "Sprich mir nach: „",
     "flow.guide.applyPost": "“",
     "flow.guide.applyComplete": "Sauber getippt! Schnell weiter zum CV-Upload!",
@@ -311,6 +322,15 @@ const TRANSLATIONS = {
   },
 
   en: {
+    // — Start screen (Traumjob overlay) —
+    "start.eyebrow": "Dream Job · 5 vor 12",
+    "start.headline": "Tell us what your Dream Job would be",
+    "start.sub":
+      "It's <span class=\"tj-serif\">five to twelve.</span> Tell us what you dream of — then the race against the clock begins.",
+    "start.fieldLabel": "Your dream job",
+    "start.placeholder": "e.g. cat cuddler, dragon whisperer…",
+    "start.btn": "Eyes open — start the game <span class=\"arrow\">→</span>",
+
     // — Intro / Login —
     "intro.heading": "Welcome to<br>5 vor 12!",
     "intro.startBtn": "Start Game",
@@ -522,7 +542,7 @@ const TRANSLATIONS = {
     "flow.apply.step": "Cover letter · the Rabbit dictates",
     "flow.apply.h2": "Type your cover letter",
     "flow.apply.forPre": "for ",
-    "flow.apply.dicLabel": "Type exactly what the Rabbit says",
+    "flow.apply.dicLabel": "Type the text exactly as shown here",
     "flow.apply.placeholder":
       "Start typing here — letter by letter, exactly as dictated…",
     "flow.apply.hintDefault":
@@ -541,6 +561,8 @@ const TRANSLATIONS = {
     "flow.guide.resultsWrong":
       "Not quite — which position did you enter? That's the one you want.",
     "flow.guide.detail": "That's it! Click “Apply now” — time is running.",
+    "flow.guide.applyScreen":
+      "Just do what it says on the screen — type the text exactly as shown!",
     "flow.guide.applyPre": "Repeat after me: “",
     "flow.guide.applyPost": "”",
     "flow.guide.applyComplete": "Cleanly typed! Quick, on to the CV upload!",

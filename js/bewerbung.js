@@ -180,10 +180,7 @@
       );
     else if (state.screen === "results") guide(tr("flow.guide.results"));
     else if (state.screen === "detail") guide(tr("flow.guide.detail"));
-    else if (state.screen === "apply")
-      guide(
-        tr("flow.guide.applyPre") + applyTarget() + tr("flow.guide.applyPost"),
-      );
+    else if (state.screen === "apply") guide(tr("flow.guide.applyScreen"));
   }
 
   /* ---- state ---- */
@@ -821,7 +818,7 @@
         ? tr("flow.guide.applyComplete")
         : hasError
           ? tr("flow.guide.applyError")
-          : tr("flow.guide.applyPre") + target + tr("flow.guide.applyPost"),
+          : tr("flow.guide.applyScreen"),
     );
   }
 

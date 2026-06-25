@@ -18,24 +18,25 @@
       <div class="vignette"></div>
       <div class="scanlines"></div>
       <div class="va stage-content fadein">
-        <div><div class="tj-eyebrow">Traumjob · 5 vor 12</div></div>
-        <h1 class="tj-headline">Was ist dein Traumjob?</h1>
-        <p class="va-sub">
+        <div><div class="tj-eyebrow" data-i18n="start.eyebrow">Traumjob · 5 vor 12</div></div>
+        <h1 class="tj-headline" data-i18n="start.headline">Was ist dein Traumjob?</h1>
+        <p class="va-sub" data-i18n="start.sub">
           Es ist <span class="tj-serif">fünf vor zwölf.</span> Sag uns, wovon du
           träumst — dann beginnt das Rennen gegen die Uhr.
         </p>
         <div class="dj-field">
-          <label for="tjDream">Dein Traumjob</label>
+          <label for="tjDream" data-i18n="start.fieldLabel">Dein Traumjob</label>
           <div class="dj-input-wrap">
             <input
               id="tjDream"
               class="dj-input"
               autocomplete="off"
               placeholder="z. B. Katzenstreichler, Drachenflüsterer…"
+              data-i18n-placeholder="start.placeholder"
             />
           </div>
         </div>
-        <button class="tj-start" id="tjStartBtn">
+        <button class="tj-start" id="tjStartBtn" data-i18n="start.btn">
           Augen auf — Spiel starten <span class="arrow">→</span>
         </button>
       </div>
@@ -59,10 +60,6 @@
       <div class="zones">
         <!-- LEFT · Hase / Begleiter -->
         <aside class="rail guide-rail">
-          <div class="rail-head">
-            <span class="dot"></span>
-            <span class="t" data-i18n="guide.railTitle">Dein Begleiter</span>
-          </div>
           <div class="guide-card">
             <div class="portrait has-art">
               <img id="hase" class="art" src="images/idle.png" alt="Der Hase" />
@@ -73,40 +70,40 @@
                 Bereit? Drück auf Start, dann geht's los!
               </div>
             </div>
-            <div class="obj">
-              <div class="lbl" data-i18n="guide.objLabel">So gewinnst du</div>
-              <div class="step" id="objStep1">
-                <span class="n">1</span>
-                <span data-i18n="guide.step1"
-                  >Passwort eingeben &amp; Rechner entsperren</span
+          </div>
+          <!-- clock (5 vor 12) — now lives in the left rail, below the rabbit -->
+          <div class="clock-card">
+            <div class="deadline" data-i18n="clock.deadline">
+              Annahmeschluss · 12:00
+            </div>
+            <div class="tj-clock-analog" id="gameAnalog">
+              <div class="hand hour" id="clkH"></div>
+              <div class="hand minute" id="clkM"></div>
+              <div class="hand second" id="clkS"></div>
+              <div class="cap"></div>
+              <div class="crown"></div>
+            </div>
+            <div class="tj-clock-digital" id="gameDigital">
+              <div class="time-row">
+                <div class="time" id="time">11:55:00</div>
+                <button
+                  id="slowBtn"
+                  class="slow-btn"
+                  style="display: none"
+                  title="Tempo verlangsamen"
                 >
+                  🐢
+                </button>
               </div>
-              <div class="step" id="objStep2">
-                <span class="n">2</span>
-                <span data-i18n="guide.step2"
-                  >Jobplattform öffnen (dreamjob.io)</span
-                >
+            </div>
+            <div class="timer">
+              <div class="track">
+                <div class="fill" id="timebarFill" style="width: 100%"></div>
               </div>
-              <div class="step" id="objStep3">
-                <span class="n">3</span>
-                <span data-i18n="guide.step3">Deinen Traumjob finden</span>
+              <div class="note" data-i18n="clock.penaltyNote">
+                Fehler = <b>Zeitstrafe</b>
               </div>
-              <div class="step" id="objStep4">
-                <span class="n">4</span>
-                <span data-i18n="guide.step4">Anschreiben tippen</span>
-              </div>
-              <div class="step" id="objStep5">
-                <span class="n">5</span>
-                <span data-i18n="guide.step5"
-                  >Richtigen Lebenslauf finden &amp; vorbereiten</span
-                >
-              </div>
-              <div class="step" id="objStep6">
-                <span class="n">6</span>
-                <span data-i18n="guide.step6"
-                  >Absenden, bevor die Uhr 12 schlägt</span
-                >
-              </div>
+              <div class="punishment-label" id="punishmentLabel"></div>
             </div>
           </div>
         </aside>
@@ -474,54 +471,7 @@
               style="display: none"
             />
           </div>
-          <div class="laptop-cap" data-i18n="desk.laptopCap">
-            Los — die Uhr wartet auf niemanden!
-          </div>
         </main>
-
-        <!-- RIGHT · Uhr (5 vor 12) -->
-        <aside class="rail clock-rail">
-          <div class="rail-head">
-            <span class="t" data-i18n="clock.railTitle">Verbleibende Zeit</span>
-            <span class="dot"></span>
-          </div>
-          <div class="clock-card">
-            <div class="deadline" data-i18n="clock.deadline">
-              Annahmeschluss · 12:00
-            </div>
-            <div class="tj-clock-analog" id="gameAnalog">
-              <div class="hand hour" id="clkH"></div>
-              <div class="hand minute" id="clkM"></div>
-              <div class="hand second" id="clkS"></div>
-              <div class="cap"></div>
-              <div class="crown"></div>
-            </div>
-            <div class="tj-clock-digital" id="gameDigital">
-              <div class="time-row">
-                <div class="time" id="time">11:55:00</div>
-                <button
-                  id="slowBtn"
-                  class="slow-btn"
-                  style="display: none"
-                  title="Tempo verlangsamen"
-                >
-                  🐢
-                </button>
-              </div>
-              <div class="lbl" data-i18n="clock.localtime">Ortszeit</div>
-            </div>
-            <div class="timer">
-              <div class="lbl" data-i18n="clock.fristLabel">Frist</div>
-              <div class="track">
-                <div class="fill" id="timebarFill" style="width: 100%"></div>
-              </div>
-              <div class="note" data-i18n="clock.penaltyNote">
-                Fehler = <b>Zeitstrafe</b>
-              </div>
-              <div class="punishment-label" id="punishmentLabel"></div>
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
 

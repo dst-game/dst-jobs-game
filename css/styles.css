@@ -51,6 +51,11 @@
 }
 
 /* ─── Body ──────────────────────────────────────────────────── */
+html {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 body {
   margin: 0;
   height: 100vh;
@@ -2630,7 +2635,8 @@ a.dst-win-link:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.2cqw 3cqw 0;
+  /* keep the HUD compact so the laptop gets more height */
+  padding: min(1.1cqw, 1.9vh) 3cqw 0;
 }
 .tj-desk .hud .brand {
   display: flex;
@@ -2654,10 +2660,13 @@ a.dst-win-link:hover {
   color: transparent;
   filter: drop-shadow(0 0 16px rgba(255, 43, 214, 0.35));
 }
+.tj-desk .hud .brand .game {
+  font-size: min(2.1cqw, 3.6vh);
+}
 .tj-desk .hud .brand .vor {
   font-family: var(--tj-font-serif);
   font-style: italic;
-  font-size: 1.5cqw;
+  font-size: min(1.5cqw, 2.6vh);
   color: var(--tj-gold-soft);
   margin-top: 0.3cqw;
 }
@@ -2668,17 +2677,62 @@ a.dst-win-link:hover {
   z-index: 4;
   flex: 1;
   min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 2.05fr) minmax(0, 0.95fr);
+  /* Rail pinned to the left, laptop fills the rest of the row. The laptop is
+     sized to the available HEIGHT (its fixed aspect ratio makes height the
+     real limit on wide screens), so it keeps growing on bigger screens
+     instead of capping out and leaving a centered block with empty margins. */
+  display: flex;
   align-items: center;
-  gap: 2.4cqw;
-  padding: 1.4cqw 3cqw 3cqw;
+  justify-content: flex-start;
+  gap: clamp(14px, 1.6cqw, 44px);
+  padding: min(0.8cqw, 1.4vh) 1.6cqw min(1.2cqw, 2vh);
+  width: 100%;
+  container-type: inline-size;
 }
 .tj-desk .rail {
   align-self: stretch;
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+/* the left rail now stacks the guide card above the clock card, kept as a
+   compact group centered vertically (so they don't stretch to fill tall
+   screens, which left a huge empty rabbit card and a clock pinned to the
+   bottom) */
+.tj-desk .guide-rail {
+  flex: 0 0 auto;
+  width: clamp(210px, 19cqw, 360px);
+  gap: min(1.8cqw, 3.2vh);
+  justify-content: center;
+}
+.tj-desk .guide-rail .guide-card,
+.tj-desk .guide-rail .clock-card {
+  flex: 0 0 auto;
+}
+/* clock is a touch smaller now that it shares the rail with the rabbit
+   (desktop only — the narrow-screen layout below keeps the big clock).
+   Each size is min(<width-based>, <height-based>) so on wide screens the
+   height ceiling stops the rail content from inflating and being cropped. */
+@media (min-width: 821px) {
+  .tj-desk .guide-rail .clock-card {
+    gap: min(0.7cqw, 1.25vh);
+    padding: min(1.1cqw, 1.95vh);
+  }
+  .tj-desk .guide-rail .clock-card .tj-clock-analog {
+    --size: min(7.5cqw, 13vh);
+  }
+  .tj-desk .guide-rail .clock-card .tj-clock-digital .time {
+    font-size: min(2cqw, 3.5vh);
+  }
+  /* trim the rabbit window so the guide card + clock both fit the rail */
+  .tj-desk .guide-rail .portrait {
+    width: min(5cqw, 8.9vh);
+    height: min(6.5cqw, 11.5vh);
+  }
+  .tj-desk .guide-rail .guide-card {
+    gap: min(1cqw, 1.78vh);
+    padding: min(1.4cqw, 2.5vh);
+  }
 }
 .tj-desk .rail-head {
   display: flex;
@@ -2815,22 +2869,22 @@ a.dst-win-link:hover {
   background: rgba(7, 4, 15, 0.5);
   border: 1px solid rgba(227, 179, 65, 0.4);
   border-radius: 1.3cqw;
-  padding: 1.3cqw 1.6cqw;
+  padding: min(1.3cqw, 2.3vh) min(1.6cqw, 2.8vh);
 }
 .tj-desk .guide-card .bubble .who {
-  font-size: 0.85cqw;
+  font-size: min(0.85cqw, 1.5vh);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--tj-gold-soft);
-  margin-bottom: 0.7cqw;
+  margin-bottom: min(0.7cqw, 1.25vh);
 }
 .tj-desk .guide-card .bubble .say {
   font-family: var(--tj-font-serif);
   font-style: italic;
-  font-size: 1.25cqw;
+  font-size: min(1.25cqw, 2.2vh);
   line-height: 1.35;
   color: var(--tj-text);
-  min-height: 4cqw;
+  min-height: min(4cqw, 7vh);
 }
 /* blinking caret for the typewriter effect */
 .tj-desk .guide-card .bubble .say .caret {
@@ -2891,6 +2945,8 @@ a.dst-win-link:hover {
 /* CENTER · laptop (main attraction) */
 .tj-desk .laptop-stage {
   position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2899,7 +2955,12 @@ a.dst-win-link:hover {
   height: 100%;
 }
 .tj-desk .laptop-stage .tj-laptop {
-  --w: 100%;
+  /* Grow with the screen: fill the remaining width, but never taller than the
+     row — the laptop's full height (lid + keyboard deck) is ~0.95× its width,
+     so a vh-based width keeps it inside the viewport height while staying as
+     big as possible. This makes it scale up on large screens instead of
+     capping out. */
+  --w: min(100%, 104vh);
 }
 .tj-desk .laptop-stage .tj-laptop .lid {
   box-shadow:
@@ -2959,7 +3020,7 @@ a.dst-win-link:hover {
   font-family: var(--tj-font-display);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 1.45cqw;
+  font-size: min(1.45cqw, 2.55vh);
   letter-spacing: 0.1em;
   color: var(--tj-gold-soft);
   text-shadow: 0 0 14px rgba(227, 179, 65, 0.4);
@@ -2985,7 +3046,7 @@ a.dst-win-link:hover {
   padding: 0;
   background: none;
   border: none;
-  gap: 0.4cqw;
+  gap: min(0.4cqw, 0.7vh);
 }
 .tj-desk .clock-card .tj-clock-digital .time {
   font-size: 3.8cqw;
@@ -2998,11 +3059,11 @@ a.dst-win-link:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.9cqw;
+  gap: min(0.9cqw, 1.6vh);
   width: 100%;
 }
 .tj-desk .clock-card .timer .lbl {
-  font-size: 1cqw;
+  font-size: min(1cqw, 1.78vh);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--tj-faint);
@@ -3011,7 +3072,7 @@ a.dst-win-link:hover {
   position: relative;
   width: 100%;
   max-width: 20cqw;
-  height: 1.2cqw;
+  height: min(1.2cqw, 2.1vh);
   min-height: 8px;
   border-radius: 999px;
   background: rgba(7, 4, 15, 0.7);
@@ -3029,7 +3090,7 @@ a.dst-win-link:hover {
   transition: width 0.6s var(--tj-ease);
 }
 .tj-desk .clock-card .timer .note {
-  font-size: 1cqw;
+  font-size: min(1cqw, 1.78vh);
   color: var(--tj-faint);
   text-align: center;
 }
@@ -3042,6 +3103,10 @@ a.dst-win-link:hover {
    its content and the page scrolls, so the fixed-ratio laptop never has to
    cram into a fixed-height row. */
 @media (max-width: 820px) {
+  html {
+    height: auto;
+    overflow: auto;
+  }
   body {
     height: auto;
     min-height: 100vh;
@@ -3051,11 +3116,18 @@ a.dst-win-link:hover {
     height: auto;
     min-height: 100vh;
   }
+  /* stack rail (top) over laptop (bottom); the page scrolls on small screens */
   .tj-desk .zones {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
+    flex-direction: column;
+    align-items: stretch;
     gap: 4cqw;
     padding: 4cqw;
+  }
+  .tj-desk .guide-rail {
+    width: auto;
+  }
+  .tj-desk .laptop-stage .tj-laptop {
+    --w: 100%;
   }
 
   /* the side rails become wide, short, horizontal cards */
