@@ -209,9 +209,9 @@ function handleTimeUp(reason) {
   closeCaptcha();
   stopTimer();
   if (reason === "discard") {
-    showGuide(t("guide.discardedFiles"), 0);
+    showGuidePriority(t("guide.discardedFiles"));
   } else {
-    showGuide(t("guide.timeUp"), 0);
+    showGuidePriority(t("guide.timeUp"));
   }
   applyButton.classList.add("inactive");
   showGameOverScreen(reason);
@@ -390,7 +390,7 @@ function openCaptcha() {
   robotCheckBox.classList.remove("checked");
   buildCaptchaGrid();
   captchaScreen.style.display = "flex";
-  showGuide(t("guide.notRobot"), 3000);
+  showGuidePriority(t("guide.notRobot"));
 
   if (momIgnored && !momReplied) {
     momAngryIndex = 0;
@@ -462,7 +462,7 @@ captchaConfirm.addEventListener("click", () => {
 
 async function openCamera() {
   cameraScreen.style.display = "flex";
-  showGuide(t("guide.smile"), 2000);
+  showGuidePriority(t("guide.smile"));
   videoEl.style.display = "block";
   photoEl.style.display = "none";
   captureBtn.style.display = "block";
@@ -473,7 +473,7 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    showGuide(t("guide.cameraUnavailable"), 4000);
+    showGuidePriority(t("guide.cameraUnavailable"));
     cameraScreen.style.display = "none";
   }
 }
@@ -660,7 +660,7 @@ function gameScreen() {
   cattail.style.display = "flex";
   postit.style.display = "flex";
   timer.style.display = "flex";
-  showGuide(t("guide.password"), 4000);
+  showGuidePriority(t("guide.password"));
   startTimer();
 }
 
@@ -695,7 +695,7 @@ passwordInput.onkeydown = (e) => {
 function showFileExplorer() {
   loginBox.style.display = "none";
   gameBox.style.display = "block";
-  showGuide(t("guide.rememberFile"), 3000);
+  showGuidePriority(t("guide.rememberFile"));
   setTimeout(showMomCall, 350);
 }
 
@@ -740,11 +740,44 @@ const clkM = document.getElementById("clkM");
 const clkS = document.getElementById("clkS");
 
 let typewriterTimer = null;
+let guideQueue = [];
+let guideShowing = false;
+let guideCurrentText = "";
 
 // The rabbit's speech bubble lives permanently in the left rail; showGuide
 // types the new line out character-by-character with a blinking caret.
+// Duplicate messages (already showing or already queued) are dropped.
+// The queue is capped at 3 — oldest entry is dropped if it fills up.
 function showGuide(text) {
-  if (!guideText) return;
+  const str = String(text);
+  if (str === guideCurrentText || guideQueue.includes(str)) return;
+  if (guideShowing) {
+    if (guideQueue.length >= 3) guideQueue.shift();
+    guideQueue.push(str);
+    return;
+  }
+  _runGuide(str);
+}
+
+// Use for screen transitions and game-state changes: clears any queued/in-progress
+// messages so stale hints from the previous screen don't bleed through.
+function showGuidePriority(text) {
+  guideQueue = [];
+  guideShowing = false;
+  guideCurrentText = "";
+  clearInterval(typewriterTimer);
+  _runGuide(String(text));
+}
+
+function _runGuide(text) {
+  guideShowing = true;
+  guideCurrentText = text;
+  if (!guideText) {
+    guideShowing = false;
+    guideCurrentText = "";
+    return;
+  }
+
   if (guidePortraitImg && !gameWon && !gameOver) {
     clearTimeout(guidePortraitTimer);
     guidePortraitImg.src = guideIdleSrc;
@@ -753,8 +786,8 @@ function showGuide(text) {
       guidePortraitImg.src = guideIdleSrc;
     }, 4500);
   }
+
   clearInterval(typewriterTimer);
-  const full = String(text);
   guideText.textContent = "";
   const typed = document.createTextNode("");
   const caret = document.createElement("span");
@@ -763,8 +796,15 @@ function showGuide(text) {
   guideText.append(typed, caret);
   let i = 0;
   typewriterTimer = setInterval(() => {
-    typed.textContent = full.slice(0, ++i);
-    if (i >= full.length) clearInterval(typewriterTimer);
+    typed.textContent = text.slice(0, ++i);
+    if (i >= text.length) {
+      clearInterval(typewriterTimer);
+      setTimeout(() => {
+        guideShowing = false;
+        guideCurrentText = "";
+        if (guideQueue.length > 0) _runGuide(guideQueue.shift());
+      }, 1000);
+    }
   }, 32);
 }
 
@@ -801,7 +841,7 @@ function openPreview(name, content) {
     photoAdded = false;
     typoFixed = false;
     previewSave.style.display = "block";
-    showGuide(t("guide.addImageTypo"), 4000);
+    showGuidePriority(t("guide.addImageTypo"));
     const missingImage = previewBody.querySelector(".missing-image");
     if (missingImage) {
       missingImage.addEventListener("click", openCamera);
@@ -834,7 +874,7 @@ previewSave.addEventListener("click", () => {
   file_explorer.style.display = "none";
   taskHeadline.textContent = t("task.submit");
   taskHeadline.style.display = "";
-  showGuide(t("guide.submitNow"), 4000);
+  showGuidePriority(t("guide.submitNow"));
 });
 
 filePreview.addEventListener("click", (e) => {
@@ -958,7 +998,7 @@ function showWinScreen(shortcut) {
     const minutes = Math.floor(remainingTime / 60);
     const seconds = Math.floor(remainingTime % 60);
     timeRemainingEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-    showGuide(t("guide.success"), 0);
+    showGuidePriority(t("guide.success"));
   }
 
   stopTimer();
