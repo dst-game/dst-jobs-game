@@ -344,121 +344,141 @@ h1 {
   padding: 4cqw;
 }
 
-/* ─── File explorer (OS-style window, centred — see designGuide §tj-window) ── */
-.file_explorer {
+/* ─── File explorer — tab window ─────────────────────────────── */
+.fe-window {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  width: min(82cqw, 560px);
-  max-height: 100%;
   overflow: hidden;
   background: linear-gradient(180deg, #15101f, #0e0a17);
   border: 1px solid #2a2440;
-  border-radius: 12px;
-  box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.6),
-    0 0 var(--tj-glow) rgba(139, 77, 255, 0.22);
+  border-radius: 0;
 }
 
-.file_explorer .fe-titlebar {
+.fe-tabbar {
   flex: none;
   display: flex;
-  align-items: center;
-  gap: max(1.6cqw, 8px);
-  padding: max(1.4cqw, 8px) max(2cqw, 10px);
-  background: rgba(7, 4, 15, 0.6);
-  border-bottom: 1px solid var(--tj-line);
+  align-items: flex-end;
+  gap: 6px;
+  padding: 8px 12px 0;
+  background: #0b0712;
+  border-bottom: 1px solid #221c33;
+  border-radius: 12px 12px 0 0;
 }
-.file_explorer .fe-titlebar .dots {
+.fe-tabbar .dots {
   display: flex;
-  gap: 1cqw;
+  gap: 7px;
+  align-items: center;
+  padding: 0 10px 8px 4px;
+  flex: none;
 }
-.file_explorer .fe-titlebar .dots i {
-  width: 1.4cqw;
-  height: 1.4cqw;
-  min-width: 7px;
-  min-height: 7px;
+.fe-tabbar .dots i {
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   display: block;
 }
-.file_explorer .fe-titlebar .dots i:nth-child(1) {
-  background: var(--tj-danger);
+.fe-tabbar .dots i:nth-child(1) {
+  background: #ff5f57;
 }
-.file_explorer .fe-titlebar .dots i:nth-child(2) {
-  background: var(--tj-gold);
+.fe-tabbar .dots i:nth-child(2) {
+  background: #febc2e;
 }
-.file_explorer .fe-titlebar .dots i:nth-child(3) {
-  background: var(--tj-success);
-}
-.file_explorer .fe-name {
-  font-family: var(--tj-font-mono);
-  font-size: max(2cqw, 11px);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--tj-muted);
+.fe-tabbar .dots i:nth-child(3) {
+  background: #28c840;
 }
 
-/* ─── Docs list ────────────────────────────────────────────── */
-.docs {
+.fe-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 40px;
+  align-items: flex-end;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.file_explorer .docs {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: max(1.2cqw, 6px);
-  padding: max(2cqw, 10px);
-  overflow-y: auto;
+.fe-tabs::-webkit-scrollbar {
+  display: none;
 }
 
-/* ─── Visible scrollbars: show a styled bar as soon as content overflows ─── */
-.file_explorer .docs,
+.fe-tab {
+  flex: 1;
+  min-width: 0;
+  max-width: 170px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border-radius: 9px 9px 0 0;
+  background: #0e0a17;
+  border: 1px solid #221c33;
+  border-bottom: none;
+  color: var(--tj-muted);
+  font-size: 11px;
+  font-family: var(--tj-font-mono);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+.fe-tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fe-tab .fav {
+  width: 30px;
+  height: 15px;
+  border-radius: 4px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  background: rgba(31, 211, 255, 0.14);
+  border: 1px solid rgba(31, 211, 255, 0.4);
+  color: var(--tj-blue-soft);
+}
+.fe-tab.active {
+  background: linear-gradient(180deg, #1b1428, #15101f);
+  color: var(--tj-text);
+  box-shadow: inset 0 2px 0 var(--tj-magenta);
+}
+.fe-tab.active .fav {
+  background: rgba(255, 43, 214, 0.16);
+  border-color: rgba(255, 43, 214, 0.45);
+  color: var(--tj-magenta-soft);
+}
+
+/* ─── Inline file content pane ──────────────────────────────── */
+.fe-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── Visible scrollbars ────────────────────────────────────── */
 .tj-desk .guide-card .obj {
   scrollbar-width: thin;
   scrollbar-color: var(--tj-violet) transparent;
 }
-.file_explorer .docs::-webkit-scrollbar,
 .tj-desk .guide-card .obj::-webkit-scrollbar {
   width: 9px;
 }
-.file_explorer .docs::-webkit-scrollbar-thumb,
 .tj-desk .guide-card .obj::-webkit-scrollbar-thumb {
   background: rgba(139, 77, 255, 0.5);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
-.file_explorer .docs::-webkit-scrollbar-thumb:hover,
 .tj-desk .guide-card .obj::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 77, 255, 0.8);
   background-clip: padding-box;
-}
-
-.doc {
-  background: var(--tj-ink-700);
-  border: 1px solid var(--tj-line);
-  border-radius: var(--tj-r-sm);
-  padding: 8px 10px;
-  cursor: default;
-  user-select: none;
-  font-family: var(--tj-font-mono);
-  font-size: max(2cqw, 11px);
-  color: var(--tj-text);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  transition:
-    transform 0.15s,
-    box-shadow 0.15s,
-    background 0.15s;
-  word-break: break-word;
-}
-.file_explorer .doc {
-  width: 100%;
-}
-.file_explorer .doc:hover {
-  background: var(--tj-ink-600);
-  box-shadow: 0 2px 8px rgba(139, 77, 255, 0.2);
-  transform: translateY(-1px);
 }
 
 .icon {
@@ -739,62 +759,6 @@ h1 {
   z-index: 8;
 }
 
-/* ─── File preview modal ─────────────────────────────────────── */
-.file-preview {
-  display: none;
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-}
-.file-preview.open {
-  display: flex;
-}
-.file-preview-inner {
-  background: linear-gradient(
-    180deg,
-    rgba(22, 12, 42, 0.98),
-    rgba(13, 7, 25, 0.99)
-  );
-  border: 1px solid var(--tj-line);
-  border-radius: var(--tj-r-md);
-  width: 88%;
-  max-height: 85%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.7),
-    0 0 var(--tj-glow) rgba(139, 77, 255, 0.3);
-  container-type: inline-size;
-}
-.file-preview-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--tj-line);
-  background: rgba(7, 4, 15, 0.6);
-  font-family: var(--tj-font-mono);
-  font-size: max(1.9cqw, 11px);
-  font-weight: 600;
-  color: var(--tj-muted);
-  flex-shrink: 0;
-}
-#previewClose {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: max(2.7cqw, 15px);
-  line-height: 1;
-  color: var(--tj-faint);
-  padding: 0 2px;
-}
-#previewClose:hover {
-  color: var(--tj-text);
-}
 .file-preview-body {
   padding: 10px 12px;
   overflow-y: auto;
@@ -802,8 +766,10 @@ h1 {
   font-size: max(1.8cqw, 11px);
   line-height: 1.5;
   flex: 1;
+  min-height: 0;
   color: var(--tj-text);
   background: var(--tj-ink-800);
+  container-type: inline-size;
 }
 .file-preview-body hr {
   border: none;
@@ -2095,9 +2061,17 @@ a.dst-win-link:hover {
 }
 #lebenslauf-correct {
   font-family: var(--tj-font-mono);
-  background-color: #fff;
-  /* padding: clamp(0.6em, 2.5vw, 3em); */
+  background-color: #0a082c;
   width: 100%;
+}
+#lebenslauf-correct h1 {
+  color: #f20aef;
+  font-family: var(--tj-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+  padding: clamp(0.7em, 2vw, 1.2em) clamp(1em, 3vw, 4em);
+  margin: 0;
+  text-shadow: 0 0 12px rgba(242, 10, 239, 0.55);
+  overflow-wrap: anywhere;
 }
 #lebenslauf-correct * {
   box-sizing: border-box;

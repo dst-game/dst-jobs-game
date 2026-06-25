@@ -21,10 +21,10 @@ const TRANSLATIONS = {
     "start.eyebrow": "Traumjob · 5 vor 12",
     "start.headline": "Was ist dein Traumjob?",
     "start.sub":
-      "Es ist <span class=\"tj-serif\">fünf vor zwölf.</span> Sag uns, wovon du träumst — dann beginnt das Rennen gegen die Uhr.",
+      'Es ist <span class="tj-serif">fünf vor zwölf.</span> Sag uns, wovon du träumst — dann beginnt das Rennen gegen die Uhr.',
     "start.fieldLabel": "Dein Traumjob",
     "start.placeholder": "z. B. Katzenstreichler, Drachenflüsterer…",
-    "start.btn": "Augen auf — Spiel starten <span class=\"arrow\">→</span>",
+    "start.btn": 'Augen auf — Spiel starten <span class="arrow">→</span>',
 
     // — Intro / Login —
     "intro.heading": "Willkommen bei<br>5 vor 12!",
@@ -35,6 +35,7 @@ const TRANSLATIONS = {
     // — Task headlines —
     "task.findCv": "Finde den richtigen Lebenslauf!",
     "task.submit": "Schicke deine Bewerbung ab!",
+    "cv.headlinePrefix": "Lebenslauf für: ",
     "explorer.title": "📁 Datei-Explorer",
 
     // — Win screen —
@@ -154,10 +155,10 @@ const TRANSLATIONS = {
     "guide.wrongPassword":
       "Falsches Passwort! Findest du vielleicht irgendwo einen Hinweis?",
     "guide.rememberFile":
-      "Oh nein, weißt du noch, wie du die finale Version deiner Bewerbung genannt hast?",
+      "Oh, das sind ganz schön viele Dateien! Welche ist richtig?",
     "guide.wrongFile": "Das ist die falsche Datei!",
     "guide.addImageTypo":
-      "Schön, jetzt fügen wir ein Bild hinzu und prüfen auf Tippfehler",
+      "Das scheint die richtige Bewerbung zu sein! Aber etwas stimmt noch nicht...",
     "guide.missingImage": "Dir fehlt noch das Bild!",
     "guide.typoLeft": "Da ist wohl noch irgendwo ein Tippfehler!",
     "guide.submitNow": "Super! Jetzt schick deine Bewerbung ab! Beeil dich!",
@@ -326,10 +327,10 @@ const TRANSLATIONS = {
     "start.eyebrow": "Dream Job · 5 vor 12",
     "start.headline": "Tell us what your Dream Job would be",
     "start.sub":
-      "It's <span class=\"tj-serif\">five to twelve.</span> Tell us what you dream of — then the race against the clock begins.",
+      'It\'s <span class="tj-serif">five to twelve.</span> Tell us what you dream of — then the race against the clock begins.',
     "start.fieldLabel": "Your dream job",
     "start.placeholder": "e.g. cat cuddler, dragon whisperer…",
-    "start.btn": "Eyes open — start the game <span class=\"arrow\">→</span>",
+    "start.btn": 'Eyes open — start the game <span class="arrow">→</span>',
 
     // — Intro / Login —
     "intro.heading": "Welcome to<br>5 vor 12!",
@@ -340,6 +341,7 @@ const TRANSLATIONS = {
     // — Task headlines —
     "task.findCv": "Find the right CV!",
     "task.submit": "Submit your application!",
+    "cv.headlinePrefix": "CV for: ",
     "explorer.title": "📁 File Explorer",
 
     // — Win screen —
@@ -458,9 +460,10 @@ const TRANSLATIONS = {
     "guide.wrongPassword":
       "Wrong Password! Can you maybe find a hint somewhere?",
     "guide.rememberFile":
-      "Oh no, do you remember how you named the final version of your application?",
+      "Oh, that's a lot of files! Which one is the right one?",
     "guide.wrongFile": "That's the wrong file!",
-    "guide.addImageTypo": "Nice, let's add an image and check for typos",
+    "guide.addImageTypo":
+      "That seems to be the right application! But something is still wrong here...",
     "guide.missingImage": "You're missing the image!",
     "guide.typoLeft": "Seems like there is still a typo somewhere!",
     "guide.submitNow": "Great! Now submit your application! Hurry up!",

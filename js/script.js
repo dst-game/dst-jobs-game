@@ -709,9 +709,7 @@ const gameOverBox = document.getElementById("nr4_gameover");
 const timeTakenEl = document.getElementById("timeTaken");
 const timeRemainingEl = document.getElementById("timeRemaining");
 const filePreview = document.getElementById("filePreview");
-const previewTitle = document.getElementById("previewTitle");
 const previewBody = document.getElementById("previewBody");
-const previewClose = document.getElementById("previewClose");
 const previewSave = document.getElementById("previewSave");
 const cameraScreen = document.querySelector(".nr4_camerascreen");
 const videoEl = document.getElementById("video");
@@ -825,18 +823,15 @@ function flashMistake() {
 }
 
 function openPreview(name, content) {
-  previewTitle.textContent = name;
   previewBody.innerHTML = content;
-  filePreview.classList.add("open");
+  previewBody.scrollTop = 0;
   if (name !== GAME_SETTINGS.correctFile) {
     previewSave.style.display = "none";
-    applyPunishment();
-    showGuide(t("guide.wrongFile"), 2000);
   } else {
     const traumjob = getTraumjob();
     if (traumjob) {
       const headline = document.getElementById("dreamjobjob");
-      headline.textContent = traumjob;
+      headline.textContent = t("cv.headlinePrefix") + traumjob;
     }
     photoAdded = false;
     typoFixed = false;
@@ -850,11 +845,10 @@ function openPreview(name, content) {
 }
 
 function closePreview() {
-  filePreview.classList.remove("open");
   previewBody.innerHTML = "";
+  previewSave.style.display = "none";
 }
 
-previewClose.addEventListener("click", closePreview);
 previewSave.addEventListener("click", () => {
   if (!photoAdded) {
     showGuide(t("guide.missingImage"), 3000);
@@ -877,9 +871,6 @@ previewSave.addEventListener("click", () => {
   showGuidePriority(t("guide.submitNow"));
 });
 
-filePreview.addEventListener("click", (e) => {
-  if (e.target === filePreview) closePreview();
-});
 previewBody.addEventListener("click", (e) => {
   if (e.target.classList.contains("typo")) {
     e.target.textContent = "Bewerbung";
@@ -954,17 +945,15 @@ document.getElementById("momReplyBtn").addEventListener("click", () => {
 
 function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
-  el.className = "doc";
-
-  el.innerHTML = `
-    <div class="icon">${ext}</div>
-    <div><b>${name}</b></div>
-  `;
-
+  el.className = "fe-tab";
+  el.innerHTML = `<span class="fav">${ext}</span><span class="fe-tab-name">${name}</span>`;
   el.addEventListener("click", () => {
+    document
+      .querySelectorAll("#docsA .fe-tab")
+      .forEach((t) => t.classList.remove("active"));
+    el.classList.add("active");
     openPreview(name, content);
   });
-
   return el;
 }
 
@@ -1086,6 +1075,15 @@ function loadGame(docs) {
   resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
+
+  // Open a random wrong file so the player doesn't land on the correct one immediately
+  const tabs = Array.from(docsA.querySelectorAll(".fe-tab"));
+  const wrongTabs = tabs.filter(
+    (_, i) => docs[i].name !== GAME_SETTINGS.correctFile,
+  );
+  if (wrongTabs.length > 0) {
+    wrongTabs[Math.floor(Math.random() * wrongTabs.length)].click();
+  }
 }
 
 function getTraumjob() {
@@ -1597,6 +1595,7 @@ const DOCS = [
     name: "lebenslauf_finalfinal.pdf",
     content: `
   <div id="lebenslauf-correct">
+  <h2 id="dreamjobjob"></h2>
   <div class="content">
     <main class="left">
       <div class="missing-image">
@@ -1606,7 +1605,6 @@ const DOCS = [
       </div>
       <hr />
       <p><strong class="cvname">Patricia Patternwoman</strong></p>
-      <p id="dreamjobjob"></p>
       <hr />
       <p>
         <strong>Profil</strong><br />

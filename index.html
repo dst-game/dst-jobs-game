@@ -161,14 +161,21 @@
                       <!-- The Hase gives this instruction in the left rail, so the
                            headline stays hidden here until the submit phase. -->
                       <h1 id="taskHeadline" style="display: none"></h1>
-                      <div class="file_explorer" id="file_explorer">
-                        <div class="fe-titlebar">
+                      <div class="fe-window" id="file_explorer">
+                        <div class="fe-tabbar">
                           <div class="dots"><i></i><i></i><i></i></div>
-                          <span class="fe-name" data-i18n="explorer.title"
-                            >📁 Datei-Explorer</span
-                          >
+                          <div class="fe-tabs" id="docsA"></div>
                         </div>
-                        <div class="docs" id="docsA"></div>
+                        <div id="filePreview" class="fe-content">
+                          <div id="previewBody" class="file-preview-body"></div>
+                          <button
+                            id="previewSave"
+                            style="display: none"
+                            data-i18n="preview.save"
+                          >
+                            💾 Speichern
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -233,22 +240,6 @@
                     <button id="lbOpenBtn" class="tj-btn tj-btn--secondary win-lb-btn" data-i18n="lb.openBtn">
                       Zum Leaderboard
                     </button>
-                  </div>
-                  <div id="filePreview" class="file-preview">
-                    <div class="file-preview-inner">
-                      <div class="file-preview-header">
-                        <span id="previewTitle"></span>
-                        <button id="previewClose">✖️</button>
-                      </div>
-                      <div id="previewBody" class="file-preview-body"></div>
-                      <button
-                        id="previewSave"
-                        style="display: none"
-                        data-i18n="preview.save"
-                      >
-                        💾 Speichern
-                      </button>
-                    </div>
                   </div>
                   <div class="nr4_camerascreen" style="display: none">
                     <div class="camera-ui">
