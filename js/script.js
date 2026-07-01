@@ -1868,6 +1868,48 @@ function lbSubmit() {
   lbRender(scores, myIndex);
 }
 
+// Export leaderboard as JSON
+function lbExport() {
+  const scores = lbLoad();
+  const dataStr = JSON.stringify(scores, null, 2);
+  const dataBlob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(dataBlob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `leaderboard_${new Date().toISOString().split("T")[0]}.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+// Import leaderboard from JSON
+function lbImport() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
+  input.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const imported = JSON.parse(event.target.result);
+        if (!Array.isArray(imported)) throw new Error("Invalid format");
+        const current = lbLoad();
+        const merged = [...current, ...imported];
+        merged.sort((a, b) => b.remaining - a.remaining);
+        const trimmed = merged.slice(0, 20);
+        localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
+        alert("✅ Leaderboard imported successfully!");
+        location.reload();
+      } catch (err) {
+        alert("❌ Invalid leaderboard file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  });
+  input.click();
+}
+
 // Wire up open button on win screen
 document.getElementById("lbOpenBtn").addEventListener("click", showLeaderboard);
 
@@ -1879,6 +1921,13 @@ document.getElementById("lbNicknameInput").addEventListener("keydown", (e) => {
 document.getElementById("lbNicknameInput").addEventListener("input", () => {
   document.getElementById("lbNicknameInput").style.borderColor = "";
 });
+
+// Wire up export/import buttons if they exist
+const lbExportBtn = document.getElementById("lbExportBtn");
+if (lbExportBtn) lbExportBtn.addEventListener("click", lbExport);
+
+const lbImportBtn = document.getElementById("lbImportBtn");
+if (lbImportBtn) lbImportBtn.addEventListener("click", lbImport);
 
 // Restart from leaderboard
 document
