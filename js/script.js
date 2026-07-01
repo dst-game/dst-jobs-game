@@ -1545,7 +1545,7 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_final.pdf",
     content: `
-<div id="lebenslauf-maus ">
+<div id="lebenslauf-maus">
   <div class="kopf">
     <img
       src="https://hypership.uk/uploads/20260616085123_00_gustaver.jpg"
@@ -1851,7 +1851,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) { }
+  } catch (e) {}
   return trimmed;
 }
 
