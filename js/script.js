@@ -1095,310 +1095,310 @@ function getTraumjob() {
 }
 
 const DOCS = [
-  {
-    ext: "PDF",
-    name: "lebenslauf_alt.pdf",
-    content: `
-     <div class="cv-game">
-      <div class="content">
-        <main class="left">
-          <h1>Jessie James · Software Developer</h1>
-          <h2>jessie.james@meowth.at</h2>
+  // {
+  //   ext: "PDF",
+  //   name: "lebenslauf_alt.pdf",
+  //   content: `
+  //    <div class="cv-game">
+  //     <div class="content">
+  //       <main class="left">
+  //         <h1>Jessie James · Software Developer</h1>
+  //         <h2>jessie.james@meowth.at</h2>
 
-          <p class="tagline">
-            Creative Software Developer with a trainer mindset: curious,
-            strategic, team-focused, and always ready to evolve. I build clean
-            interfaces, playful digital experiences, and reliable web
-            applications that feel fast, useful, and memorable.
-          </p>
+  //         <p class="tagline">
+  //           Creative Software Developer with a trainer mindset: curious,
+  //           strategic, team-focused, and always ready to evolve. I build clean
+  //           interfaces, playful digital experiences, and reliable web
+  //           applications that feel fast, useful, and memorable.
+  //         </p>
 
-          <div class="meta">
-            <span class="pill">Region: Vienna / Remote</span>
-            <span class="pill">Portfolio: jessiejames.dev</span>
-            <span class="pill">GitHub: github.com/jessiejames</span>
-            <span class="pill">LinkedIn: /in/jessie-james</span>
-          </div>
+  //         <div class="meta">
+  //           <span class="pill">Region: Vienna / Remote</span>
+  //           <span class="pill">Portfolio: jessiejames.dev</span>
+  //           <span class="pill">GitHub: github.com/jessiejames</span>
+  //           <span class="pill">LinkedIn: /in/jessie-james</span>
+  //         </div>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Trainer Profile</strong><br />
-              I approach every project like a new route: scout the challenge,
-              choose the right tools, level up the solution, and support the
-              team until the final release. My strengths are structured
-              thinking, visual polish, debugging stamina, and a love for
-              interactive, game-inspired user experiences.
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Trainer Profile</strong><br />
+  //             I approach every project like a new route: scout the challenge,
+  //             choose the right tools, level up the solution, and support the
+  //             team until the final release. My strengths are structured
+  //             thinking, visual polish, debugging stamina, and a love for
+  //             interactive, game-inspired user experiences.
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Mission Statement</strong><br />
-              To create digital products that are as intuitive as a
-              well-designed game menu and as reliable as a trusted battle
-              partner. I combine technical structure with strong visual identity
-              so every interface feels useful, energetic, and fun.
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Mission Statement</strong><br />
+  //             To create digital products that are as intuitive as a
+  //             well-designed game menu and as reliable as a trusted battle
+  //             partner. I combine technical structure with strong visual identity
+  //             so every interface feels useful, energetic, and fun.
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <strong>Experience</strong><br /><br />
+  //         <section>
+  //           <strong>Experience</strong><br /><br />
 
-            <div class="timeline-item">
-              <b>DST GmbH — Junior Developer</b><br />
-              <span>2021–2023 · Main Quest</span><br />
-              Developed and maintained web interfaces, supported smaller backend
-              features, fixed bugs, tested releases, and coordinated with design
-              and project management teams.
-            </div>
+  //           <div class="timeline-item">
+  //             <b>DST GmbH — Junior Developer</b><br />
+  //             <span>2021–2023 · Main Quest</span><br />
+  //             Developed and maintained web interfaces, supported smaller backend
+  //             features, fixed bugs, tested releases, and coordinated with design
+  //             and project management teams.
+  //           </div>
 
-            <div class="timeline-item">
-              <b>Freelance — Web Developer</b><br />
-              <span>2020–2021 · Side Quest Chain</span><br />
-              Created landing pages, portfolio websites, and small CMS solutions
-              for local clients, with a focus on responsive layouts and clear
-              content structure.
-            </div>
-          </section>
+  //           <div class="timeline-item">
+  //             <b>Freelance — Web Developer</b><br />
+  //             <span>2020–2021 · Side Quest Chain</span><br />
+  //             Created landing pages, portfolio websites, and small CMS solutions
+  //             for local clients, with a focus on responsive layouts and clear
+  //             content structure.
+  //           </div>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <strong>Education</strong><br /><br />
+  //         <section>
+  //           <strong>Education</strong><br /><br />
 
-            <div class="timeline-item">
-              <b>HTL Paldea — Computer Science</b><br />
-              <span>2015–2020 · Training Academy</span><br />
-              Focus on software development, databases, networking, web
-              development, project work, and technical documentation.
-            </div>
-          </section>
+  //           <div class="timeline-item">
+  //             <b>HTL Paldea — Computer Science</b><br />
+  //             <span>2015–2020 · Training Academy</span><br />
+  //             Focus on software development, databases, networking, web
+  //             development, project work, and technical documentation.
+  //           </div>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <strong>Projects</strong><br /><br />
+  //         <section>
+  //           <strong>Projects</strong><br /><br />
 
-            <div class="timeline-item">
-              <b>Creature Index Web App</b><br />
-              React, REST API integration, responsive UI, search, filter logic,
-              card layouts, and collection-style browsing.
-            </div>
+  //           <div class="timeline-item">
+  //             <b>Creature Index Web App</b><br />
+  //             React, REST API integration, responsive UI, search, filter logic,
+  //             card layouts, and collection-style browsing.
+  //           </div>
 
-            <div class="timeline-item">
-              <b>Portfolio Quest</b><br />
-              Gamified portfolio with HTML, CSS, JavaScript, micro-animations,
-              quest sections, badges, and achievement-style progress feedback.
-            </div>
+  //           <div class="timeline-item">
+  //             <b>Portfolio Quest</b><br />
+  //             Gamified portfolio with HTML, CSS, JavaScript, micro-animations,
+  //             quest sections, badges, and achievement-style progress feedback.
+  //           </div>
 
-            <div class="timeline-item">
-              <b>Application Portal</b><br />
-              PHP, MySQL, login system, application overview, admin dashboard,
-              and structured candidate data management.
-            </div>
+  //           <div class="timeline-item">
+  //             <b>Application Portal</b><br />
+  //             PHP, MySQL, login system, application overview, admin dashboard,
+  //             and structured candidate data management.
+  //           </div>
 
-            <div class="timeline-item">
-              <b>Battle UI Prototype</b><br />
-              Experimental interface inspired by turn-based game screens,
-              including action buttons, animated status bars, and responsive
-              card components.
-            </div>
-          </section>
+  //           <div class="timeline-item">
+  //             <b>Battle UI Prototype</b><br />
+  //             Experimental interface inspired by turn-based game screens,
+  //             including action buttons, animated status bars, and responsive
+  //             card components.
+  //           </div>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Certificates</strong><br />
-              JavaScript Algorithms — freeCodeCamp<br />
-              Scrum Basics — 2023<br />
-              UX Fundamentals — 2022<br />
-              Responsive Web Design — 2021
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Certificates</strong><br />
+  //             JavaScript Algorithms — freeCodeCamp<br />
+  //             Scrum Basics — 2023<br />
+  //             UX Fundamentals — 2022<br />
+  //             Responsive Web Design — 2021
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Awards</strong><br />
-              Best UI Concept — HTL Project Week<br />
-              Hackathon Finalist — Code & Coffee Vienna<br />
-              Internal Recognition — Bug Hunter of the Month
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Awards</strong><br />
+  //             Best UI Concept — HTL Project Week<br />
+  //             Hackathon Finalist — Code & Coffee Vienna<br />
+  //             Internal Recognition — Bug Hunter of the Month
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Volunteer Work</strong><br />
-              Coding mentor for beginners<br />
-              Support for local open-source meetups<br />
-              Website maintenance for a small community project
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Volunteer Work</strong><br />
+  //             Coding mentor for beginners<br />
+  //             Support for local open-source meetups<br />
+  //             Website maintenance for a small community project
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Languages</strong><br />
-              German — Native<br />
-              English — Very good<br />
-              Japanese — Basics
-            </p>
-          </section>
+  //         <section>
+  //           <p>
+  //             <strong>Languages</strong><br />
+  //             German — Native<br />
+  //             English — Very good<br />
+  //             Japanese — Basics
+  //           </p>
+  //         </section>
 
-          <hr />
+  //         <hr />
 
-          <section>
-            <p>
-              <strong>Interests</strong><br />
-              Game design, UI animation, retro tech, open source, pixel art,
-              creative coding, indie games, creature collecting games, strategy
-              systems, and playful onboarding flows.
-            </p>
-          </section>
-        </main>
+  //         <section>
+  //           <p>
+  //             <strong>Interests</strong><br />
+  //             Game design, UI animation, retro tech, open source, pixel art,
+  //             creative coding, indie games, creature collecting games, strategy
+  //             systems, and playful onboarding flows.
+  //           </p>
+  //         </section>
+  //       </main>
 
-        <aside class="right">
-          <div class="applypic"></div>
+  //       <aside class="right">
+  //         <div class="applypic"></div>
 
-          <div class="sidebox">
-            <h2>Trainer Class</h2>
-            <div class="stat-grid">
-              <div class="stat">
-                <b>LVL 23</b>
-                Frontend Trainer
-              </div>
-              <div class="stat">
-                <b>XP 8,420</b>
-                Next Evolution: 9,000
-              </div>
-              <div class="stat">
-                <b>Region</b>
-                Web Dev League
-              </div>
-              <div class="stat">
-                <b>Role</b>
-                UI Tactician
-              </div>
-            </div>
-          </div>
+  //         <div class="sidebox">
+  //           <h2>Trainer Class</h2>
+  //           <div class="stat-grid">
+  //             <div class="stat">
+  //               <b>LVL 23</b>
+  //               Frontend Trainer
+  //             </div>
+  //             <div class="stat">
+  //               <b>XP 8,420</b>
+  //               Next Evolution: 9,000
+  //             </div>
+  //             <div class="stat">
+  //               <b>Region</b>
+  //               Web Dev League
+  //             </div>
+  //             <div class="stat">
+  //               <b>Role</b>
+  //               UI Tactician
+  //             </div>
+  //           </div>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Type Match</h2>
-            <div class="type-row">
-              <span class="type electric">Electric UI</span>
-              <span class="type psychic">Psychic Logic</span>
-              <span class="type water">Fluid Layouts</span>
-              <span class="type steel">Robust Code</span>
-            </div>
-          </div>
+  //         <div class="sidebox">
+  //           <h2>Type Match</h2>
+  //           <div class="type-row">
+  //             <span class="type electric">Electric UI</span>
+  //             <span class="type psychic">Psychic Logic</span>
+  //             <span class="type water">Fluid Layouts</span>
+  //             <span class="type steel">Robust Code</span>
+  //           </div>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Move Set</h2>
+  //         <div class="sidebox">
+  //           <h2>Move Set</h2>
 
-            <div class="skill">
-              <span><b>HTML/CSS</b><b>95%</b></span>
-              <div class="bar"><div style="width: 95%"></div></div>
-              <small>Move: Pixel Beam · Accuracy 95</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>HTML/CSS</b><b>95%</b></span>
+  //             <div class="bar"><div style="width: 95%"></div></div>
+  //             <small>Move: Pixel Beam · Accuracy 95</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>JavaScript</b><b>82%</b></span>
-              <div class="bar"><div style="width: 82%"></div></div>
-              <small>Move: Logic Spark · Accuracy 82</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>JavaScript</b><b>82%</b></span>
+  //             <div class="bar"><div style="width: 82%"></div></div>
+  //             <small>Move: Logic Spark · Accuracy 82</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>React</b><b>72%</b></span>
-              <div class="bar"><div style="width: 72%"></div></div>
-              <small>Move: Component Call · Accuracy 72</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>React</b><b>72%</b></span>
+  //             <div class="bar"><div style="width: 72%"></div></div>
+  //             <small>Move: Component Call · Accuracy 72</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>PHP/MySQL</b><b>65%</b></span>
-              <div class="bar"><div style="width: 65%"></div></div>
-              <small>Move: Data Dig · Accuracy 65</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>PHP/MySQL</b><b>65%</b></span>
+  //             <div class="bar"><div style="width: 65%"></div></div>
+  //             <small>Move: Data Dig · Accuracy 65</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>UX/UI Design</b><b>78%</b></span>
-              <div class="bar"><div style="width: 78%"></div></div>
-              <small>Move: Interface Charm · Accuracy 78</small>
-            </div>
-          </div>
+  //           <div class="skill">
+  //             <span><b>UX/UI Design</b><b>78%</b></span>
+  //             <div class="bar"><div style="width: 78%"></div></div>
+  //             <small>Move: Interface Charm · Accuracy 78</small>
+  //           </div>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Support Stats</h2>
+  //         <div class="sidebox">
+  //           <h2>Support Stats</h2>
 
-            <div class="skill">
-              <span><b>Teamwork</b><b>90%</b></span>
-              <div class="bar"><div style="width: 90%"></div></div>
-              <small>Double Battle synergy unlocked</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>Teamwork</b><b>90%</b></span>
+  //             <div class="bar"><div style="width: 90%"></div></div>
+  //             <small>Double Battle synergy unlocked</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>Problem Solving</b><b>88%</b></span>
-              <div class="bar"><div style="width: 88%"></div></div>
-              <small>Critical-hit thinking buff</small>
-            </div>
+  //           <div class="skill">
+  //             <span><b>Problem Solving</b><b>88%</b></span>
+  //             <div class="bar"><div style="width: 88%"></div></div>
+  //             <small>Critical-hit thinking buff</small>
+  //           </div>
 
-            <div class="skill">
-              <span><b>Communication</b><b>84%</b></span>
-              <div class="bar"><div style="width: 84%"></div></div>
-              <small>Trainer-to-team clarity boost</small>
-            </div>
-          </div>
+  //           <div class="skill">
+  //             <span><b>Communication</b><b>84%</b></span>
+  //             <div class="bar"><div style="width: 84%"></div></div>
+  //             <small>Trainer-to-team clarity boost</small>
+  //           </div>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Inventory</h2>
-            <div class="tools">
-              <span class="tool">VS Code</span>
-              <span class="tool">Git</span>
-              <span class="tool">Figma</span>
-              <span class="tool">Docker</span>
-              <span class="tool">Node.js</span>
-              <span class="tool">WordPress</span>
-              <span class="tool">MySQL</span>
-              <span class="tool">Jira</span>
-            </div>
-          </div>
+  //         <div class="sidebox">
+  //           <h2>Inventory</h2>
+  //           <div class="tools">
+  //             <span class="tool">VS Code</span>
+  //             <span class="tool">Git</span>
+  //             <span class="tool">Figma</span>
+  //             <span class="tool">Docker</span>
+  //             <span class="tool">Node.js</span>
+  //             <span class="tool">WordPress</span>
+  //             <span class="tool">MySQL</span>
+  //             <span class="tool">Jira</span>
+  //           </div>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Badges</h2>
-            <ul class="badges">
-              <li>Thunder Badge — Fast Learner</li>
-              <li>Pixel Badge — Pixel Perfect</li>
-              <li>Bug Badge — Bug Hunter</li>
-              <li>Union Badge — Team Player</li>
-              <li>Refactor Badge — Clean Code Crafter</li>
-              <li>Sprint Badge — Deadline Sprinter</li>
-            </ul>
-          </div>
+  //         <div class="sidebox">
+  //           <h2>Badges</h2>
+  //           <ul class="badges">
+  //             <li>Thunder Badge — Fast Learner</li>
+  //             <li>Pixel Badge — Pixel Perfect</li>
+  //             <li>Bug Badge — Bug Hunter</li>
+  //             <li>Union Badge — Team Player</li>
+  //             <li>Refactor Badge — Clean Code Crafter</li>
+  //             <li>Sprint Badge — Deadline Sprinter</li>
+  //           </ul>
+  //         </div>
 
-          <div class="sidebox">
-            <h2>Quest Log</h2>
-            <ul class="questlog">
-              <li>Main Quest: Build useful, beautiful web apps</li>
-              <li>Side Quest: Improve accessibility in every project</li>
-              <li>Daily Quest: Learn one new development move</li>
-              <li>Gym Challenge: Ship polished, responsive interfaces</li>
-              <li>Boss Fight: Refactor legacy code without fear</li>
-            </ul>
-          </div>
-        </aside>
-      </div>
-    </div>
-    `,
-  },
+  //         <div class="sidebox">
+  //           <h2>Quest Log</h2>
+  //           <ul class="questlog">
+  //             <li>Main Quest: Build useful, beautiful web apps</li>
+  //             <li>Side Quest: Improve accessibility in every project</li>
+  //             <li>Daily Quest: Learn one new development move</li>
+  //             <li>Gym Challenge: Ship polished, responsive interfaces</li>
+  //             <li>Boss Fight: Refactor legacy code without fear</li>
+  //           </ul>
+  //         </div>
+  //       </aside>
+  //     </div>
+  //   </div>
+  //   `,
+  // },
   {
     ext: "PDF",
     name: "lebenslauf_neu.pdf",
@@ -1502,11 +1502,23 @@ const DOCS = [
 
     `,
   },
+
+  {
+    ext: "PDF",
+    name: "kuendigung.pdf",
+    content: `
+       <div id="kuendigung">  <img
+      src="https://hypership.uk/uploads/20260701112249_00_kuendigung.png"
+      alt="" width="100%"
+    /></div>
+    `,
+  },
+
   {
     ext: "PDF",
     name: "lebenslauf_final.pdf",
     content: `
-<div id="lebenslauf-maus">
+<div id="lebenslauf-maus ">
   <div class="kopf">
     <img
       src="https://hypership.uk/uploads/20260616085123_00_gustaver.jpg"
@@ -1591,6 +1603,30 @@ const DOCS = [
     `,
   },
   {
+    ext: "TXT",
+    name: "love_msg.txt",
+    content: `
+ <div id="love">
+ <div id="notes-editor">
+  
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIEL ERFOLG BEIM BEWERBEN</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I LUV YOU  <3 </div>
+       <div class="note" style="color: rgb(209, 58, 154); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEIN GUSTAV</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note" style="color: rgb(209, 58, 61); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<3 <3 <3 <3 <3 <3</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+     
+
+</div>
+</div>
+    `,
+  },
+  {
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
@@ -1604,7 +1640,7 @@ const DOCS = [
         />
       </div>
       <hr />
-      <p><strong class="cvname">Patricia Patternwoman</strong></p>
+      <p><strong class="cvname">MEIN LEBENSLAUF</strong></p>
       <hr />
       <p>
         <strong>Profil</strong><br />
@@ -1730,16 +1766,30 @@ const DOCS = [
     ext: "TXT",
     name: "notizen_interview.txt",
     content: `
-     <div id="notes-editor">
-  <p><strong>Notizen — Vorstellungsgespräch</strong></p>
-  <hr>
-  <p>
-    - Fragen ob gratis Kaffee?<br>
-    - Homeoffice?<br>
-    - zu spät kommen schlimm?<br>
-    - Lieblingstier<br>
-   <span style="font-weight: bold; color:pink"> - TODO: Neues Foto hochladen &amp; Auf Typos kontolliern</span>
-  </p>
+ <div id="notes-editor">
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp; Notizen — Vorstellungsgespräch</h3>
+
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fragen ob gratis Kaffee?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Homeoffice?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Zu spät kommen schlimm?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Lieblingstier</div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-TODO:</div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->Neues Foto hochladen </div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->auf Typos kontrollieren</div>
+     <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Ist Obstkorb der einzige Benefit???</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wo ist mein aktueller Lebenslauf?</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Der Graphic Design Lebenslauf </div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ist wohl nicht mehr aktuell..</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCHILDKRÖTE?!?!?!?</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+     
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EKL:</div>
+       <div class="ekl note ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Energy Drinks</div>
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomaten</div>
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spaghetti</div>
 </div>
     `,
   },

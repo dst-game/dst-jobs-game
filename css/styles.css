@@ -1708,62 +1708,82 @@ a.dst-win-link:hover {
   }
 }
 #notes-editor {
+  position: relative;
   max-width: 520px;
-  padding: 22px 24px;
-  background: #fffdf7;
-  border: 1px solid #e7dcc7;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(60, 45, 20, 0.12);
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  color: #2d2a26;
-  line-height: 1.55;
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+  font-family: Courier, monospace;
+  color: #444;
+  overflow: hidden;
+  text-align: left;
+  border-radius: 25px;
 }
-
-#notes-editor p {
-  margin: 0 0 14px;
+#notes-editor .note {
+  border-bottom: #8ec6ff solid 1px;
 }
-
-#notes-editor strong {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-#notes-editor hr {
-  border: 0;
-  height: 1px;
-  background: #eadfc9;
-  margin: 14px 0 18px;
-}
-
-#notes-editor p:last-child {
-  font-size: 15px;
-  white-space: normal;
-}
-
-#notes-editor p:last-child::first-line {
-  font-weight: 700;
-}
-
-#notes-editor p:last-child br {
+/* rote Margin-Linie */
+#notes-editor::before {
   content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 48px;
+  width: 2px;
+  background: #ff9c9c;
 }
 
-#notes-editor p:last-child {
+/* Überschrift */
+#notes-editor > p:first-child {
+  margin: 0;
+  padding: 18px 20px 14px 70px;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  color: #444;
+  border-bottom: 1px solid #ddd;
+  background: #fafafa;
+}
+
+/* eigentliche Notizen */
+#notes-editor > p:last-child {
+  margin: 0;
+  padding: 0 20px 0 70px;
+  line-height: 44px;
+  font-size: 18px;
+  white-space: normal;
+
+  /* horizontale Linien */
   background: repeating-linear-gradient(
     to bottom,
     transparent 0,
-    transparent 30px,
-    rgba(214, 198, 166, 0.35) 31px
+    transparent 43px,
+    #d8d8d8 44px
   );
-  padding: 10px 12px;
-  border-radius: 10px;
 }
-.cv-game {
+
+#notes-editor br {
+  display: block;
+  content: "";
+}
+
+#notes-editor span {
+  color: #d60000;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#notes-editor .todo {
+  color: #d60000;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#notes-editor .cv-game {
   font-family: var(--tj-font-mono);
   background-color: #fff;
   /* padding: 2em; */
 }
-
+#kuendigung {
+  padding: 1em 10em;
+}
 .cv-game * {
   box-sizing: border-box;
   font-size: 15px;
