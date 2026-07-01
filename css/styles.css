@@ -2836,7 +2836,7 @@ a.dst-win-link:hover {
   object-position: top center;
   transform: scale(1.9);
   display: none;
-  margin-top: 40px;
+  margin-top: 1em;
 }
 .tj-desk .portrait.has-art .art {
   display: block;
@@ -3149,7 +3149,6 @@ a.dst-win-link:hover {
   /* bump the container-relative sizes up since the container is now narrow */
   .tj-desk div.potrait img#hase {
     width: 50em;
-    padding-top: 5em;
   }
 
   .tj-desk .portrait .emoji {
