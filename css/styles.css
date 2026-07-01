@@ -754,8 +754,8 @@ h1 {
 .cattail {
   position: absolute;
   bottom: 0;
-  left: 30px;
-  height: 20%;
+  left: -3em;
+  height: 30%;
   z-index: 8;
 }
 
@@ -2473,6 +2473,27 @@ a.dst-win-link:hover {
     0 0 var(--tj-glow-strong) rgba(255, 53, 84, 0.7),
     inset 0 0 30px rgba(255, 53, 84, 0.16);
 }
+
+
+@keyframes tj-grow-tilt-reset {
+  0% {
+    transform: scale(1) rotateZ(0deg);
+  }
+  40% {
+    transform: scale(1.3) rotateZ(45deg);
+  }
+  80% {
+    transform:  scale(1.3) rotateZ(-45deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(0deg);
+  }
+}
+
+.tj-clock-analog.speedup[data-critical] {
+  animation: tj-grow-tilt-reset 1.5s var(--tj-ease);
+}
+
 .tj-clock-analog .tick {
   position: absolute;
   top: 0;
@@ -2537,7 +2558,6 @@ a.dst-win-link:hover {
   background: var(--tj-gold);
   transform: translate(-50%, -50%);
   box-shadow: 0 0 10px rgba(227, 179, 65, 0.9);
-  z-index: 3;
 }
 .tj-clock-analog .crown {
   position: absolute;
@@ -2550,6 +2570,7 @@ a.dst-win-link:hover {
   border-bottom: none;
   border-radius: 6px 6px 0 0;
   background: rgba(227, 179, 65, 0.15);
+  z-index: -1;
 }
 
 /* --- THE DESK (3-zone stage) --- */
@@ -2835,7 +2856,7 @@ a.dst-win-link:hover {
   object-position: top center;
   transform: scale(1.9);
   display: none;
-  margin-top: 40px;
+  margin-top: 1em;
 }
 .tj-desk .portrait.has-art .art {
   display: block;
@@ -3148,7 +3169,6 @@ a.dst-win-link:hover {
   /* bump the container-relative sizes up since the container is now narrow */
   .tj-desk div.potrait img#hase {
     width: 50em;
-    padding-top: 5em;
   }
 
   .tj-desk .portrait .emoji {
