@@ -754,8 +754,8 @@ h1 {
 .cattail {
   position: absolute;
   bottom: 0;
-  left: 30px;
-  height: 20%;
+  left: -3em;
+  height: 30%;
   z-index: 8;
 }
 
