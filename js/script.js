@@ -308,10 +308,13 @@ function deactivateApplyPhase() {
   document.removeEventListener("click", handleDocumentClick, true);
 }
 
-function applyPunishment() {
+function applyPunishment(amount) {
   if (gameOver || gameWon || immunityActive) return;
   const label = document.getElementById("punishmentLabel");
-  const amount = GAME_SETTINGS.punishmentAmount;
+  // callers may pass a custom penalty (e.g. the dictation typo penalty);
+  // everything else uses the default GAME_SETTINGS.punishmentAmount.
+  amount =
+    typeof amount === "number" ? amount : GAME_SETTINGS.punishmentAmount;
 
   // block immediately so rapid-fire typos can't queue multiple punishments
   immunityActive = true;
