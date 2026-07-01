@@ -103,7 +103,7 @@ function tick() {
       gameAnalog.setAttribute("data-critical", "");
     }
 
-    showGuide(t("guide.oneMinutePassed"), 4000);
+    showTimerFlash(t("guide.oneMinutePassed"));
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }
@@ -111,20 +111,20 @@ function tick() {
   // after half time
   if (remainingTime <= 150 && !halfTimePassed) {
     halfTimePassed = true;
-    showGuide(t("guide.halfTime"), 4000);
+    showTimerFlash(t("guide.halfTime"));
   }
 
   // Last minute → analog clock outline turns to the red alarm state.
   if (remainingTime <= 60 && !lastMinute) {
     lastMinute = true;
     if (gameAnalog) gameAnalog.setAttribute("data-critical", "");
-    showGuide(t("guide.hurryUp"), 4000);
+    showTimerFlash(t("guide.hurryUp"));
   }
   // Final 30s → digital clock also goes critical + stronger warning.
   if (remainingTime <= 30 && !clockCritical) {
     clockCritical = true;
     if (gameDigital) gameDigital.setAttribute("data-critical", "");
-    showGuide(t("guide.almostOutOfTime"), 5000);
+    showTimerFlash(t("guide.almostOutOfTime"), 2800);
   }
 
   if (remainingTime <= 0) {
@@ -472,7 +472,6 @@ captchaConfirm.addEventListener("click", () => {
 
 async function openCamera() {
   cameraScreen.style.display = "flex";
-  showGuidePriority(t("guide.smile"));
   videoEl.style.display = "block";
   photoEl.style.display = "none";
   captureBtn.style.display = "block";
@@ -483,7 +482,6 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    showGuidePriority(t("guide.cameraUnavailable"));
     cameraScreen.style.display = "none";
   }
 }
@@ -709,7 +707,7 @@ passwordInput.onkeydown = (e) => {
         showFileExplorer();
       }
     } else {
-      showGuide(t("guide.wrongPassword"), 3000);
+      showGuide(t("guide.password"), 3000);
       applyPunishment();
     }
   }
@@ -784,6 +782,26 @@ function showGuide(text) {
 
 // Use for screen transitions and game-state changes: clears any queued/in-progress
 // messages so stale hints from the previous screen don't bleed through.
+const timerFlashEl = document.getElementById("timerFlash");
+const timerFlashTextEl = document.getElementById("timerFlashText");
+let timerFlashTimeout = null;
+
+function showTimerFlash(text, duration = 2200) {
+  if (!timerFlashEl || !timerFlashTextEl) return;
+  clearTimeout(timerFlashTimeout);
+  timerFlashTextEl.textContent = text;
+  timerFlashEl.style.display = "flex";
+  // restart animations
+  timerFlashEl.style.animation = "none";
+  timerFlashTextEl.style.animation = "none";
+  void timerFlashEl.offsetWidth;
+  timerFlashEl.style.animation = "";
+  timerFlashTextEl.style.animation = "";
+  timerFlashTimeout = setTimeout(() => {
+    timerFlashEl.style.display = "none";
+  }, duration);
+}
+
 function showGuidePriority(text) {
   guideQueue = [];
   guideShowing = false;
@@ -878,12 +896,12 @@ function closePreview() {
 
 previewSave.addEventListener("click", () => {
   if (!photoAdded) {
-    showGuide(t("guide.missingImage"), 3000);
+    showGuide(t("guide.stillWrong"), 3000);
     applyPunishment();
     return;
   }
   if (!typoFixed) {
-    showGuide(t("guide.typoLeft"), 3000);
+    showGuide(t("guide.stillWrong"), 3000);
     applyPunishment();
     return;
   }
