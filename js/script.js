@@ -50,6 +50,7 @@ let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
 let SPEED = 1; // seconds per real second
 let speedBoosted = false; // true once SPEED has been raised
+let speedBoostDisabledByUser = false; // user clicked slow button
 let clockCritical = false; // digital critical (final 30s)
 let halfTimePassed = false; // half-time guide message
 let lastMinute = false; // analog red alarm outline (final 60s)
@@ -91,9 +92,17 @@ function tick() {
   }
 
   // after one minute — speed up and show guide once
-  if (remainingTime <= 240 && !speedBoosted) {
+  if (remainingTime <= 240 && !speedBoosted && !speedBoostDisabledByUser) {
     speedBoosted = true;
     SPEED = 2;
+
+    if (gameDigital) gameDigital.classList.add("mistake");
+
+    if (gameAnalog) {
+      gameAnalog.classList.add("speedup");
+      gameAnalog.setAttribute("data-critical", "");
+    }
+
     showGuide(t("guide.oneMinutePassed"), 4000);
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
@@ -190,6 +199,7 @@ function resetTimer() {
   penaltySeconds = 0;
   immunityActive = false;
   speedBoosted = false;
+  speedBoostDisabledByUser = false;
   clockCritical = false;
   halfTimePassed = false;
   lastMinute = false;
@@ -639,6 +649,21 @@ restartBtn.addEventListener("click", () => {
 
 document.getElementById("slowBtn").addEventListener("click", () => {
   SPEED = 1;
+  speedBoosted = false;
+  speedBoostDisabledByUser = true;
+
+  if (gameAnalog) {
+    gameAnalog.removeAttribute("data-critical", "");
+    gameAnalog.classList.remove("speedup");
+  }
+  if (gameDigital) {
+    gameDigital.classList.remove("mistake");
+    gameDigital.removeAttribute("data-critical", "");
+  }
+
+  // Clear any pending mistake timer
+  clearTimeout(mistakeTimer);
+
   const slowBtn = document.getElementById("slowBtn");
   slowBtn.style.display = "none";
   showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
@@ -818,7 +843,9 @@ function flashMistake() {
   clearTimeout(mistakeTimer);
   mistakeTimer = setTimeout(() => {
     if (guideCard) guideCard.classList.remove("mistake");
-    if (gameDigital) gameDigital.classList.remove("mistake");
+    if (!speedBoosted) {
+      if (gameDigital) gameDigital.classList.remove("mistake");
+    }
   }, 1200);
 }
 
@@ -1774,7 +1801,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) {}
+  } catch (e) { }
   return trimmed;
 }
 
