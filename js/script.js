@@ -122,7 +122,7 @@ function tick() {
       gameAnalog.setAttribute("data-critical", "");
     }
 
-    showTimerFlash(t("guide.oneMinutePassed"));
+    //  showTimerFlash(t("guide.oneMinutePassed"));
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }
