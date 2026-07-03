@@ -4101,3 +4101,49 @@ a.dst-win-link:hover {
   font-size: 1.8cqw;
   padding: 1.1cqw 2.8cqw;
 }
+
+/* ─── Timer Flash Overlay ────────────────────────────────────── */
+.timer-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(180, 20, 20, 0.18);
+  animation: timer-flash-bg 0.4s ease-out;
+}
+
+@keyframes timer-flash-bg {
+  from {
+    background: rgba(180, 20, 20, 0.55);
+  }
+  to {
+    background: rgba(180, 20, 20, 0.18);
+  }
+}
+
+.timer-flash-text {
+  font-family: var(--tj-font-display);
+  font-weight: 900;
+  font-size: 7cqw;
+  color: #fff;
+  text-align: center;
+  text-shadow:
+    0 0 30px rgba(255, 60, 60, 0.9),
+    0 2px 8px rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.02em;
+  animation: timer-flash-text 0.5s cubic-bezier(0.2, 0, 0.4, 1);
+}
+
+@keyframes timer-flash-text {
+  from {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

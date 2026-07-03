@@ -137,7 +137,6 @@ const TRANSLATIONS = {
     "desk.laptopCap": "Los — die Uhr wartet auf niemanden!",
     "guide.railTitle": "Dein Begleiter",
     "guide.who": "Der Hase",
-    "guide.intro": "Bereit? Drück auf Start, dann geht's los!",
     "guide.objLabel": "So gewinnst du",
     "guide.step1": "Passwort eingeben & Rechner entsperren",
     "guide.step2": "Jobplattform öffnen (dreamjob.io)",
@@ -163,29 +162,22 @@ const TRANSLATIONS = {
     "spotlight.skip": "Überspringen",
 
     // — Guide (rabbit) messages —
-    "guide.password": "Schnell, lass uns das Passwort eingeben!",
-    "guide.wrongPassword":
-      "Falsches Passwort! Findest du vielleicht irgendwo einen Hinweis?",
+    "guide.password":
+      "Du brauchst das Passwort! Ist irgendwo ein Hinweis versteckt?",
     "guide.rememberFile":
       "Oh, das sind ganz schön viele Dateien! Welche ist richtig?",
-    "guide.wrongFile": "Das ist die falsche Datei!",
     "guide.addImageTypo":
       "Das scheint die richtige Bewerbung zu sein! Aber etwas stimmt noch nicht...",
-    "guide.missingImage": "Dir fehlt noch das Bild!",
-    "guide.typoLeft": "Da ist wohl noch irgendwo ein Tippfehler!",
+    "guide.stillWrong": "Hm, etwas stimmt nicht.",
     "guide.submitNow": "Super! Jetzt schick deine Bewerbung ab! Beeil dich!",
     "guide.almostOutOfTime": "OH NEIN, uns läuft die Zeit davon!!",
     "guide.hurryUp": "Nur noch eine Minute! Beeil dich!",
     "guide.notRobot": "Bist du sicher, dass du kein Roboter bist?",
-    "guide.smile": "Lächeln!",
-    "guide.cameraUnavailable": "Kamera nicht verfügbar!",
     "guide.success": "Jippie, du hast es geschafft!",
     "guide.timeUp": "Zeit abgelaufen! Game Over!",
     "guide.discardedFiles": "Du hast deine Bewerbung gelöscht... Gut gemacht!",
-    "guide.halfTime":
-      "Tick, tack... Die Hälfte der Zeit ist schon vorbei! Beeil dich!",
-    "guide.oneMinutePassed":
-      "Hmmm, kommt es dir auch so vor, als würde die Zeit super schnell vergehen?",
+    "guide.halfTime": "Halbzeit!",
+    "guide.oneMinutePassed": "Die Zeit verfliegt!!",
 
     // — Bewerbungs-Flow (Browser-Minispiel) —
     "flow.newtab.tab": "Neuer Tab",
@@ -269,18 +261,10 @@ const TRANSLATIONS = {
     "flow.guide.newtabPost": " oben in die Leiste, bevor’s zwölf schlägt!",
     "flow.guide.results":
       "Such genau die Stelle, die du eingegeben hast — nicht die Karotten.",
-    "flow.guide.resultsWrong":
-      "Nicht ganz — welche Stelle hast du eingegeben? Genau die suchst du.",
-    "flow.guide.detail": "Das ist es! Klick „Jetzt bewerben“ — die Zeit rennt.",
-    "flow.guide.applyScreen":
-      "Mach einfach das, was auf dem Bildschirm steht — tipp den Text genau so ab!",
+    "flow.guide.detail": "Das ist es! Klick „Jetzt bewerben” — die Zeit rennt.",
+    "flow.guide.applyScreen": "Tipp den Text genau so ab!",
     "flow.guide.applyPre": "Sprich mir nach: „",
-    "flow.guide.applyPost": "“",
-    "flow.guide.applyComplete": "Sauber getippt! Schnell weiter zum CV-Upload!",
-    "flow.guide.applyError":
-      "Ups, ein Vertipper! Korrigier ihn und tipp sauber weiter.",
-    "flow.guide.urlWrong":
-      "Falsche Adresse! Tipp genau dreamjob.io — sonst kostet’s Zeit.",
+    "flow.guide.applyPost": "”",
     "flow.guide.shortcutWin":
       "Clever! Du kennst die wirklich guten Portale — und hast damit sofort gewonnen!",
     "flow.ad.banner":
@@ -291,8 +275,6 @@ const TRANSLATIONS = {
     "flow.cookie.accept": "ALLE AKZEPTIEREN ✓",
     "flow.cookie.reject": "ablehnen",
     "flow.chat.bubble": "💬 Hi! Kann ich dir beim Suchen helfen?",
-    "flow.chat.reply":
-      "Der Chatbot ist leider keine Hilfe. Such einfach weiter — der Hase glaubt an dich!",
     "flow.sort.label": "Sortieren: Zufällig ▾",
     "flow.badge.top": "⭐ Top-Treffer",
     "flow.badge.ad": "Anzeige",
@@ -454,7 +436,6 @@ const TRANSLATIONS = {
     "desk.laptopCap": "Go — the clock waits for no one!",
     "guide.railTitle": "Your companion",
     "guide.who": "The Rabbit",
-    "guide.intro": "Ready? Hit Start and off we go!",
     "guide.objLabel": "How to win",
     "guide.step1": "Enter the password & unlock the computer",
     "guide.step2": "Open the job platform (dreamjob.io)",
@@ -480,28 +461,22 @@ const TRANSLATIONS = {
     "spotlight.skip": "Skip",
 
     // — Guide (rabbit) messages —
-    "guide.password": "Quick, let's put in the password!",
-    "guide.wrongPassword":
-      "Wrong Password! Can you maybe find a hint somewhere?",
+    "guide.password":
+      "You need the password! Is there a hint hiding somewhere?",
     "guide.rememberFile":
       "Oh, that's a lot of files! Which one is the right one?",
-    "guide.wrongFile": "That's the wrong file!",
     "guide.addImageTypo":
       "That seems to be the right application! But something is still wrong here...",
-    "guide.missingImage": "You're missing the image!",
-    "guide.typoLeft": "Seems like there is still a typo somewhere!",
+    "guide.stillWrong": "Something is still wrong!",
     "guide.submitNow": "Great! Now submit your application! Hurry up!",
     "guide.almostOutOfTime": "OH NO, we're almost out of time!!",
     "guide.hurryUp": "Hurry up!",
     "guide.notRobot": "Are you sure you're not a robot?",
-    "guide.smile": "Smile!",
-    "guide.cameraUnavailable": "Camera not available!",
     "guide.timeUp": "Time's up! Game Over!",
     "guide.discardedFiles": "You discarded your application... Good job!",
     "guide.success": "Woohoo, you made it!",
-    "guide.halfTime": "Tick tock... Half the time is already gone! Hurry up!",
-    "guide.oneMinutePassed":
-      "Hmm, does it feel like time is flying by super fast to you too?",
+    "guide.halfTime": "Halftime!",
+    "guide.oneMinutePassed": "Time flies!!",
 
     // — Application flow (browser mini-game) —
     "flow.newtab.tab": "New tab",
@@ -585,17 +560,10 @@ const TRANSLATIONS = {
     "flow.guide.newtabPost": " into the bar up top before it strikes twelve!",
     "flow.guide.results":
       "Look for exactly the position you entered — not the carrots.",
-    "flow.guide.resultsWrong":
-      "Not quite — which position did you enter? That's the one you want.",
     "flow.guide.detail": "That's it! Click “Apply now” — time is running.",
-    "flow.guide.applyScreen":
-      "Just do what it says on the screen — type the text exactly as shown!",
+    "flow.guide.applyScreen": "Type the text exactly as shown!",
     "flow.guide.applyPre": "Repeat after me: “",
     "flow.guide.applyPost": "”",
-    "flow.guide.applyComplete": "Cleanly typed! Quick, on to the CV upload!",
-    "flow.guide.applyError": "Oops, a typo! Fix it and keep typing cleanly.",
-    "flow.guide.urlWrong":
-      "Wrong address! Type exactly dreamjob.io — or it costs you time.",
     "flow.guide.shortcutWin":
       "Clever! You know the genuinely good portals — and just won instantly!",
     "flow.ad.banner":
@@ -606,8 +574,6 @@ const TRANSLATIONS = {
     "flow.cookie.accept": "ACCEPT ALL ✓",
     "flow.cookie.reject": "reject",
     "flow.chat.bubble": "💬 Hi! Can I help you search?",
-    "flow.chat.reply":
-      "The chatbot is no help at all. Just keep looking — the Rabbit believes in you!",
     "flow.sort.label": "Sort: Random ▾",
     "flow.badge.top": "⭐ Top match",
     "flow.badge.ad": "Ad",

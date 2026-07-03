@@ -657,9 +657,8 @@
         markStep("objStep2");
         go("results");
       } else {
-        // wrong address: time penalty, stay on the page, let the Hase nudge
+        // wrong address: time penalty, stay on the page
         penalty();
-        guide(tr("flow.guide.urlWrong"));
       }
     });
     try {
@@ -735,7 +734,6 @@
     if (chat)
       chat.addEventListener("click", function () {
         penalty();
-        guide(tr("flow.chat.reply"));
       });
 
     Array.prototype.forEach.call(
@@ -753,7 +751,6 @@
             card.classList.remove("wrong");
           }, 460);
           penalty();
-          guide(tr("flow.guide.resultsWrong"));
         });
       },
     );
@@ -852,15 +849,12 @@
         if (!next.disabled) go("upload");
       });
     }
-    if (complete) markStep("objStep4");
+    if (complete) {
+      markStep("objStep4");
+      input.disabled = true;
+    }
 
-    guide(
-      complete
-        ? tr("flow.guide.applyComplete")
-        : hasError
-          ? tr("flow.guide.applyError")
-          : tr("flow.guide.applyScreen"),
-    );
+    guide(tr("flow.guide.applyScreen"));
   }
 
   /* ---- time penalty: handled exactly like the rest of the game ---- */

@@ -59,6 +59,8 @@ let immunityActive = false;
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
+let savedPhotoSrc = null;
+let addImageTypoGuideShown = false;
 let mistakeNow = false;
 let applyPhaseActive = false;
 let applyJumpCount = 0;
@@ -93,12 +95,16 @@ function tick() {
     gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
   }
 
-
   const overLaptopLabel = document.getElementById("overLaptopLabel");
 
-
   // after one minute — speed up and show guide once
-  if (remainingTime <= 240 && !mistakeNow && !speedBoosted && !speedBoostDisabledByUser && !speedBoostLabelShown) {
+  if (
+    remainingTime <= 240 &&
+    !mistakeNow &&
+    !speedBoosted &&
+    !speedBoostDisabledByUser &&
+    !speedBoostLabelShown
+  ) {
     speedBoosted = true;
     speedBoostLabelShown = true;
     SPEED = 2;
@@ -116,7 +122,7 @@ function tick() {
       gameAnalog.setAttribute("data-critical", "");
     }
 
-    showGuide(t("guide.oneMinutePassed"), 4000);
+    showTimerFlash(t("guide.oneMinutePassed"));
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }
@@ -124,20 +130,20 @@ function tick() {
   // after half time
   if (remainingTime <= 150 && !halfTimePassed) {
     halfTimePassed = true;
-    showGuide(t("guide.halfTime"), 4000);
+    showTimerFlash(t("guide.halfTime"));
   }
 
   // Last minute → analog clock outline turns to the red alarm state.
   if (remainingTime <= 60 && !lastMinute) {
     lastMinute = true;
     if (gameAnalog) gameAnalog.setAttribute("data-critical", "");
-    showGuide(t("guide.hurryUp"), 4000);
+    showTimerFlash(t("guide.hurryUp"));
   }
   // Final 30s → digital clock also goes critical + stronger warning.
   if (remainingTime <= 30 && !clockCritical) {
     clockCritical = true;
     if (gameDigital) gameDigital.setAttribute("data-critical", "");
-    showGuide(t("guide.almostOutOfTime"), 5000);
+    showTimerFlash(t("guide.almostOutOfTime"), 2800);
   }
 
   if (remainingTime <= 0) {
@@ -295,14 +301,6 @@ function jumpApplyButton() {
   }
 }
 
-function handleDocumentClick(e) {
-  if (!applyPhaseActive) return;
-  if (applyButton.contains(e.target)) return;
-  if (discardModal && discardModal.contains(e.target)) return;
-  if (discardModal2 && discardModal2.contains(e.target)) return;
-  applyPunishment();
-}
-
 function activateApplyPhase() {
   applyPhaseActive = true;
   applyJumpCount = 0;
@@ -313,13 +311,11 @@ function activateApplyPhase() {
   applyButton.style.bottom = "auto";
   applyButton.style.transform = "none";
   applyButton.addEventListener("mouseenter", jumpApplyButton);
-  document.addEventListener("click", handleDocumentClick, true);
 }
 
 function deactivateApplyPhase() {
   applyPhaseActive = false;
   applyButton.style.display = "none";
-  document.removeEventListener("click", handleDocumentClick, true);
 }
 
 function applyPunishment(amount) {
@@ -327,8 +323,7 @@ function applyPunishment(amount) {
   const label = document.getElementById("punishmentLabel");
   // callers may pass a custom penalty (e.g. the dictation typo penalty);
   // everything else uses the default GAME_SETTINGS.punishmentAmount.
-  amount =
-    typeof amount === "number" ? amount : GAME_SETTINGS.punishmentAmount;
+  amount = typeof amount === "number" ? amount : GAME_SETTINGS.punishmentAmount;
 
   // block immediately so rapid-fire typos can't queue multiple punishments
   immunityActive = true;
@@ -489,7 +484,6 @@ captchaConfirm.addEventListener("click", () => {
 
 async function openCamera() {
   cameraScreen.style.display = "flex";
-  showGuidePriority(t("guide.smile"));
   videoEl.style.display = "block";
   photoEl.style.display = "none";
   captureBtn.style.display = "block";
@@ -500,7 +494,6 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    showGuidePriority(t("guide.cameraUnavailable"));
     cameraScreen.style.display = "none";
   }
 }
@@ -551,9 +544,10 @@ function stopCamera() {
 
 function savePhoto() {
   stopCamera();
+  savedPhotoSrc = photoEl.src;
   const missingImageEl = previewBody.querySelector(".missing-image");
   if (missingImageEl) {
-    missingImageEl.innerHTML = `<img src="${photoEl.src}" class="cv-photo" />`;
+    missingImageEl.innerHTML = `<img src="${savedPhotoSrc}" class="cv-photo" />`;
   }
   photoAdded = true;
   checkAndShowMomToast();
@@ -720,9 +714,27 @@ function startGamePlay() {
 // finishing with "Spiel starten" — then the game begins.
 function runIntroSpotlight(done) {
   const steps = [
-    { sel: ".guide-card", key: "spotlight.rabbit", side: "right", pad: 16, radius: 22 },
-    { sel: ".clock-card", key: "spotlight.clock", side: "right", pad: 16, radius: 22 },
-    { sel: ".tj-laptop", key: "spotlight.laptop", side: "center", pad: 12, radius: 16 },
+    {
+      sel: ".guide-card",
+      key: "spotlight.rabbit",
+      side: "right",
+      pad: 16,
+      radius: 22,
+    },
+    {
+      sel: ".clock-card",
+      key: "spotlight.clock",
+      side: "right",
+      pad: 16,
+      radius: 22,
+    },
+    {
+      sel: ".tj-laptop",
+      key: "spotlight.laptop",
+      side: "center",
+      pad: 12,
+      radius: 16,
+    },
   ];
 
   const overlay = document.createElement("div");
@@ -840,7 +852,7 @@ passwordInput.onkeydown = (e) => {
         showFileExplorer();
       }
     } else {
-      showGuide(t("guide.wrongPassword"), 3000);
+      showGuide(t("guide.password"), 3000);
       applyPunishment();
     }
   }
@@ -915,6 +927,26 @@ function showGuide(text) {
 
 // Use for screen transitions and game-state changes: clears any queued/in-progress
 // messages so stale hints from the previous screen don't bleed through.
+const timerFlashEl = document.getElementById("timerFlash");
+const timerFlashTextEl = document.getElementById("timerFlashText");
+let timerFlashTimeout = null;
+
+function showTimerFlash(text, duration = 2200) {
+  if (!timerFlashEl || !timerFlashTextEl) return;
+  clearTimeout(timerFlashTimeout);
+  timerFlashTextEl.textContent = text;
+  timerFlashEl.style.display = "flex";
+  // restart animations
+  timerFlashEl.style.animation = "none";
+  timerFlashTextEl.style.animation = "none";
+  void timerFlashEl.offsetWidth;
+  timerFlashEl.style.animation = "";
+  timerFlashTextEl.style.animation = "";
+  timerFlashTimeout = setTimeout(() => {
+    timerFlashEl.style.display = "none";
+  }, duration);
+}
+
 function showGuidePriority(text) {
   guideQueue = [];
   guideShowing = false;
@@ -995,13 +1027,25 @@ function openPreview(name, content) {
       const headline = document.getElementById("dreamjobjob");
       headline.textContent = t("cv.headlinePrefix") + traumjob;
     }
-    photoAdded = false;
-    typoFixed = false;
     previewSave.style.display = "block";
-    showGuidePriority(t("guide.addImageTypo"));
     const missingImage = previewBody.querySelector(".missing-image");
-    if (missingImage) {
+    if (photoAdded && savedPhotoSrc) {
+      if (missingImage) {
+        missingImage.innerHTML = `<img src="${savedPhotoSrc}" class="cv-photo" />`;
+      }
+    } else if (missingImage) {
       missingImage.addEventListener("click", openCamera);
+    }
+    if (typoFixed) {
+      const typoEl = previewBody.querySelector(".typo");
+      if (typoEl) {
+        typoEl.textContent = "Bewerbung";
+        typoEl.classList.remove("typo");
+      }
+    }
+    if (!addImageTypoGuideShown) {
+      addImageTypoGuideShown = true;
+      showGuidePriority(t("guide.addImageTypo"));
     }
   }
 }
@@ -1013,12 +1057,12 @@ function closePreview() {
 
 previewSave.addEventListener("click", () => {
   if (!photoAdded) {
-    showGuide(t("guide.missingImage"), 3000);
+    showGuide(t("guide.stillWrong"), 3000);
     applyPunishment();
     return;
   }
   if (!typoFixed) {
-    showGuide(t("guide.typoLeft"), 3000);
+    showGuide(t("guide.stillWrong"), 3000);
     applyPunishment();
     return;
   }
@@ -1108,7 +1152,7 @@ document.getElementById("momReplyBtn").addEventListener("click", () => {
 function makeDoc({ ext, name, content = "" }) {
   const el = document.createElement("div");
   el.className = "fe-tab";
-  el.innerHTML = `<span class="fav">${ext}</span><span class="fe-tab-name">${name}</span>`;
+  el.innerHTML = `<span title="${name}"><span class="fe-tab-name">${name}</span></span>`;
   el.addEventListener("click", () => {
     document
       .querySelectorAll("#docsA .fe-tab")
@@ -1986,7 +2030,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) { }
+  } catch (e) {}
   return trimmed;
 }
 
