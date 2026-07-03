@@ -50,6 +50,7 @@ let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
 let SPEED = 1; // seconds per real second
 let speedBoosted = false; // true once SPEED has been raised
+let speedBoostLabelShown = false; // show the over-laptop label only once per boost
 let speedBoostDisabledByUser = false; // user clicked slow button
 let clockCritical = false; // digital critical (final 30s)
 let halfTimePassed = false; // half-time guide message
@@ -58,6 +59,7 @@ let immunityActive = false;
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
+let mistakeNow = false;
 let applyPhaseActive = false;
 let applyJumpCount = 0;
 let momIgnored = false;
@@ -91,10 +93,21 @@ function tick() {
     gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
   }
 
+
+  const overLaptopLabel = document.getElementById("overLaptopLabel");
+
+
   // after one minute — speed up and show guide once
-  if (remainingTime <= 240 && !speedBoosted && !speedBoostDisabledByUser) {
+  if (remainingTime <= 240 && !mistakeNow && !speedBoosted && !speedBoostDisabledByUser && !speedBoostLabelShown) {
     speedBoosted = true;
+    speedBoostLabelShown = true;
     SPEED = 2;
+
+    flashMistake();
+    overLaptopLabel.textContent = `Vergeht die Zeit schneller?`;
+    overLaptopLabel.classList.remove("animate");
+    void overLaptopLabel.offsetWidth;
+    overLaptopLabel.classList.add("animate");
 
     if (gameDigital) gameDigital.classList.add("mistake");
 
@@ -199,6 +212,7 @@ function resetTimer() {
   penaltySeconds = 0;
   immunityActive = false;
   speedBoosted = false;
+  speedBoostLabelShown = false;
   speedBoostDisabledByUser = false;
   clockCritical = false;
   halfTimePassed = false;
@@ -667,6 +681,9 @@ document.getElementById("slowBtn").addEventListener("click", () => {
   // Clear any pending mistake timer
   clearTimeout(mistakeTimer);
 
+  const overLaptopLabel = document.getElementById("overLaptopLabel");
+  if (overLaptopLabel) overLaptopLabel.textContent = "";
+
   const slowBtn = document.getElementById("slowBtn");
   slowBtn.style.display = "none";
   showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
@@ -948,6 +965,7 @@ function _runGuide(text) {
 // Flash the guide (Begleiter) card AND the digital clock red on a mistake.
 let mistakeTimer = null;
 function flashMistake() {
+  mistakeNow = true;
   if (guideCard) {
     guideCard.classList.remove("mistake");
     void guideCard.offsetWidth; // restart the animation
@@ -961,6 +979,9 @@ function flashMistake() {
       if (gameDigital) gameDigital.classList.remove("mistake");
     }
   }, 1200);
+  setTimeout(() => {
+    mistakeNow = false;
+  }, 2000);
 }
 
 function openPreview(name, content) {
@@ -1965,7 +1986,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) {}
+  } catch (e) { }
   return trimmed;
 }
 

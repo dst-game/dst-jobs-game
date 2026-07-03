@@ -135,6 +135,48 @@ h1 {
   justify-content: center;
 }
 
+.over-laptop-label {
+  position: absolute;
+  top: -8.5vh;
+  left: 40vw;
+  transform: translateX(-50%);
+  color: var(--tj-danger);
+  font-family: var(--tj-font-display);
+  font-size: 2.75cqw;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 8px var(--tj-danger),
+    0 0 20px rgba(255, 20, 70, 0.6);
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.over-laptop-label.animate {
+  opacity: 1;
+  animation: over-laptop-show 1.8s var(--tj-ease) forwards;
+}
+
+@keyframes over-laptop-show {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.6em);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-0.6em);
+  }
+}
+
 /* ─── Clock ─────────────────────────────────────────────────── */
 /* ─── Critical-state pulse (used by the desk digital clock) ─── */
 @keyframes tj-pulse {
@@ -192,17 +234,17 @@ h1 {
 /* ─── Punishment label ───────────────────────────────────────── */
 .punishment-label {
   position: absolute;
-  top: -38px;
-  left: 50%;
+  top: -50vh;
+  left: 90vw;
   transform: translateX(-50%);
   color: var(--tj-danger);
   font-family: var(--tj-font-display);
-  font-size: 2.4cqw;
+  font-size: 5cqw;
   font-weight: 700;
   letter-spacing: 2px;
   text-shadow:
     0 0 8px var(--tj-danger),
-    0 0 20px rgba(255, 53, 84, 0.6);
+    0 0 20px rgba(255, 20, 70, 0.6);
   pointer-events: none;
   opacity: 0;
   white-space: nowrap;
@@ -797,10 +839,11 @@ h1 {
   z-index: 6;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
 }
+
 .cattail {
   position: absolute;
-  bottom: 0;
-  left: -3em;
+  bottom: -3.5em;
+  left: -4.25em;
   height: 30%;
   z-index: 8;
 }
@@ -2522,16 +2565,16 @@ a.dst-win-link:hover {
 
 @keyframes tj-grow-tilt-reset {
   0% {
-    transform: scale(1) rotateZ(0deg);
+    transform: translate(0) scale(1) rotateZ(0deg);
   }
   40% {
-    transform: scale(1.3) rotateZ(45deg);
+    transform: translate(17vw, -20vh) scale(1.5) rotateZ(45deg);
   }
   80% {
-    transform: scale(1.3) rotateZ(-45deg);
+    transform: translate(17vw, -20vh) scale(1.5) rotateZ(-45deg);
   }
   100% {
-    transform: scale(1) rotateZ(0deg);
+    transform: translate(0) scale(1) rotateZ(0deg);
   }
 }
 
