@@ -50,6 +50,7 @@ let remainingTime = GAME_SETTINGS.gameDuration;
 let penaltySeconds = 0;
 let SPEED = 1; // seconds per real second
 let speedBoosted = false; // true once SPEED has been raised
+let speedBoostLabelShown = false; // show the over-laptop label only once per boost
 let speedBoostDisabledByUser = false; // user clicked slow button
 let clockCritical = false; // digital critical (final 30s)
 let halfTimePassed = false; // half-time guide message
@@ -58,6 +59,7 @@ let immunityActive = false;
 let cameraStream = null;
 let photoAdded = false;
 let typoFixed = false;
+let mistakeNow = false;
 let applyPhaseActive = false;
 let applyJumpCount = 0;
 let momIgnored = false;
@@ -91,10 +93,21 @@ function tick() {
     gameDesk.style.setProperty("--tj-urgency", Math.pow(frac, 1.5).toFixed(3));
   }
 
+
+  const overLaptopLabel = document.getElementById("overLaptopLabel");
+
+
   // after one minute — speed up and show guide once
-  if (remainingTime <= 240 && !speedBoosted && !speedBoostDisabledByUser) {
+  if (remainingTime <= 240 && !mistakeNow && !speedBoosted && !speedBoostDisabledByUser && !speedBoostLabelShown) {
     speedBoosted = true;
+    speedBoostLabelShown = true;
     SPEED = 2;
+
+    flashMistake();
+    overLaptopLabel.textContent = `Vergeht die Zeit schneller?`;
+    overLaptopLabel.classList.remove("animate");
+    void overLaptopLabel.offsetWidth;
+    overLaptopLabel.classList.add("animate");
 
     if (gameDigital) gameDigital.classList.add("mistake");
 
@@ -199,6 +212,7 @@ function resetTimer() {
   penaltySeconds = 0;
   immunityActive = false;
   speedBoosted = false;
+  speedBoostLabelShown = false;
   speedBoostDisabledByUser = false;
   clockCritical = false;
   halfTimePassed = false;
@@ -308,10 +322,13 @@ function deactivateApplyPhase() {
   document.removeEventListener("click", handleDocumentClick, true);
 }
 
-function applyPunishment() {
+function applyPunishment(amount) {
   if (gameOver || gameWon || immunityActive) return;
   const label = document.getElementById("punishmentLabel");
-  const amount = GAME_SETTINGS.punishmentAmount;
+  // callers may pass a custom penalty (e.g. the dictation typo penalty);
+  // everything else uses the default GAME_SETTINGS.punishmentAmount.
+  amount =
+    typeof amount === "number" ? amount : GAME_SETTINGS.punishmentAmount;
 
   // block immediately so rapid-fire typos can't queue multiple punishments
   immunityActive = true;
@@ -662,13 +679,15 @@ document.getElementById("slowBtn").addEventListener("click", () => {
   // Clear any pending mistake timer
   clearTimeout(mistakeTimer);
 
+  const overLaptopLabel = document.getElementById("overLaptopLabel");
+  if (overLaptopLabel) overLaptopLabel.textContent = "";
+
   const slowBtn = document.getElementById("slowBtn");
   slowBtn.style.display = "none";
   showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
 });
 
-// for testing purposes - click video to skip intro - change eventlistener to ended for production
-introVideo.addEventListener("click", () => {
+document.getElementById("skipVideoBtn").addEventListener("click", () => {
   gameScreen();
 });
 
@@ -679,12 +698,124 @@ introVideo.addEventListener("ended", () => {
 function gameScreen() {
   introVideoBox.style.display = "none";
   introVideo.pause();
-  loginBox.style.display = "flex";
+  // reveal the desk decorations so the spotlight has something to light up
   cattail.style.display = "flex";
   postit.style.display = "flex";
   timer.style.display = "flex";
+  // Guided spotlight tour: rabbit → clock → laptop, then hand off to play.
+  runIntroSpotlight(startGamePlay);
+}
+
+// Kick off the actual game once the intro spotlight tour has finished.
+function startGamePlay() {
+  loginBox.style.display = "flex";
   showGuidePriority(t("guide.password"));
   startTimer();
+}
+
+// Dim the screen and move a spotlight over the rabbit, the clock and the
+// laptop in turn, each with a help card the player clicks through ("Weiter"),
+// finishing with "Spiel starten" — then the game begins.
+function runIntroSpotlight(done) {
+  const steps = [
+    { sel: ".guide-card", key: "spotlight.rabbit", side: "right", pad: 16, radius: 22 },
+    { sel: ".clock-card", key: "spotlight.clock", side: "right", pad: 16, radius: 22 },
+    { sel: ".tj-laptop", key: "spotlight.laptop", side: "center", pad: 12, radius: 16 },
+  ];
+
+  const overlay = document.createElement("div");
+  overlay.className = "intro-spotlight";
+  const hole = document.createElement("div");
+  hole.className = "spot-hole";
+  const cap = document.createElement("div");
+  cap.className = "spot-cap";
+  const capText = document.createElement("div");
+  capText.className = "spot-cap-text";
+  const capBtn = document.createElement("button");
+  capBtn.className = "spot-cap-btn";
+  const skipBtn = document.createElement("button");
+  skipBtn.className = "spot-skip-btn";
+  skipBtn.textContent = t("spotlight.skip");
+  cap.appendChild(capText);
+  cap.appendChild(capBtn);
+  cap.appendChild(skipBtn);
+  overlay.appendChild(hole);
+  overlay.appendChild(cap);
+  document.body.appendChild(overlay);
+
+  let idx = 0;
+  let finished = false;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  // Keep the card next to its target but always fully inside the viewport.
+  function positionCaption(r, side) {
+    const m = 18;
+    const cw = cap.offsetWidth;
+    const ch = cap.offsetHeight;
+    let left, top;
+    if (side === "right") {
+      left = r.right + 26;
+      top = r.top + r.height / 2 - ch / 2;
+      // not enough room to the right? drop it below the target instead
+      if (left + cw + m > window.innerWidth) {
+        left = r.left + r.width / 2 - cw / 2;
+        top = r.bottom + 20;
+      }
+    } else {
+      // centered over the target (used for the big laptop)
+      left = r.left + r.width / 2 - cw / 2;
+      top = r.top + r.height / 2 - ch / 2;
+    }
+    cap.style.left = clamp(left, m, window.innerWidth - cw - m) + "px";
+    cap.style.top = clamp(top, m, window.innerHeight - ch - m) + "px";
+  }
+
+  function render() {
+    const step = steps[idx];
+    const isLast = idx === steps.length - 1;
+    capText.innerHTML = t(step.key);
+    capBtn.textContent = t(isLast ? "spotlight.start" : "spotlight.next");
+    capBtn.classList.toggle("is-final", isLast);
+    const el = document.querySelector(step.sel);
+    if (el) {
+      const r = el.getBoundingClientRect();
+      hole.style.top = r.top - step.pad + "px";
+      hole.style.left = r.left - step.pad + "px";
+      hole.style.width = r.width + step.pad * 2 + "px";
+      hole.style.height = r.height + step.pad * 2 + "px";
+      hole.style.borderRadius = step.radius + "px";
+      positionCaption(r, step.side);
+    }
+  }
+
+  function advance() {
+    idx++;
+    if (idx >= steps.length) {
+      finish();
+      return;
+    }
+    render();
+  }
+
+  function finish() {
+    if (finished) return;
+    finished = true;
+    overlay.classList.add("done");
+    setTimeout(() => {
+      overlay.remove();
+      if (typeof done === "function") done();
+    }, 450);
+  }
+
+  capBtn.addEventListener("click", advance);
+  skipBtn.addEventListener("click", finish);
+
+  // fade in, then show the first help card
+  requestAnimationFrame(() => {
+    overlay.classList.add("show");
+    render();
+  });
 }
 
 // listen to when video ends
@@ -852,6 +983,7 @@ function _runGuide(text) {
 // Flash the guide (Begleiter) card AND the digital clock red on a mistake.
 let mistakeTimer = null;
 function flashMistake() {
+  mistakeNow = true;
   if (guideCard) {
     guideCard.classList.remove("mistake");
     void guideCard.offsetWidth; // restart the animation
@@ -865,6 +997,9 @@ function flashMistake() {
       if (gameDigital) gameDigital.classList.remove("mistake");
     }
   }, 1200);
+  setTimeout(() => {
+    mistakeNow = false;
+  }, 2000);
 }
 
 function openPreview(name, content) {
@@ -1869,7 +2004,7 @@ function lbSave(nickname) {
   const trimmed = scores.slice(0, 20);
   try {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
-  } catch (e) {}
+  } catch (e) { }
   return trimmed;
 }
 

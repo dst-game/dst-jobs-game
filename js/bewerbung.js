@@ -93,12 +93,31 @@
     };
   }
 
+  var MATCH_INDEX_BURIED = 7; // past the first page → needs "load more"
+  var MATCH_INDEX_FIRSTPAGE = 3; // within the first page → visible right away
+
   function buildListings(dreamJob) {
     var list = buildDistractors();
     // Bury the real match past the initial page so the player must "load more"
     // and scroll through the junk to find it.
-    list.splice(7, 0, matchListing(dreamJob));
+    list.splice(MATCH_INDEX_BURIED, 0, matchListing(dreamJob));
     return list;
+  }
+
+  // Move the dream-job match to the first page (firstPage=true) or keep it
+  // buried (false). Called once both consent walls have been answered.
+  function positionMatch(firstPage) {
+    var match = null;
+    var rest = state.listings.filter(function (job) {
+      if (job.match) {
+        match = job;
+        return false;
+      }
+      return true;
+    });
+    if (!match) match = matchListing(state.dreamJob);
+    rest.splice(firstPage ? MATCH_INDEX_FIRSTPAGE : MATCH_INDEX_BURIED, 0, match);
+    state.listings = rest;
   }
 
   function jobDetail(dreamJob) {
@@ -196,6 +215,10 @@
       prevLen: 0, // typed length last seen by updateDictate (for per-typo penalty)
       cookieDismissed: false,
       newsletterDismissed: false,
+      // whether each consent wall was *rejected* (vs accepted). If the player
+      // rejects BOTH, the dream job is surfaced on the first results page.
+      cookieRejected: false,
+      newsletterRejected: false,
       expanded: false,
       // real browser-style history so Forward can't skip to a screen you never reached
       history: ["newtab"],
@@ -659,15 +682,32 @@
 
     // Consent walls (cookie, then newsletter): both buttons just dismiss the
     // current one (pure friction, no penalty); re-render reveals the next.
-    function dismissModal() {
-      if (!state.cookieDismissed) state.cookieDismissed = true;
-      else if (!state.newsletterDismissed) state.newsletterDismissed = true;
+    // We record whether each was rejected so that rejecting BOTH surfaces the
+    // dream job on the first results page.
+    function dismissModal(rejected) {
+      if (!state.cookieDismissed) {
+        state.cookieDismissed = true;
+        state.cookieRejected = !!rejected;
+      } else if (!state.newsletterDismissed) {
+        state.newsletterDismissed = true;
+        state.newsletterRejected = !!rejected;
+      }
+      // Both walls answered → decide where the match sits.
+      if (state.cookieDismissed && state.newsletterDismissed) {
+        positionMatch(state.cookieRejected && state.newsletterRejected);
+      }
       rerender();
     }
     var mA = r.querySelector("#modalAccept"),
       mR = r.querySelector("#modalReject");
-    if (mA) mA.addEventListener("click", dismissModal);
-    if (mR) mR.addEventListener("click", dismissModal);
+    if (mA)
+      mA.addEventListener("click", function () {
+        dismissModal(false);
+      });
+    if (mR)
+      mR.addEventListener("click", function () {
+        dismissModal(true);
+      });
 
     // "Mehr Treffer laden" reveals the rest of the list (where the match hides).
     var more = r.querySelector("#djMore");
@@ -750,8 +790,9 @@
     var complete = typed === target;
     var pct = Math.round((correct / target.length) * 100);
 
-    // Every typo costs time: each keystroke that adds a wrong character is −15s.
-    if (hasError && typed.length > state.prevLen) penalty();
+    // Every typo costs time: each keystroke that adds a wrong character is −5s
+    // (lighter than the −15s used elsewhere, since dictation is error-prone).
+    if (hasError && typed.length > state.prevLen) penalty(5);
     state.prevLen = typed.length;
 
     var tele = $("#dicTele");
@@ -814,8 +855,9 @@
   }
 
   /* ---- time penalty: handled exactly like the rest of the game ---- */
-  function penalty() {
-    if (typeof window.applyPunishment === "function") window.applyPunishment();
+  function penalty(amount) {
+    if (typeof window.applyPunishment === "function")
+      window.applyPunishment(amount);
   }
 
   /* ============================================================
