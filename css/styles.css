@@ -142,7 +142,7 @@ h1 {
   transform: translateX(-50%);
   color: var(--tj-danger);
   font-family: var(--tj-font-display);
-  font-size:2.75cqw;
+  font-size: 2.75cqw;
   font-weight: 700;
   letter-spacing: 2px;
   text-shadow:
@@ -300,6 +300,36 @@ h1 {
   width: 100vw;
   height: 100vh;
   object-fit: contain;
+}
+
+#skipVideoBtn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10000;
+  font-family: var(--tj-font-display);
+  font-weight: 600;
+  font-size: clamp(10px, 1.6cqw, 14px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--tj-magenta);
+  border-radius: var(--tj-r-pill);
+  cursor: pointer;
+  color: var(--tj-text);
+  background: rgba(10, 2, 20, 0.75);
+  box-shadow:
+    0 0 var(--tj-glow) rgba(255, 43, 214, 0.4),
+    0 0 var(--tj-glow) rgba(31, 211, 255, 0.25);
+  transition:
+    transform 0.15s var(--tj-ease),
+    box-shadow 0.2s var(--tj-ease);
+}
+#skipVideoBtn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 var(--tj-glow-strong) rgba(255, 43, 214, 0.7),
+    0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.5);
 }
 
 .tj-desk video#introVideo {
@@ -2533,7 +2563,6 @@ a.dst-win-link:hover {
     inset 0 0 30px rgba(255, 53, 84, 0.16);
 }
 
-
 @keyframes tj-grow-tilt-reset {
   0% {
     transform: translate(0) scale(1) rotateZ(0deg);
@@ -3282,6 +3311,139 @@ a.dst-win-link:hover {
   }
   .tj-desk .laptop-cap {
     font-size: 3cqw;
+  }
+}
+
+/* ─── Intro spotlight tour (rabbit → clock → laptop) ─────────── */
+/* A single "hole" darkens the whole screen except the highlighted element
+   (via a huge box-shadow spread), and glides between the three zones. */
+.intro-spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 0.45s var(--tj-ease);
+}
+.intro-spotlight.show {
+  opacity: 1;
+}
+.intro-spotlight.done {
+  opacity: 0;
+}
+.intro-spotlight .spot-hole {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 9999px rgba(5, 3, 12, 0.82),
+    inset 0 0 42px 8px rgba(31, 211, 255, 0.35),
+    0 0 34px 4px rgba(139, 77, 255, 0.4);
+  pointer-events: none;
+  transition:
+    top 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+    left 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+    width 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-radius 0.6s var(--tj-ease);
+}
+.intro-spotlight .spot-cap {
+  position: fixed;
+  width: min(380px, 78vw);
+  padding: 22px 24px 18px;
+  border-radius: 16px;
+  background: rgba(13, 7, 25, 0.97);
+  border: 1.5px solid var(--tj-blue-soft);
+  color: var(--tj-text);
+  font-family: var(--tj-font-mono);
+  font-size: 17px;
+  line-height: 1.55;
+  text-align: left;
+  box-shadow:
+    0 0 46px rgba(139, 77, 255, 0.55),
+    0 10px 34px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  pointer-events: auto;
+  transition:
+    top 0.5s var(--tj-ease),
+    left 0.5s var(--tj-ease);
+}
+.intro-spotlight .spot-cap-text {
+  color: var(--tj-text);
+}
+.intro-spotlight .spot-cap-text b {
+  color: var(--tj-gold-soft);
+}
+.intro-spotlight .spot-cap-btn {
+  align-self: flex-end;
+  font-family: var(--tj-font-display);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 15px;
+  padding: 11px 26px;
+  border-radius: var(--tj-r-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: #0a0214;
+  background: linear-gradient(
+    100deg,
+    var(--tj-accent, #1fd3ff),
+    var(--tj-accent2, #ff2bd6)
+  );
+  box-shadow: 0 0 22px rgba(255, 43, 214, 0.45);
+  transition:
+    transform 0.15s var(--tj-ease),
+    box-shadow 0.2s var(--tj-ease);
+}
+.intro-spotlight .spot-cap-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(255, 43, 214, 0.7);
+}
+.intro-spotlight .spot-cap-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+/* the final "Spiel starten" button gets the golden treatment */
+.intro-spotlight .spot-cap-btn.is-final {
+  background: linear-gradient(100deg, var(--tj-gold), #ffcf6b);
+  color: #1a0f00;
+  box-shadow: 0 0 26px rgba(227, 179, 65, 0.6);
+}
+.intro-spotlight .spot-skip-btn {
+  align-self: flex-end;
+  font-family: var(--tj-font-display);
+  font-weight: 600;
+  font-size: 0.75em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--tj-magenta);
+  border-radius: var(--tj-r-pill);
+  cursor: pointer;
+  color: var(--tj-text);
+  background: transparent;
+  opacity: 0.6;
+  transition:
+    opacity 0.15s var(--tj-ease),
+    transform 0.15s var(--tj-ease);
+}
+.intro-spotlight .spot-skip-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+.intro-spotlight .spot-cap:has(.spot-cap-btn.is-final) .spot-skip-btn {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-spotlight .spot-hole,
+  .intro-spotlight .spot-cap {
+    transition: none;
   }
 }
 

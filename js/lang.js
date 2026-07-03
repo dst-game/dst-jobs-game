@@ -29,6 +29,7 @@ const TRANSLATIONS = {
     // — Intro / Login —
     "intro.heading": "Willkommen bei<br>5 vor 12!",
     "intro.startBtn": "Spiel starten",
+    "intro.skipBtn": "Überspringen",
     "login.heading": "Computer gesperrt!<br>Passwort eingeben:",
     "login.passwordPlaceholder": "Passwort",
 
@@ -149,6 +150,17 @@ const TRANSLATIONS = {
     "clock.localtime": "Ortszeit",
     "clock.fristLabel": "Frist",
     "clock.penaltyNote": "Fehler = <b>Zeitstrafe</b>",
+
+    // — Intro spotlight tour (after the video) —
+    "spotlight.rabbit":
+      "Das ist der Hase — dein Begleiter! Er führt dich durchs Spiel und gibt dir wertvolle Tipps. Hör gut auf ihn!",
+    "spotlight.clock":
+      "Die Uhr tickt: Es ist fünf vor zwölf! Bis Punkt 12:00 muss deine Bewerbung raus sein. Und Achtung — jeder Fehler kostet dich wertvolle Zeit!",
+    "spotlight.laptop":
+      "Hier am Laptop spielt sich alles ab. Kleiner Tipp: Manchmal verstecken sich Hinweise in den Dateien — schau also ganz genau hin!",
+    "spotlight.next": "Weiter",
+    "spotlight.start": "Spiel starten",
+    "spotlight.skip": "Überspringen",
 
     // — Guide (rabbit) messages —
     "guide.password": "Schnell, lass uns das Passwort eingeben!",
@@ -335,6 +347,7 @@ const TRANSLATIONS = {
     // — Intro / Login —
     "intro.heading": "Welcome to<br>5 vor 12!",
     "intro.startBtn": "Start Game",
+    "intro.skipBtn": "Skip",
     "login.heading": "Computer locked!<br>Enter password:",
     "login.passwordPlaceholder": "Password",
 
@@ -454,6 +467,17 @@ const TRANSLATIONS = {
     "clock.localtime": "Local time",
     "clock.fristLabel": "Deadline",
     "clock.penaltyNote": "Mistake = <b>time penalty</b>",
+
+    // — Intro spotlight tour (after the video) —
+    "spotlight.rabbit":
+      "This is the rabbit — your companion! He guides you through the game and gives you valuable tips. Listen to him closely!",
+    "spotlight.clock":
+      "The clock is ticking: it's five to twelve! Your application must be sent by 12:00 sharp. And watch out — every mistake costs you precious time!",
+    "spotlight.laptop":
+      "This is the laptop, where everything happens. A little tip: sometimes hints are hidden inside the files — so look very closely!",
+    "spotlight.next": "Next",
+    "spotlight.start": "Start game",
+    "spotlight.skip": "Skip",
 
     // — Guide (rabbit) messages —
     "guide.password": "Quick, let's put in the password!",
