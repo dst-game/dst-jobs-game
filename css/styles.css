@@ -848,6 +848,33 @@ h1 {
   z-index: 8;
 }
 
+.cursor {
+  position: absolute;
+  bottom: 2vh;
+  left: 7vw;
+  height: 5%;
+  z-index: 10;
+  animation: circle 4s linear infinite;
+}
+
+@keyframes circle {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-0.25vw, -0.25vh);
+    }
+    50% {
+        transform: translate(0.05vw, -1.05vh);
+    }
+    75% {
+        transform: translate(0.55vw, 0.05vh);
+    }
+    100%{
+      transform: translate(0,0);
+}
+}
+
 .file-preview-body {
   padding: 10px 12px;
   overflow-y: auto;

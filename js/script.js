@@ -99,7 +99,7 @@ function tick() {
 
   // after one minute — speed up and show guide once
   if (
-    remainingTime <= 240 &&
+    remainingTime <= 90 &&
     !mistakeNow &&
     !speedBoosted &&
     !speedBoostDisabledByUser &&
@@ -110,7 +110,7 @@ function tick() {
     SPEED = 2;
 
     flashMistake();
-    overLaptopLabel.textContent = `Vergeht die Zeit schneller?`;
+    overLaptopLabel.textContent = t("guide.speedBoosted");
     overLaptopLabel.classList.remove("animate");
     void overLaptopLabel.offsetWidth;
     overLaptopLabel.classList.add("animate");
@@ -122,7 +122,6 @@ function tick() {
       gameAnalog.setAttribute("data-critical", "");
     }
 
-    showTimerFlash(t("guide.oneMinutePassed"));
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }

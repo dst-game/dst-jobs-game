@@ -178,6 +178,7 @@ const TRANSLATIONS = {
     "guide.discardedFiles": "Du hast deine Bewerbung gelöscht... Gut gemacht!",
     "guide.halfTime": "Halbzeit!",
     "guide.oneMinutePassed": "Die Zeit verfliegt!!",
+    "guide.speedBoosted": "Vergeht die Zeit schneller?",
 
     // — Bewerbungs-Flow (Browser-Minispiel) —
     "flow.newtab.tab": "Neuer Tab",
@@ -477,6 +478,7 @@ const TRANSLATIONS = {
     "guide.success": "Woohoo, you made it!",
     "guide.halfTime": "Halftime!",
     "guide.oneMinutePassed": "Time flies!!",
+    "guide.speedBoosted": "Is time going faster?",
 
     // — Application flow (browser mini-game) —
     "flow.newtab.tab": "New tab",
