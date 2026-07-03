@@ -849,7 +849,10 @@
         if (!next.disabled) go("upload");
       });
     }
-    if (complete) markStep("objStep4");
+    if (complete) {
+      markStep("objStep4");
+      input.disabled = true;
+    }
 
     guide(tr("flow.guide.applyScreen"));
   }
