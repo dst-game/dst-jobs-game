@@ -644,6 +644,7 @@ const introVideo = document.getElementById("introVideo");
 const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
+const cursor = document.querySelector(".cursor");
 const postit = document.querySelector(".postit");
 const timer = document.querySelector(".clock-card");
 
@@ -1274,6 +1275,15 @@ discard2NoBtn.addEventListener("click", () => {
 cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
+
+if (cattail && cursor) {
+  cattail.addEventListener("mouseenter", () => {
+    cursor.style.display = "block";
+  });
+  cattail.addEventListener("mouseleave", () => {
+    cursor.style.display = "none";
+  });
+}
 
 function loadGame(docs) {
   docsA.innerHTML = "";

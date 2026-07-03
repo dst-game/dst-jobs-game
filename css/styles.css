@@ -56,6 +56,7 @@ html {
   overflow: hidden;
   overscroll-behavior: none;
 }
+
 body {
   margin: 0;
   height: 100vh;
@@ -64,21 +65,15 @@ body {
   font-family: var(--tj-font-mono);
   color: var(--tj-text);
   background:
-    radial-gradient(
-      1100px 620px at 78% -8%,
+    radial-gradient(1100px 620px at 78% -8%,
       rgba(255, 43, 214, 0.18),
-      transparent 60%
-    ),
-    radial-gradient(
-      1000px 700px at 8% 12%,
+      transparent 60%),
+    radial-gradient(1000px 700px at 8% 12%,
       rgba(31, 211, 255, 0.14),
-      transparent 55%
-    ),
-    radial-gradient(
-      1200px 900px at 50% 120%,
+      transparent 55%),
+    radial-gradient(1200px 900px at 50% 120%,
       rgba(139, 77, 255, 0.16),
-      transparent 60%
-    ),
+      transparent 60%),
     var(--tj-ink-900);
   background-size: cover;
   background-image: url("../images/background.jpeg");
@@ -87,11 +82,7 @@ body {
 }
 
 .shadow {
-  filter: drop-shadow(0px 54px 55px rgba(0, 0, 0, 0.25))
-    drop-shadow(0px -12px 30px rgba(0, 0, 0, 0.12))
-    drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12))
-    drop-shadow(0px 12px 13px rgba(0, 0, 0, 0.17))
-    drop-shadow(0px -3px 5px rgba(0, 0, 0, 0.09));
+  filter: drop-shadow(0px 54px 55px rgba(0, 0, 0, 0.25)) drop-shadow(0px -12px 30px rgba(0, 0, 0, 0.12)) drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12)) drop-shadow(0px 12px 13px rgba(0, 0, 0, 0.17)) drop-shadow(0px -3px 5px rgba(0, 0, 0, 0.09));
 }
 
 h1 {
@@ -163,14 +154,17 @@ h1 {
     opacity: 0;
     transform: translateX(-50%) translateY(0.6em);
   }
+
   20% {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+
   80% {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+
   100% {
     opacity: 0;
     transform: translateX(-50%) translateY(-0.6em);
@@ -212,19 +206,23 @@ h1 {
     transform 0.12s var(--tj-ease);
   animation: slow-btn-appear 0.35s var(--tj-ease) both;
 }
+
 .slow-btn:hover {
   background: rgba(139, 77, 255, 0.3);
   box-shadow: 0 0 var(--tj-glow-strong) rgba(139, 77, 255, 0.65);
   transform: translateY(-1px);
 }
+
 .slow-btn:active {
   transform: scale(0.94);
 }
+
 @keyframes slow-btn-appear {
   from {
     opacity: 0;
     transform: scale(0.7);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -259,9 +257,11 @@ h1 {
     opacity: 0;
     transform: translate(-50%, 8px) scale(0.7);
   }
+
   18% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translate(-50%, -48px) scale(1.15);
@@ -325,6 +325,7 @@ h1 {
     transform 0.15s var(--tj-ease),
     box-shadow 0.2s var(--tj-ease);
 }
+
 #skipVideoBtn:hover {
   transform: translateY(-1px);
   box-shadow:
@@ -352,9 +353,11 @@ h1 {
     border-color 0.18s var(--tj-ease),
     box-shadow 0.18s var(--tj-ease);
 }
+
 .nr1_login_box input::placeholder {
   color: var(--tj-faint);
 }
+
 .nr1_login_box input:focus {
   outline: none;
   border-color: var(--tj-magenta);
@@ -362,6 +365,7 @@ h1 {
     0 0 0 1px var(--tj-magenta),
     0 0 22px rgba(255, 43, 214, 0.3);
 }
+
 #username {
   pointer-events: none;
   color: var(--tj-muted);
@@ -393,6 +397,7 @@ h1 {
     box-shadow 0.2s var(--tj-ease);
   max-width: 50cqw;
 }
+
 .nr1_login_box button:hover,
 .introScreen button:hover,
 .nr4_gameover button:hover {
@@ -415,16 +420,12 @@ h1 {
   height: 100%;
   display: flex;
   background:
-    radial-gradient(
-      60% 50% at 50% 14%,
+    radial-gradient(60% 50% at 50% 14%,
       rgba(139, 77, 255, 0.28),
-      transparent 70%
-    ),
-    radial-gradient(
-      45% 45% at 88% 70%,
+      transparent 70%),
+    radial-gradient(45% 45% at 88% 70%,
       rgba(255, 43, 214, 0.18),
-      transparent 70%
-    ),
+      transparent 70%),
     linear-gradient(180deg, #1a0f30, #0d0719 60%, #07040f);
   flex-direction: column;
   align-items: center;
@@ -454,6 +455,7 @@ h1 {
   border-bottom: 1px solid #221c33;
   border-radius: 12px 12px 0 0;
 }
+
 .fe-tabbar .dots {
   display: flex;
   gap: 7px;
@@ -461,18 +463,22 @@ h1 {
   padding: 0 10px 8px 4px;
   flex: none;
 }
+
 .fe-tabbar .dots i {
   width: 11px;
   height: 11px;
   border-radius: 50%;
   display: block;
 }
+
 .fe-tabbar .dots i:nth-child(1) {
   background: #ff5f57;
 }
+
 .fe-tabbar .dots i:nth-child(2) {
   background: #febc2e;
 }
+
 .fe-tabbar .dots i:nth-child(3) {
   background: #28c840;
 }
@@ -486,6 +492,7 @@ h1 {
   overflow-x: auto;
   scrollbar-width: none;
 }
+
 .fe-tabs::-webkit-scrollbar {
   display: none;
 }
@@ -514,10 +521,12 @@ h1 {
     background 0.12s,
     color 0.12s;
 }
+
 .fe-tab-name {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .fe-tab .fav {
   width: 30px;
   height: 15px;
@@ -530,11 +539,13 @@ h1 {
   border: 1px solid rgba(31, 211, 255, 0.4);
   color: var(--tj-blue-soft);
 }
+
 .fe-tab.active {
   background: linear-gradient(180deg, #1b1428, #15101f);
   color: var(--tj-text);
   box-shadow: inset 0 2px 0 var(--tj-magenta);
 }
+
 .fe-tab.active .fav {
   background: rgba(255, 43, 214, 0.16);
   border-color: rgba(255, 43, 214, 0.45);
@@ -555,15 +566,18 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: var(--tj-violet) transparent;
 }
+
 .tj-desk .guide-card .obj::-webkit-scrollbar {
   width: 9px;
 }
+
 .tj-desk .guide-card .obj::-webkit-scrollbar-thumb {
   background: rgba(139, 77, 255, 0.5);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
+
 .tj-desk .guide-card .obj::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 77, 255, 0.8);
   background-clip: padding-box;
@@ -604,9 +618,11 @@ h1 {
   text-decoration: none;
   box-sizing: border-box;
 }
+
 .tj-btn:active {
   transform: translateY(1px) scale(0.99);
 }
+
 .tj-btn--primary {
   color: #0a0214;
   background: linear-gradient(100deg, var(--tj-blue), var(--tj-magenta));
@@ -614,52 +630,62 @@ h1 {
     0 0 var(--tj-glow) rgba(255, 43, 214, 0.55),
     0 0 var(--tj-glow) rgba(31, 211, 255, 0.4);
 }
+
 .tj-btn--primary:hover {
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(255, 43, 214, 0.8),
     0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.6);
   transform: translateY(-1px);
 }
+
 .tj-btn--danger {
   color: #fff;
   background: linear-gradient(100deg, var(--tj-danger), var(--tj-magenta));
   box-shadow: 0 0 var(--tj-glow) rgba(255, 53, 84, 0.6);
 }
+
 .tj-btn--danger:hover {
   box-shadow: 0 0 var(--tj-glow-strong) rgba(255, 53, 84, 0.85);
   transform: translateY(-1px);
 }
+
 .tj-btn--success {
   color: #0a0214;
   background: linear-gradient(100deg, var(--tj-success), #1fd3ff);
   box-shadow: 0 0 var(--tj-glow) rgba(62, 240, 168, 0.6);
 }
+
 .tj-btn--success:hover {
   box-shadow: 0 0 var(--tj-glow-strong) rgba(62, 240, 168, 0.85);
   transform: translateY(-1px);
 }
+
 .tj-btn--secondary {
   color: var(--tj-blue-soft);
   background: rgba(31, 211, 255, 0.06);
   border: 1px solid rgba(31, 211, 255, 0.45);
   box-shadow: none;
 }
+
 .tj-btn--secondary:hover {
   background: rgba(31, 211, 255, 0.14);
   box-shadow: 0 0 var(--tj-glow) rgba(31, 211, 255, 0.3);
   transform: translateY(-1px);
 }
+
 .tj-btn--ghost {
   color: var(--tj-muted);
   background: rgba(157, 124, 255, 0.04);
   border: 1px solid rgba(157, 124, 255, 0.25);
   box-shadow: none;
 }
+
 .tj-btn--ghost:hover {
   background: rgba(157, 124, 255, 0.1);
   color: var(--tj-text);
   transform: translateY(-1px);
 }
+
 .tj-btn[disabled] {
   opacity: 0.4;
   cursor: not-allowed;
@@ -693,32 +719,34 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
 .discard-window {
   width: 100%;
   max-width: 440px;
   border-radius: var(--tj-r-md);
   overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    rgba(22, 12, 42, 0.98),
-    rgba(13, 7, 25, 0.99)
-  );
+  background: linear-gradient(180deg,
+      rgba(22, 12, 42, 0.98),
+      rgba(13, 7, 25, 0.99));
   border: 1px solid var(--tj-line);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.7),
     0 0 var(--tj-glow) rgba(255, 53, 84, 0.3);
   animation: discard-in 0.2s var(--tj-ease);
 }
+
 @keyframes discard-in {
   from {
     transform: scale(0.92);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
   }
 }
+
 .discard-titlebar {
   display: flex;
   align-items: center;
@@ -727,26 +755,32 @@ h1 {
   background: rgba(7, 4, 15, 0.6);
   border-bottom: 1px solid var(--tj-line);
 }
+
 .discard-titlebar .dots {
   display: flex;
   gap: 7px;
 }
+
 .discard-titlebar .dots i {
   width: 11px;
   height: 11px;
   border-radius: 50%;
   display: block;
 }
+
 .discard-titlebar .dots i:nth-child(1) {
   background: var(--tj-danger);
   box-shadow: 0 0 8px rgba(255, 53, 84, 0.6);
 }
+
 .discard-titlebar .dots i:nth-child(2) {
   background: var(--tj-gold);
 }
+
 .discard-titlebar .dots i:nth-child(3) {
   background: var(--tj-success);
 }
+
 .discard-titlebar .name {
   font-family: var(--tj-font-mono);
   font-size: 11.5px;
@@ -754,9 +788,11 @@ h1 {
   text-transform: uppercase;
   color: var(--tj-muted);
 }
+
 .discard-content {
   padding: 26px 24px 24px;
 }
+
 .discard-content h3 {
   font-family: var(--tj-font-display);
   font-weight: 600;
@@ -766,17 +802,20 @@ h1 {
   margin-bottom: 10px;
   color: var(--tj-text);
 }
+
 .discard-content p {
   font-family: var(--tj-font-mono);
   font-size: 13px;
   color: var(--tj-muted);
   margin-bottom: 22px;
 }
+
 .discard-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
+
 .discard-actions .tj-btn {
   flex: 1;
   min-width: 140px;
@@ -788,33 +827,43 @@ h1 {
   0% {
     transform: rotate(0deg) scale(1);
   }
+
   10% {
     transform: rotate(-6deg) scale(1.05);
   }
+
   20% {
     transform: rotate(6deg) scale(1.05);
   }
+
   30% {
     transform: rotate(-5deg) scale(1);
   }
+
   40% {
     transform: rotate(5deg) scale(1);
   }
+
   50% {
     transform: rotate(-4deg) scale(1.03);
   }
+
   60% {
     transform: rotate(4deg) scale(1.03);
   }
+
   70% {
     transform: rotate(-2deg) scale(1);
   }
+
   80% {
     transform: rotate(2deg) scale(1);
   }
+
   90% {
     transform: rotate(-1deg) scale(1);
   }
+
   100% {
     transform: rotate(0deg) scale(1);
   }
@@ -848,32 +897,16 @@ h1 {
   z-index: 8;
 }
 
-.cursor {
+
+.cursor{
   position: absolute;
   bottom: 2vh;
   left: 7vw;
   height: 5%;
   z-index: 10;
-  animation: circle 4s linear infinite;
 }
 
-@keyframes circle {
-    0%, 100% {
-        transform: translate(0, 0);
-    }
-    25% {
-        transform: translate(-0.25vw, -0.25vh);
-    }
-    50% {
-        transform: translate(0.05vw, -1.05vh);
-    }
-    75% {
-        transform: translate(0.55vw, 0.05vh);
-    }
-    100%{
-      transform: translate(0,0);
-}
-}
+
 
 .file-preview-body {
   padding: 10px 12px;
@@ -887,14 +920,17 @@ h1 {
   background: var(--tj-ink-800);
   container-type: inline-size;
 }
+
 .file-preview-body hr {
   border: none;
   border-top: 1px solid var(--tj-line);
   margin: 6px 0;
 }
+
 .file-preview-body p {
   margin: 4px 0;
 }
+
 #previewSave {
   margin: 8px 12px 10px auto;
   padding: 7px 18px;
@@ -914,10 +950,12 @@ h1 {
     transform 0.15s var(--tj-ease);
   flex-shrink: 0;
 }
+
 #previewSave:hover {
   transform: translateY(-1px);
   box-shadow: 0 0 var(--tj-glow-strong) rgba(255, 43, 214, 0.7);
 }
+
 .typo {
   text-decoration: underline wavy var(--tj-danger);
   cursor: pointer;
@@ -1056,11 +1094,9 @@ h1 {
 }
 
 .captcha-ui {
-  background: linear-gradient(
-    180deg,
-    rgba(22, 12, 42, 0.97),
-    rgba(13, 7, 25, 0.98)
-  );
+  background: linear-gradient(180deg,
+      rgba(22, 12, 42, 0.97),
+      rgba(13, 7, 25, 0.98));
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-md);
   padding: 1.8cqw;
@@ -1120,24 +1156,31 @@ h1 {
   0% {
     transform: translateX(0);
   }
+
   15% {
     transform: translateX(-6px);
   }
+
   30% {
     transform: translateX(6px);
   }
+
   45% {
     transform: translateX(-5px);
   }
+
   60% {
     transform: translateX(5px);
   }
+
   75% {
     transform: translateX(-3px);
   }
+
   90% {
     transform: translateX(3px);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -1269,11 +1312,9 @@ h1 {
   padding: 7cqw 5.5cqw;
   border-radius: var(--tj-r-lg);
   background:
-    radial-gradient(
-      600px 300px at 50% 0%,
+    radial-gradient(600px 300px at 50% 0%,
       rgba(62, 240, 168, 0.14),
-      transparent 65%
-    ),
+      transparent 65%),
     linear-gradient(180deg, rgba(22, 12, 42, 0.95), rgba(7, 4, 15, 0.97));
   border: 1px solid rgba(62, 240, 168, 0.3);
   box-shadow: 0 0 60px rgba(62, 240, 168, 0.22);
@@ -1295,6 +1336,7 @@ h1 {
   color: var(--tj-muted);
   font-size: 2.1cqw;
 }
+
 /* shortcut-win celebratory badge */
 .nr3_win #winShortcut .win-badge {
   font-size: 9cqw;
@@ -1303,6 +1345,7 @@ h1 {
   filter: drop-shadow(0 0 calc(2cqw) rgba(227, 179, 65, 0.6));
   animation: tj-bob 3s ease-in-out infinite;
 }
+
 .nr3_win #winShortcut p {
   color: var(--tj-gold-soft);
   max-width: 36ch;
@@ -1327,11 +1370,13 @@ h1 {
   color: var(--tj-blue-soft);
   text-align: left;
 }
+
 .portal-tip .ti {
   flex: none;
   font-size: 3cqw;
   line-height: 1;
 }
+
 .portal-tip b {
   color: var(--tj-gold-soft);
 }
@@ -1364,11 +1409,9 @@ a.dst-win-link:hover {
   padding: 7cqw 5.5cqw;
   border-radius: 0;
   background:
-    radial-gradient(
-      600px 300px at 50% 0%,
+    radial-gradient(600px 300px at 50% 0%,
       rgba(220, 38, 38, 0.18),
-      transparent 65%
-    ),
+      transparent 65%),
     linear-gradient(180deg, rgba(42, 8, 8, 0.97), rgba(15, 4, 4, 0.99));
   color: var(--tj-text);
 }
@@ -1413,6 +1456,7 @@ a.dst-win-link:hover {
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
+
 #lebenslauf-graphic:before {
   content: "GRAPHIC DESIGN IS MY PASSION";
   position: absolute;
@@ -1424,6 +1468,7 @@ a.dst-win-link:hover {
   transform: rotate(25deg);
   text-shadow: 2px 2px 0 yellow;
 }
+
 #lebenslauf-graphic .wordart {
   text-align: center;
   font-size: 56px;
@@ -1438,6 +1483,7 @@ a.dst-win-link:hover {
     6px 6px 0 #00ff00;
   margin-bottom: 15px;
 }
+
 #lebenslauf-graphic .hero {
   display: flex;
   gap: 20px;
@@ -1446,6 +1492,7 @@ a.dst-win-link:hover {
   margin-bottom: 25px;
   width: 100%;
 }
+
 #lebenslauf-graphic .hero img {
   flex: 1 1 320px;
   width: 100%;
@@ -1456,6 +1503,7 @@ a.dst-win-link:hover {
   filter: saturate(1.4) contrast(1.2);
   box-shadow: 10px 10px 0 lime;
 }
+
 #lebenslauf-graphic .intro {
   flex: 1 1 250px;
   background: #ffffffaa;
@@ -1463,26 +1511,31 @@ a.dst-win-link:hover {
   padding: 15px;
   font-size: 20px;
 }
+
 #lebenslauf-graphic .blink {
   color: red;
   font-weight: bold;
 }
+
 #lebenslauf-graphic .section {
   margin: 18px 0;
   background: #fff;
   border: 5px double #00f;
   padding: 12px;
 }
+
 #lebenslauf-graphic .section h2 {
   margin: 0 0 10px;
   font-size: 28px;
   color: #ff00ff;
   text-decoration: underline wavy;
 }
+
 #lebenslauf-graphic ul {
   margin: 0;
   padding-left: 25px;
 }
+
 #lebenslauf-graphic .footer {
   margin-top: 20px;
   text-align: center;
@@ -1491,6 +1544,7 @@ a.dst-win-link:hover {
   border: 3px dashed black;
   padding: 10px;
 }
+
 #lebenslauf-graphic .marquee {
   overflow: hidden;
   white-space: nowrap;
@@ -1498,13 +1552,16 @@ a.dst-win-link:hover {
   color: red;
   margin: 10px 0;
 }
+
 @media (max-width: 700px) {
   #lebenslauf-graphic .wordart {
     font-size: 38px;
   }
+
   #lebenslauf-graphic .intro {
     font-size: 16px;
   }
+
   #lebenslauf-graphic .section h2 {
     font-size: 22px;
   }
@@ -1557,6 +1614,7 @@ a.dst-win-link:hover {
   from {
     transform: rotate(-8deg) scale(1);
   }
+
   to {
     transform: rotate(8deg) scale(1.08);
   }
@@ -1823,6 +1881,7 @@ a.dst-win-link:hover {
     padding: 10px;
   }
 }
+
 #notes-editor {
   position: relative;
   max-width: 520px;
@@ -1834,9 +1893,11 @@ a.dst-win-link:hover {
   text-align: left;
   border-radius: 25px;
 }
+
 #notes-editor .note {
   border-bottom: #8ec6ff solid 1px;
 }
+
 /* rote Margin-Linie */
 #notes-editor::before {
   content: "";
@@ -1849,7 +1910,7 @@ a.dst-win-link:hover {
 }
 
 /* Überschrift */
-#notes-editor > p:first-child {
+#notes-editor>p:first-child {
   margin: 0;
   padding: 18px 20px 14px 70px;
   font-family: Georgia, serif;
@@ -1860,7 +1921,7 @@ a.dst-win-link:hover {
 }
 
 /* eigentliche Notizen */
-#notes-editor > p:last-child {
+#notes-editor>p:last-child {
   margin: 0;
   padding: 0 20px 0 70px;
   line-height: 44px;
@@ -1868,12 +1929,10 @@ a.dst-win-link:hover {
   white-space: normal;
 
   /* horizontale Linien */
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 43px,
-    #d8d8d8 44px
-  );
+  background: repeating-linear-gradient(to bottom,
+      transparent 0,
+      transparent 43px,
+      #d8d8d8 44px);
 }
 
 #notes-editor br {
@@ -1886,6 +1945,7 @@ a.dst-win-link:hover {
   font-weight: bold;
   text-transform: uppercase;
 }
+
 #notes-editor .todo {
   color: #d60000;
   font-weight: bold;
@@ -1897,9 +1957,11 @@ a.dst-win-link:hover {
   background-color: #fff;
   /* padding: 2em; */
 }
+
 #kuendigung {
   padding: 1em 10em;
 }
+
 .cv-game * {
   box-sizing: border-box;
   font-size: 15px;
@@ -1987,17 +2049,13 @@ a.dst-win-link:hover {
   width: 100%;
   min-height: 240px;
   background:
-    radial-gradient(
-      circle at 50% 50%,
+    radial-gradient(circle at 50% 50%,
       rgba(255, 255, 255, 0.95) 0 8%,
-      transparent 8.5%
-    ),
-    linear-gradient(
-      180deg,
+      transparent 8.5%),
+    linear-gradient(180deg,
       transparent 0 47%,
       rgba(10, 8, 44, 0.95) 47% 53%,
-      transparent 53%
-    ),
+      transparent 53%),
     linear-gradient(180deg, #f20aef 0 50%, #d6fffa 50% 100%);
   border: 1px solid rgba(21, 241, 243, 0.65);
   box-shadow: 0 0 24px rgba(242, 10, 239, 0.4);
@@ -2195,11 +2253,13 @@ a.dst-win-link:hover {
     gap: 2em;
   }
 }
+
 #lebenslauf-correct {
   font-family: var(--tj-font-mono);
   background-color: #0a082c;
   width: 100%;
 }
+
 #lebenslauf-correct h1 {
   color: #f20aef;
   font-family: var(--tj-font-display);
@@ -2209,10 +2269,12 @@ a.dst-win-link:hover {
   text-shadow: 0 0 12px rgba(242, 10, 239, 0.55);
   overflow-wrap: anywhere;
 }
+
 #lebenslauf-correct * {
   box-sizing: border-box;
   line-height: 1.45em;
 }
+
 #lebenslauf-correct .content {
   background-color: #0a082c;
   color: #fff;
@@ -2229,15 +2291,18 @@ a.dst-win-link:hover {
     inset 0 0 30px rgba(242, 10, 239, 0.12);
   overflow: hidden;
 }
+
 #lebenslauf-correct .left,
 #lebenslauf-correct .right {
   min-width: 0;
 }
+
 #lebenslauf-correct .right {
   display: flex;
   flex-direction: column;
   gap: clamp(0.9em, 1.5vw, 1.3em);
 }
+
 #lebenslauf-correct .missing-image {
   width: 100%;
   background: rgba(242, 10, 239, 0.08);
@@ -2245,6 +2310,7 @@ a.dst-win-link:hover {
   padding: clamp(0.6em, 1.5vw, 1em);
   box-shadow: 0 0 24px rgba(242, 10, 239, 0.35);
 }
+
 #lebenslauf-correct .missing-image img {
   display: block;
   width: min(100%, 260px);
@@ -2252,6 +2318,7 @@ a.dst-win-link:hover {
   margin: 0 auto;
   image-rendering: pixelated;
 }
+
 #lebenslauf-correct .cvname {
   display: inline-block;
   font-family: var(--tj-font-display);
@@ -2262,12 +2329,14 @@ a.dst-win-link:hover {
   text-shadow: 0 0 12px rgba(242, 10, 239, 0.55);
   overflow-wrap: anywhere;
 }
+
 #lebenslauf-correct .dreamjobjob {
   color: #d6fffa;
   margin: 0 0 1.2em;
   font-size: clamp(0.95rem, 1.1vw, 1.35rem);
   overflow-wrap: anywhere;
 }
+
 #lebenslauf-correct h2 {
   font-family: var(--tj-font-display);
   font-size: clamp(1rem, 1.2vw, 1.6rem);
@@ -2277,34 +2346,41 @@ a.dst-win-link:hover {
   text-transform: uppercase;
   margin: 0 0 0.8em;
 }
+
 #lebenslauf-correct p,
 #lebenslauf-correct li,
 #lebenslauf-correct .stat {
   font-size: clamp(0.9rem, 0.85vw, 1.1rem);
 }
+
 #lebenslauf-correct p {
   margin: 0;
   overflow-wrap: anywhere;
 }
+
 #lebenslauf-correct hr {
   border: 0;
   border-top: 1px solid rgba(21, 241, 243, 0.35);
   margin: clamp(1em, 2vw, 1.5em) 0;
 }
+
 #lebenslauf-correct strong {
   color: #15f1f3;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
 #lebenslauf-correct .cvname {
   text-transform: none;
   letter-spacing: 0;
 }
+
 #lebenslauf-correct .typo {
   color: #f20aef;
   text-decoration: underline wavy #15f1f3;
   text-underline-offset: 0.2em;
 }
+
 #lebenslauf-correct .sidebox {
   border: 1px solid rgba(242, 10, 239, 0.55);
   background: rgba(255, 255, 255, 0.04);
@@ -2312,11 +2388,13 @@ a.dst-win-link:hover {
   box-shadow: 0 0 18px rgba(242, 10, 239, 0.25);
   min-width: 0;
 }
+
 #lebenslauf-correct .stat-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.6em;
 }
+
 #lebenslauf-correct .stat {
   padding: 0.7em;
   background: rgba(242, 10, 239, 0.08);
@@ -2324,6 +2402,7 @@ a.dst-win-link:hover {
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
 #lebenslauf-correct .stat b {
   display: block;
   color: #15f1f3;
@@ -2331,23 +2410,27 @@ a.dst-win-link:hover {
   font-size: clamp(1rem, 1.1vw, 1.25rem);
   line-height: 1.2em;
 }
+
 #lebenslauf-correct .badges {
   padding: 0;
   margin: 0;
   list-style: none;
 }
+
 #lebenslauf-correct .badges li {
   margin-bottom: 0.5em;
   padding: 0.45em 0.6em;
   background: rgba(21, 241, 243, 0.08);
   border-left: 3px solid #15f1f3;
 }
+
 #lebenslauf-correct .pillbox {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
   margin-top: 1em;
 }
+
 #lebenslauf-correct .pill {
   display: inline-block;
   padding: 0.35em 0.65em;
@@ -2357,72 +2440,90 @@ a.dst-win-link:hover {
   border-radius: 999px;
   font-size: clamp(0.78rem, 0.75vw, 0.95rem);
 }
+
 @container (min-width: 900px) {
   #lebenslauf-correct .content {
     grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
   }
 }
+
 @container (max-width: 600px) {
   #lebenslauf-correct {
     padding: 0;
   }
+
   #lebenslauf-correct .content {
     grid-template-columns: 1fr;
     gap: 1.6em;
   }
+
   #lebenslauf-correct .right {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: start;
   }
+
   #lebenslauf-correct .sidebox {
     height: 100%;
   }
 }
+
 @container (max-width: 450px) {
   #lebenslauf-correct .content {
     padding: 1.1em;
   }
+
   #lebenslauf-correct .right {
     grid-template-columns: 1fr;
   }
+
   #lebenslauf-correct .cvname {
     font-size: clamp(1.8rem, 8cqw, 3rem);
   }
+
   #lebenslauf-correct .missing-image img {
     width: min(100%, 220px);
   }
 }
+
 @container (max-width: 340px) {
   #lebenslauf-correct .content {
     padding: 0.85em;
     border-left: 0;
     border-right: 0;
   }
+
   #lebenslauf-correct .cvname {
     font-size: clamp(1.5rem, 10cqw, 2.4rem);
   }
+
   #lebenslauf-correct .dreamjobjob {
     font-size: 0.95rem;
   }
+
   #lebenslauf-correct .stat-grid {
     grid-template-columns: 1fr;
   }
+
   #lebenslauf-correct .missing-image img {
     width: min(100%, 170px);
   }
+
   #lebenslauf-correct p,
   #lebenslauf-correct li,
   #lebenslauf-correct .stat {
     font-size: 0.9rem;
   }
+
   #lebenslauf-correct h2 {
     font-size: 1rem;
   }
+
   #lebenslauf-correct hr {
     margin: 0.9em 0;
   }
 }
+
 /* Lebensläufe ENDE */
 
 /* ============================================================
@@ -2438,6 +2539,7 @@ a.dst-win-link:hover {
     transform: translateY(-5%);
   }
 }
+
 @keyframes tj-blink {
   50% {
     opacity: 0;
@@ -2453,6 +2555,7 @@ a.dst-win-link:hover {
   container-type: inline-size;
   font-family: var(--tj-font-mono);
 }
+
 .tj-laptop .lid {
   position: relative;
   width: 100%;
@@ -2463,6 +2566,7 @@ a.dst-win-link:hover {
   padding: 3.4%;
   box-shadow: 0 0 var(--tj-glow) rgba(139, 77, 255, 0.3);
 }
+
 .tj-laptop .cam {
   position: absolute;
   top: 1.5%;
@@ -2475,6 +2579,7 @@ a.dst-win-link:hover {
   border-radius: 50%;
   background: #3b3b48;
 }
+
 .tj-laptop .screen {
   width: 100%;
   height: 100%;
@@ -2488,6 +2593,7 @@ a.dst-win-link:hover {
   text-align: center;
   position: relative;
 }
+
 .tj-laptop .deck {
   position: relative;
   width: 114%;
@@ -2498,6 +2604,7 @@ a.dst-win-link:hover {
   border-radius: 0 0 16px 16px;
   padding: 5.5% 7% 3.2%;
 }
+
 .tj-laptop .deck::before {
   content: "";
   position: absolute;
@@ -2510,6 +2617,7 @@ a.dst-win-link:hover {
   background: #0e0e14;
   border-radius: 0 0 7px 7px;
 }
+
 .tj-laptop .keys {
   height: clamp(26px, 12cqw, 54px);
   border-radius: 5px;
@@ -2518,6 +2626,7 @@ a.dst-win-link:hover {
     repeating-linear-gradient(90deg, #0c0c11 0 6.4%, transparent 6.4% 7.4%),
     repeating-linear-gradient(0deg, #0c0c11 0 22%, transparent 22% 26%), #191921;
 }
+
 .tj-laptop .pad {
   width: 26%;
   height: clamp(6px, 3cqw, 13px);
@@ -2539,6 +2648,7 @@ a.dst-win-link:hover {
   background: rgba(7, 4, 15, 0.55);
   border: 1px solid var(--tj-line);
 }
+
 .tj-clock-digital .time {
   font-size: clamp(40px, 8vw, 68px);
   font-weight: 700;
@@ -2547,16 +2657,19 @@ a.dst-win-link:hover {
   text-shadow: 0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.7);
   font-variant-numeric: tabular-nums;
 }
+
 .tj-clock-digital[data-critical] .time {
   color: var(--tj-magenta-soft);
   text-shadow: 0 0 var(--tj-glow-strong) rgba(255, 43, 214, 0.9);
   animation: tj-pulse 1s steps(2, end) infinite;
 }
+
 /* transient red flash when the player makes a mistake */
 .tj-clock-digital.mistake .time {
   color: var(--tj-danger);
   text-shadow: 0 0 var(--tj-glow-strong) rgba(255, 53, 84, 0.9);
 }
+
 .tj-clock-digital .lbl {
   font-family: var(--tj-font-mono);
   font-size: 11px;
@@ -2572,16 +2685,15 @@ a.dst-win-link:hover {
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 38%,
-    rgba(33, 17, 56, 0.9),
-    rgba(7, 4, 15, 0.95)
-  );
+  background: radial-gradient(circle at 50% 38%,
+      rgba(33, 17, 56, 0.9),
+      rgba(7, 4, 15, 0.95));
   border: 2px solid var(--tj-blue);
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.55),
     inset 0 0 30px rgba(31, 211, 255, 0.12);
 }
+
 /* last-minute alarm: blue outline turns red */
 .tj-clock-analog[data-critical] {
   border-color: var(--tj-danger);
@@ -2594,12 +2706,15 @@ a.dst-win-link:hover {
   0% {
     transform: translate(0) scale(1) rotateZ(0deg);
   }
+
   40% {
     transform: translate(17vw, -20vh) scale(1.5) rotateZ(45deg);
   }
+
   80% {
     transform: translate(17vw, -20vh) scale(1.5) rotateZ(-45deg);
   }
+
   100% {
     transform: translate(0) scale(1) rotateZ(0deg);
   }
@@ -2618,6 +2733,7 @@ a.dst-win-link:hover {
   margin-left: -1px;
   transform-origin: center center;
 }
+
 .tj-clock-analog .tick::before {
   content: "";
   position: absolute;
@@ -2628,12 +2744,14 @@ a.dst-win-link:hover {
   background: rgba(180, 140, 255, 0.5);
   border-radius: 2px;
 }
+
 .tj-clock-analog .tick.major::before {
   height: 13px;
   width: 3px;
   left: -0.5px;
   background: var(--tj-violet-soft);
 }
+
 .tj-clock-analog .hand {
   position: absolute;
   left: 50%;
@@ -2642,6 +2760,7 @@ a.dst-win-link:hover {
   border-radius: 6px;
   transition: transform 0.4s var(--tj-ease);
 }
+
 .tj-clock-analog .hand.hour {
   width: 5px;
   height: 26%;
@@ -2649,6 +2768,7 @@ a.dst-win-link:hover {
   background: var(--tj-blue-soft);
   box-shadow: 0 0 10px rgba(31, 211, 255, 0.7);
 }
+
 .tj-clock-analog .hand.minute {
   width: 3px;
   height: 38%;
@@ -2656,6 +2776,7 @@ a.dst-win-link:hover {
   background: var(--tj-magenta-soft);
   box-shadow: 0 0 10px rgba(255, 43, 214, 0.7);
 }
+
 .tj-clock-analog .hand.second {
   width: 1.5px;
   height: 42%;
@@ -2663,6 +2784,7 @@ a.dst-win-link:hover {
   background: var(--tj-gold);
   box-shadow: 0 0 8px rgba(227, 179, 65, 0.8);
 }
+
 .tj-clock-analog .cap {
   position: absolute;
   top: 50%;
@@ -2674,6 +2796,7 @@ a.dst-win-link:hover {
   transform: translate(-50%, -50%);
   box-shadow: 0 0 10px rgba(227, 179, 65, 0.9);
 }
+
 .tj-clock-analog .crown {
   position: absolute;
   top: -9px;
@@ -2699,23 +2822,18 @@ a.dst-win-link:hover {
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(
-      58% 48% at 50% 14%,
+    radial-gradient(58% 48% at 50% 14%,
       rgba(139, 77, 255, 0.3),
-      transparent 70%
-    ),
-    radial-gradient(
-      42% 42% at 9% 74%,
+      transparent 70%),
+    radial-gradient(42% 42% at 9% 74%,
       rgba(31, 211, 255, 0.18),
-      transparent 70%
-    ),
-    radial-gradient(
-      42% 42% at 91% 70%,
+      transparent 70%),
+    radial-gradient(42% 42% at 91% 70%,
       rgba(255, 43, 214, 0.2),
-      transparent 70%
-    ),
+      transparent 70%),
     linear-gradient(180deg, #1a0f30 0%, #0d0719 55%, #07040f 100%);
 }
+
 .tj-desk .floor {
   position: absolute;
   left: 0;
@@ -2728,6 +2846,7 @@ a.dst-win-link:hover {
   border-top: 1px solid rgba(180, 140, 255, 0.32);
   box-shadow: 0 -2px 40px rgba(255, 43, 214, 0.18);
 }
+
 .tj-desk .glint {
   position: absolute;
   top: 7%;
@@ -2739,20 +2858,18 @@ a.dst-win-link:hover {
   border-radius: 6px;
   background:
     linear-gradient(180deg, rgba(10, 6, 20, 0.1), rgba(7, 4, 15, 0.7)),
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       transparent 0 8px,
-      rgba(31, 211, 255, 0.28) 8px 10px
-    ),
-    repeating-linear-gradient(
-      0deg,
+      rgba(31, 211, 255, 0.28) 8px 10px),
+    repeating-linear-gradient(0deg,
       transparent 0 12px,
-      rgba(255, 43, 214, 0.18) 12px 14px
-    );
+      rgba(255, 43, 214, 0.18) 12px 14px);
 }
+
 .tj-desk .glint.l {
   left: 1.5%;
 }
+
 .tj-desk .glint.r {
   right: 1.5%;
 }
@@ -2768,31 +2885,33 @@ a.dst-win-link:hover {
   /* keep the HUD compact so the laptop gets more height */
   padding: min(1.1cqw, 1.9vh) 3cqw 0;
 }
+
 .tj-desk .hud .brand {
   display: flex;
   flex-direction: column;
   line-height: 1;
 }
+
 .tj-desk .hud .brand .game {
   font-family: var(--tj-font-display);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 2.1cqw;
-  background: linear-gradient(
-    100deg,
-    var(--tj-blue),
-    var(--tj-violet-soft) 50%,
-    var(--tj-magenta)
-  );
+  background: linear-gradient(100deg,
+      var(--tj-blue),
+      var(--tj-violet-soft) 50%,
+      var(--tj-magenta));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 16px rgba(255, 43, 214, 0.35));
 }
+
 .tj-desk .hud .brand .game {
   font-size: min(2.1cqw, 3.6vh);
 }
+
 .tj-desk .hud .brand .vor {
   font-family: var(--tj-font-serif);
   font-style: italic;
@@ -2819,12 +2938,14 @@ a.dst-win-link:hover {
   width: 100%;
   container-type: inline-size;
 }
+
 .tj-desk .rail {
   align-self: stretch;
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
+
 /* the left rail now stacks the guide card above the clock card, kept as a
    compact group centered vertically (so they don't stretch to fill tall
    screens, which left a huge empty rabbit card and a clock pinned to the
@@ -2835,10 +2956,12 @@ a.dst-win-link:hover {
   gap: min(1.8cqw, 3.2vh);
   justify-content: center;
 }
+
 .tj-desk .guide-rail .guide-card,
 .tj-desk .guide-rail .clock-card {
   flex: 0 0 auto;
 }
+
 /* clock is a touch smaller now that it shares the rail with the rabbit
    (desktop only — the narrow-screen layout below keeps the big clock).
    Each size is min(<width-based>, <height-based>) so on wide screens the
@@ -2848,22 +2971,27 @@ a.dst-win-link:hover {
     gap: min(0.7cqw, 1.25vh);
     padding: min(1.1cqw, 1.95vh);
   }
+
   .tj-desk .guide-rail .clock-card .tj-clock-analog {
     --size: min(7.5cqw, 13vh);
   }
+
   .tj-desk .guide-rail .clock-card .tj-clock-digital .time {
     font-size: min(2cqw, 3.5vh);
   }
+
   /* trim the rabbit window so the guide card + clock both fit the rail */
   .tj-desk .guide-rail .portrait {
     width: min(5cqw, 8.9vh);
     height: min(6.5cqw, 11.5vh);
   }
+
   .tj-desk .guide-rail .guide-card {
     gap: min(1cqw, 1.78vh);
     padding: min(1.4cqw, 2.5vh);
   }
 }
+
 .tj-desk .rail-head {
   display: flex;
   align-items: center;
@@ -2871,12 +2999,14 @@ a.dst-win-link:hover {
   margin-bottom: 1.3cqw;
   flex: none;
 }
+
 .tj-desk .rail-head .dot {
   width: 0.9cqw;
   height: 0.9cqw;
   border-radius: 50%;
   flex: none;
 }
+
 .tj-desk .rail-head .t {
   font-size: 1.15cqw;
   letter-spacing: 0.28em;
@@ -2888,9 +3018,11 @@ a.dst-win-link:hover {
   background: var(--tj-gold);
   box-shadow: 0 0 10px rgba(227, 179, 65, 0.8);
 }
+
 .tj-desk .guide-rail .rail-head .t {
   color: var(--tj-gold-soft);
 }
+
 .tj-desk .guide-card {
   flex: 1;
   z-index: 10;
@@ -2900,11 +3032,9 @@ a.dst-win-link:hover {
   gap: 1.3cqw;
   border: 1px solid rgba(227, 179, 65, 0.4);
   border-radius: var(--tj-r-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(33, 17, 56, 0.62),
-    rgba(13, 7, 25, 0.8)
-  );
+  background: linear-gradient(180deg,
+      rgba(33, 17, 56, 0.62),
+      rgba(13, 7, 25, 0.8));
   box-shadow: 0 0 var(--tj-glow) rgba(227, 179, 65, 0.18);
   padding: 1.8cqw;
   overflow: hidden;
@@ -2912,6 +3042,7 @@ a.dst-win-link:hover {
     border-color 0.2s var(--tj-ease),
     box-shadow 0.2s var(--tj-ease);
 }
+
 /* flashes red when the player makes a mistake */
 .tj-desk .guide-card.mistake {
   border-color: var(--tj-danger);
@@ -2920,27 +3051,35 @@ a.dst-win-link:hover {
     inset 0 0 24px rgba(255, 53, 84, 0.25);
   animation: tj-shake 0.42s var(--tj-ease);
 }
+
 @keyframes tj-shake {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   15% {
     transform: translateX(-7px);
   }
+
   30% {
     transform: translateX(7px);
   }
+
   45% {
     transform: translateX(-5px);
   }
+
   60% {
     transform: translateX(5px);
   }
+
   80% {
     transform: translateX(-2px);
   }
 }
+
 .tj-desk .portrait {
   position: relative;
   width: 8cqw;
@@ -2951,17 +3090,16 @@ a.dst-win-link:hover {
   overflow: hidden;
   border: 1px solid rgba(227, 179, 65, 0.55);
   background:
-    repeating-linear-gradient(
-      45deg,
+    repeating-linear-gradient(45deg,
       rgba(227, 179, 65, 0.05) 0 11px,
-      rgba(227, 179, 65, 0.11) 11px 22px
-    ),
+      rgba(227, 179, 65, 0.11) 11px 22px),
     linear-gradient(180deg, rgba(33, 17, 56, 0.7), rgba(13, 7, 25, 0.92));
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 var(--tj-glow) rgba(227, 179, 65, 0.32);
 }
+
 .tj-desk .portrait .art {
   position: absolute;
   inset: 0;
@@ -2973,19 +3111,23 @@ a.dst-win-link:hover {
   display: none;
   margin-top: 1em;
 }
+
 .tj-desk .portrait.has-art .art {
   display: block;
 }
+
 .tj-desk .portrait.has-art .emoji,
 .tj-desk .portrait.has-art .watch {
   display: none;
 }
+
 .tj-desk .portrait .emoji {
   font-size: 5cqw;
   line-height: 1;
   filter: drop-shadow(0 0 20px rgba(246, 217, 138, 0.6));
   animation: tj-bob 4s ease-in-out infinite;
 }
+
 .tj-desk .portrait .watch {
   position: absolute;
   right: 12%;
@@ -2993,6 +3135,7 @@ a.dst-win-link:hover {
   font-size: 2cqw;
   filter: drop-shadow(0 0 12px rgba(227, 179, 65, 0.8));
 }
+
 .tj-desk .guide-card .bubble {
   position: relative;
   flex: none;
@@ -3001,6 +3144,7 @@ a.dst-win-link:hover {
   border-radius: 1.3cqw;
   padding: min(1.3cqw, 2.3vh) min(1.6cqw, 2.8vh);
 }
+
 .tj-desk .guide-card .bubble .who {
   font-size: min(0.85cqw, 1.5vh);
   letter-spacing: 0.22em;
@@ -3008,6 +3152,7 @@ a.dst-win-link:hover {
   color: var(--tj-gold-soft);
   margin-bottom: min(0.7cqw, 1.25vh);
 }
+
 .tj-desk .guide-card .bubble .say {
   font-family: var(--tj-font-serif);
   font-style: italic;
@@ -3016,6 +3161,7 @@ a.dst-win-link:hover {
   color: var(--tj-text);
   min-height: min(4cqw, 7vh);
 }
+
 /* blinking caret for the typewriter effect */
 .tj-desk .guide-card .bubble .say .caret {
   display: inline-block;
@@ -3024,6 +3170,7 @@ a.dst-win-link:hover {
   color: var(--tj-gold);
   animation: tj-blink 1s steps(2, end) infinite;
 }
+
 .tj-desk .guide-card .obj {
   margin-top: auto;
   display: flex;
@@ -3034,12 +3181,14 @@ a.dst-win-link:hover {
   min-height: 0;
   overflow-y: auto;
 }
+
 .tj-desk .guide-card .obj .lbl {
   font-size: clamp(7px, min(0.78cqw, 1.5vh), 12px);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--tj-faint);
 }
+
 .tj-desk .guide-card .obj .step {
   display: flex;
   gap: 1.1cqw;
@@ -3049,6 +3198,7 @@ a.dst-win-link:hover {
   color: var(--tj-muted);
   line-height: 1.3;
 }
+
 .tj-desk .guide-card .obj .step .n {
   flex: none;
   width: 1.7em;
@@ -3063,9 +3213,11 @@ a.dst-win-link:hover {
   border: 1px solid rgba(227, 179, 65, 0.45);
   background: rgba(227, 179, 65, 0.08);
 }
+
 .tj-desk .guide-card .obj .step.done {
   color: var(--tj-faint);
 }
+
 .tj-desk .guide-card .obj .step.done .n {
   color: var(--tj-success);
   border-color: rgba(62, 240, 168, 0.5);
@@ -3084,6 +3236,7 @@ a.dst-win-link:hover {
   min-height: 0;
   height: 100%;
 }
+
 .tj-desk .laptop-stage .tj-laptop {
   /* Grow with the screen: fill the remaining width, but never taller than the
      row — the laptop's full height (lid + keyboard deck) is ~0.95× its width,
@@ -3092,11 +3245,13 @@ a.dst-win-link:hover {
      capping out. */
   --w: min(100%, 104vh);
 }
+
 .tj-desk .laptop-stage .tj-laptop .lid {
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(139, 77, 255, 0.4),
     0 30px 70px rgba(0, 0, 0, 0.5);
 }
+
 .tj-desk .laptop-cap {
   margin-top: 1.3cqw;
   text-align: center;
@@ -3106,9 +3261,11 @@ a.dst-win-link:hover {
   color: var(--tj-gold-soft);
   text-shadow: 0 0 12px rgba(227, 179, 65, 0.4);
 }
+
 .tj-desk .laptop-cap::before {
   content: "\201C";
 }
+
 .tj-desk .laptop-cap::after {
   content: "\201D";
 }
@@ -3117,16 +3274,20 @@ a.dst-win-link:hover {
 .tj-desk .clock-rail {
   align-items: stretch;
 }
+
 .tj-desk .clock-rail .rail-head {
   justify-content: flex-end;
 }
+
 .tj-desk .clock-rail .rail-head .dot {
   background: var(--tj-blue);
   box-shadow: 0 0 10px rgba(31, 211, 255, 0.8);
 }
+
 .tj-desk .clock-rail .rail-head .t {
   color: var(--tj-blue-soft);
 }
+
 .tj-desk .clock-card {
   position: relative;
   flex: 1;
@@ -3138,14 +3299,13 @@ a.dst-win-link:hover {
   gap: 1.4cqw;
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(22, 12, 42, 0.62),
-    rgba(13, 7, 25, 0.82)
-  );
+  background: linear-gradient(180deg,
+      rgba(22, 12, 42, 0.62),
+      rgba(13, 7, 25, 0.82));
   box-shadow: 0 0 var(--tj-glow) rgba(31, 211, 255, 0.16);
   padding: 1.8cqw;
 }
+
 .tj-desk .clock-card .deadline {
   font-family: var(--tj-font-display);
   font-weight: 700;
@@ -3156,34 +3316,38 @@ a.dst-win-link:hover {
   text-shadow: 0 0 14px rgba(227, 179, 65, 0.4);
   text-align: center;
 }
+
 .tj-desk .clock-card .tj-clock-analog {
   --size: 16.5cqw;
   /* border + glow are fractions of the clock's own size, so the outline stays
      proportional at any screen width (and the glow still grows with urgency) */
   border-width: max(2px, calc(var(--size) * 0.018));
   box-shadow:
-    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16)
-      rgba(31, 211, 255, 0.55),
+    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16) rgba(31, 211, 255, 0.55),
     inset 0 0 calc(var(--size) * 0.14) rgba(31, 211, 255, 0.12);
 }
+
 .tj-desk .clock-card .tj-clock-analog[data-critical] {
   box-shadow:
-    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2)
-      rgba(255, 53, 84, 0.7),
+    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2) rgba(255, 53, 84, 0.7),
     inset 0 0 calc(var(--size) * 0.14) rgba(255, 53, 84, 0.16);
 }
+
 .tj-desk .clock-card .tj-clock-digital {
   padding: 0;
   background: none;
   border: none;
   gap: min(0.4cqw, 0.7vh);
 }
+
 .tj-desk .clock-card .tj-clock-digital .time {
   font-size: 3.8cqw;
 }
+
 .tj-desk .clock-card .tj-clock-digital .lbl {
   font-size: 1cqw;
 }
+
 .tj-desk .clock-card .timer {
   position: relative;
   display: flex;
@@ -3192,12 +3356,14 @@ a.dst-win-link:hover {
   gap: min(0.9cqw, 1.6vh);
   width: 100%;
 }
+
 .tj-desk .clock-card .timer .lbl {
   font-size: min(1cqw, 1.78vh);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--tj-faint);
 }
+
 .tj-desk .clock-card .timer .track {
   position: relative;
   width: 100%;
@@ -3209,6 +3375,7 @@ a.dst-win-link:hover {
   border: 1px solid var(--tj-line);
   overflow: hidden;
 }
+
 .tj-desk .clock-card .timer .track .fill {
   position: absolute;
   left: 0;
@@ -3219,11 +3386,13 @@ a.dst-win-link:hover {
   box-shadow: 0 0 12px rgba(255, 43, 214, 0.5);
   transition: width 0.6s var(--tj-ease);
 }
+
 .tj-desk .clock-card .timer .note {
   font-size: min(1cqw, 1.78vh);
   color: var(--tj-faint);
   text-align: center;
 }
+
 .tj-desk .clock-card .timer .note b {
   color: var(--tj-danger);
 }
@@ -3237,15 +3406,18 @@ a.dst-win-link:hover {
     height: auto;
     overflow: auto;
   }
+
   body {
     height: auto;
     min-height: 100vh;
     overflow: auto;
   }
+
   .tj-desk {
     height: auto;
     min-height: 100vh;
   }
+
   /* stack rail (top) over laptop (bottom); the page scrolls on small screens */
   .tj-desk .zones {
     flex-direction: column;
@@ -3253,9 +3425,11 @@ a.dst-win-link:hover {
     gap: 4cqw;
     padding: 4cqw;
   }
+
   .tj-desk .guide-rail {
     width: auto;
   }
+
   .tj-desk .laptop-stage .tj-laptop {
     --w: 100%;
   }
@@ -3269,13 +3443,16 @@ a.dst-win-link:hover {
     justify-content: center;
     gap: 3cqw;
   }
+
   .tj-desk .clock-rail .rail-head {
     justify-content: flex-start;
   }
+
   .tj-desk .guide-card .bubble {
     flex: 1 1 50%;
     min-width: 0;
   }
+
   .tj-desk .guide-card .obj {
     margin-top: 0;
     flex: 1 1 100%;
@@ -3289,53 +3466,68 @@ a.dst-win-link:hover {
   .tj-desk .portrait .emoji {
     font-size: 11cqw;
   }
+
   .tj-desk .guide-card .bubble .who {
     font-size: 1.8cqw;
   }
+
   .tj-desk .guide-card .bubble .say {
     font-size: 2.8cqw;
     min-height: 0;
   }
+
   .tj-desk .guide-card .obj .lbl {
     font-size: 1.7cqw;
   }
+
   .tj-desk .guide-card .obj .step {
     font-size: 2.1cqw;
   }
+
   .tj-desk .guide-card .obj .step .n {
     width: 3.6cqw;
     height: 3.6cqw;
     font-size: 1.9cqw;
   }
+
   .tj-desk .hud .brand .game {
     font-size: 4.4cqw;
   }
+
   .tj-desk .hud .brand .vor {
     font-size: 3cqw;
   }
+
   .tj-desk .rail-head .t {
     font-size: 2.4cqw;
   }
+
   .tj-desk .clock-card .deadline {
     font-size: 3cqw;
   }
+
   .tj-desk .clock-card .tj-clock-analog {
     --size: 30cqw;
   }
+
   .tj-desk .clock-card .tj-clock-digital .time {
     font-size: 8cqw;
   }
+
   .tj-desk .clock-card .tj-clock-digital .lbl,
   .tj-desk .clock-card .timer .lbl,
   .tj-desk .clock-card .timer .note {
     font-size: 2.2cqw;
   }
+
   .tj-desk .clock-card .timer {
     flex: 1 1 100%;
   }
+
   .tj-desk .clock-card .timer .track {
     max-width: 60cqw;
   }
+
   .tj-desk .laptop-cap {
     font-size: 3cqw;
   }
@@ -3352,12 +3544,15 @@ a.dst-win-link:hover {
   pointer-events: auto;
   transition: opacity 0.45s var(--tj-ease);
 }
+
 .intro-spotlight.show {
   opacity: 1;
 }
+
 .intro-spotlight.done {
   opacity: 0;
 }
+
 .intro-spotlight .spot-hole {
   position: fixed;
   top: 0;
@@ -3378,6 +3573,7 @@ a.dst-win-link:hover {
     height 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
     border-radius 0.6s var(--tj-ease);
 }
+
 .intro-spotlight .spot-cap {
   position: fixed;
   width: min(380px, 78vw);
@@ -3401,12 +3597,15 @@ a.dst-win-link:hover {
     top 0.5s var(--tj-ease),
     left 0.5s var(--tj-ease);
 }
+
 .intro-spotlight .spot-cap-text {
   color: var(--tj-text);
 }
+
 .intro-spotlight .spot-cap-text b {
   color: var(--tj-gold-soft);
 }
+
 .intro-spotlight .spot-cap-btn {
   align-self: flex-end;
   font-family: var(--tj-font-display);
@@ -3419,29 +3618,31 @@ a.dst-win-link:hover {
   border: 1px solid transparent;
   cursor: pointer;
   color: #0a0214;
-  background: linear-gradient(
-    100deg,
-    var(--tj-accent, #1fd3ff),
-    var(--tj-accent2, #ff2bd6)
-  );
+  background: linear-gradient(100deg,
+      var(--tj-accent, #1fd3ff),
+      var(--tj-accent2, #ff2bd6));
   box-shadow: 0 0 22px rgba(255, 43, 214, 0.45);
   transition:
     transform 0.15s var(--tj-ease),
     box-shadow 0.2s var(--tj-ease);
 }
+
 .intro-spotlight .spot-cap-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 0 30px rgba(255, 43, 214, 0.7);
 }
+
 .intro-spotlight .spot-cap-btn:active {
   transform: translateY(0) scale(0.98);
 }
+
 /* the final "Spiel starten" button gets the golden treatment */
 .intro-spotlight .spot-cap-btn.is-final {
   background: linear-gradient(100deg, var(--tj-gold), #ffcf6b);
   color: #1a0f00;
   box-shadow: 0 0 26px rgba(227, 179, 65, 0.6);
 }
+
 .intro-spotlight .spot-skip-btn {
   align-self: flex-end;
   font-family: var(--tj-font-display);
@@ -3460,14 +3661,18 @@ a.dst-win-link:hover {
     opacity 0.15s var(--tj-ease),
     transform 0.15s var(--tj-ease);
 }
+
 .intro-spotlight .spot-skip-btn:hover {
   opacity: 1;
   transform: translateY(-1px);
 }
+
 .intro-spotlight .spot-cap:has(.spot-cap-btn.is-final) .spot-skip-btn {
   display: none;
 }
+
 @media (prefers-reduced-motion: reduce) {
+
   .intro-spotlight .spot-hole,
   .intro-spotlight .spot-cap {
     transition: none;
@@ -3495,11 +3700,9 @@ a.dst-win-link:hover {
   max-width: 480px;
   padding: 3cqw 3.2cqw;
   border-radius: var(--tj-r-md);
-  background: linear-gradient(
-    180deg,
-    rgba(33, 17, 56, 0.98),
-    rgba(13, 7, 25, 0.99)
-  );
+  background: linear-gradient(180deg,
+      rgba(33, 17, 56, 0.98),
+      rgba(13, 7, 25, 0.99));
   border: 1px solid var(--tj-line);
   border-left: 3px solid var(--tj-gold);
   box-shadow:
@@ -3513,6 +3716,7 @@ a.dst-win-link:hover {
     transform: scale(0.88);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -3640,11 +3844,9 @@ a.dst-win-link:hover {
   align-items: center;
   gap: 1.8cqw;
   padding: 4.5cqw 6cqw;
-  background: linear-gradient(
-    180deg,
-    rgba(33, 17, 56, 0.98),
-    rgba(13, 7, 25, 0.99)
-  );
+  background: linear-gradient(180deg,
+      rgba(33, 17, 56, 0.98),
+      rgba(13, 7, 25, 0.99));
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
   box-shadow:
@@ -3674,11 +3876,13 @@ a.dst-win-link:hover {
       0 0 0 0 rgba(139, 77, 255, 0.55),
       0 0 0 0 rgba(139, 77, 255, 0.3);
   }
+
   60% {
     box-shadow:
       0 0 0 2.5cqw rgba(139, 77, 255, 0.12),
       0 0 0 5cqw rgba(139, 77, 255, 0);
   }
+
   100% {
     box-shadow:
       0 0 0 2.5cqw rgba(139, 77, 255, 0),
@@ -3800,11 +4004,9 @@ a.dst-win-link:hover {
   gap: 1.6cqw;
   width: 72cqw;
   padding: 4cqw 4.5cqw;
-  background: linear-gradient(
-    180deg,
-    rgba(33, 17, 56, 0.98),
-    rgba(13, 7, 25, 0.99)
-  );
+  background: linear-gradient(180deg,
+      rgba(33, 17, 56, 0.98),
+      rgba(13, 7, 25, 0.99));
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
   box-shadow:
@@ -3830,12 +4032,10 @@ a.dst-win-link:hover {
   font-weight: 700;
   font-size: 4.5cqw;
   text-transform: uppercase;
-  background: linear-gradient(
-    100deg,
-    var(--tj-blue),
-    var(--tj-violet-soft) 50%,
-    var(--tj-magenta)
-  );
+  background: linear-gradient(100deg,
+      var(--tj-blue),
+      var(--tj-violet-soft) 50%,
+      var(--tj-magenta));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -3892,7 +4092,8 @@ a.dst-win-link:hover {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 9cqw; /* room for sticky button */
+  padding-bottom: 9cqw;
+  /* room for sticky button */
 }
 
 /* ── .tj-board — adapted from design guide to cqw ── */
@@ -3927,12 +4128,10 @@ a.dst-win-link:hover {
   font-weight: 700;
   text-transform: uppercase;
   font-size: 5cqw;
-  background: linear-gradient(
-    100deg,
-    var(--tj-blue),
-    var(--tj-violet-soft) 50%,
-    var(--tj-magenta)
-  );
+  background: linear-gradient(100deg,
+      var(--tj-blue),
+      var(--tj-violet-soft) 50%,
+      var(--tj-magenta));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -3976,11 +4175,9 @@ a.dst-win-link:hover {
   padding: 1.6cqw 2cqw;
   border-radius: var(--tj-r-md);
   border: 1px solid var(--tj-line);
-  background: linear-gradient(
-    180deg,
-    rgba(22, 12, 42, 0.72),
-    rgba(13, 7, 25, 0.82)
-  );
+  background: linear-gradient(180deg,
+      rgba(22, 12, 42, 0.72),
+      rgba(13, 7, 25, 0.82));
   opacity: 0;
   transform: translateY(8px);
   animation: tj-lb-in 0.5s var(--tj-ease) forwards;
@@ -4056,10 +4253,12 @@ a.dst-win-link:hover {
   color: var(--tj-success);
   border-color: rgba(62, 240, 168, 0.5);
 }
+
 .tj-board .note.g-b {
   color: var(--tj-blue-soft);
   border-color: rgba(31, 211, 255, 0.4);
 }
+
 .tj-board .note.g-c {
   color: var(--tj-danger);
   border-color: rgba(255, 53, 84, 0.4);
@@ -4068,23 +4267,24 @@ a.dst-win-link:hover {
 .tj-board .lb-row.r1 {
   border-color: rgba(227, 179, 65, 0.5);
   box-shadow: 0 0 var(--tj-glow) rgba(227, 179, 65, 0.25);
-  background: linear-gradient(
-    180deg,
-    rgba(227, 179, 65, 0.12),
-    rgba(13, 7, 25, 0.85)
-  );
+  background: linear-gradient(180deg,
+      rgba(227, 179, 65, 0.12),
+      rgba(13, 7, 25, 0.85));
 }
+
 .tj-board .lb-row.r1 .rank {
   color: #0a0214;
   background: linear-gradient(135deg, var(--tj-gold-soft), var(--tj-gold));
   border-color: transparent;
   box-shadow: 0 0 12px rgba(227, 179, 65, 0.6);
 }
+
 .tj-board .lb-row.r2 .rank {
   color: #0a0214;
   background: linear-gradient(135deg, #ff9be6, var(--tj-magenta));
   border-color: transparent;
 }
+
 .tj-board .lb-row.r3 .rank {
   color: #0a0214;
   background: linear-gradient(135deg, var(--tj-blue-soft), var(--tj-blue));
@@ -4094,11 +4294,9 @@ a.dst-win-link:hover {
 .tj-board .lb-row.me {
   border-color: var(--tj-magenta);
   box-shadow: 0 0 var(--tj-glow) rgba(255, 43, 214, 0.35);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 43, 214, 0.12),
-    rgba(13, 7, 25, 0.85)
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 43, 214, 0.12),
+      rgba(13, 7, 25, 0.85));
 }
 
 .lb-chip {
@@ -4146,6 +4344,7 @@ a.dst-win-link:hover {
   from {
     background: rgba(180, 20, 20, 0.55);
   }
+
   to {
     background: rgba(180, 20, 20, 0.18);
   }
@@ -4169,6 +4368,7 @@ a.dst-win-link:hover {
     transform: scale(1.35);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
