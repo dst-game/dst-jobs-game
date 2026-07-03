@@ -63,7 +63,7 @@ body {
   display: flex;
   font-family: var(--tj-font-mono);
   color: var(--tj-text);
-  background:
+  /* background:
     radial-gradient(
       1100px 620px at 78% -8%,
       rgba(255, 43, 214, 0.18),
@@ -80,8 +80,10 @@ body {
       transparent 60%
     ),
     var(--tj-ink-900);
+
+  background-image: url("../images/background.jpeg"); */
   background-size: cover;
-  background-image: url("../images/background.jpeg");
+  background-image: url("../images/background.gif");
   background-position: center;
   -webkit-font-smoothing: antialiased;
 }
@@ -155,7 +157,7 @@ h1 {
 
 .over-laptop-label.animate {
   opacity: 1;
-  animation: over-laptop-show 1.8s var(--tj-ease) forwards;
+  animation: over-laptop-show 3.8s var(--tj-ease) forwards;
 }
 
 @keyframes over-laptop-show {
@@ -2671,7 +2673,7 @@ a.dst-win-link:hover {
   font-family: var(--tj-font-mono);
   display: flex;
   flex-direction: column;
-  background:
+  /* background:
     radial-gradient(
       58% 48% at 50% 14%,
       rgba(139, 77, 255, 0.3),
@@ -2687,7 +2689,7 @@ a.dst-win-link:hover {
       rgba(255, 43, 214, 0.2),
       transparent 70%
     ),
-    linear-gradient(180deg, #1a0f30 0%, #0d0719 55%, #07040f 100%);
+    linear-gradient(180deg, #1a0f30 0%, #0d0719 55%, #07040f 100%); */
 }
 .tj-desk .floor {
   position: absolute;
