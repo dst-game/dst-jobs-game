@@ -224,6 +224,9 @@ function resetTimer() {
   halfTimePassed = false;
   lastMinute = false;
   SPEED = 1;
+  // the coffee power-up becomes available again on a fresh run
+  coffeeUsed = false;
+  if (coffeeMug) coffeeMug.classList.remove("used");
   const slowBtn = document.getElementById("slowBtn");
   if (slowBtn) slowBtn.style.display = "none";
   remainingTime = GAME_SETTINGS.gameDuration;
@@ -647,6 +650,7 @@ const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
 const postit = document.querySelector(".postit");
 const timer = document.querySelector(".clock-card");
+const coffeeMug = document.getElementById("coffeeMug");
 
 startBtn.addEventListener("click", () => {
   introScreen.style.display = "none";
@@ -705,6 +709,10 @@ function gameScreen() {
 // Kick off the actual game once the intro spotlight tour has finished.
 function startGamePlay() {
   loginBox.style.display = "flex";
+  if (coffeeMug) {
+    coffeeMug.style.display = "block";
+    coffeeMug.title = t("coffee.title");
+  }
   showGuidePriority(t("guide.password"));
   startTimer();
 }
@@ -1275,6 +1283,50 @@ discard2NoBtn.addEventListener("click", () => {
 cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
+
+// ─── Coffee power-up: click the mug for a one-time +60s energy boost ──
+let coffeeUsed = false;
+
+function grantEnergy(seconds) {
+  if (gameOver || gameWon) return;
+  // Never give back more time than has actually elapsed — the clock can't go
+  // above the full duration. So if you drink the coffee within the first
+  // minute, you only get back the seconds that have already passed.
+  const elapsed = Math.round(GAME_SETTINGS.gameDuration - remainingTime);
+  const bonus = Math.max(0, Math.min(seconds, elapsed));
+  const capped = bonus < seconds;
+  // nothing has elapsed yet → nothing to give back; leave the coffee for later
+  if (bonus <= 0) return 0;
+  // subtracting from penaltySeconds adds time back onto the clock
+  penaltySeconds -= bonus;
+  const label = document.getElementById("punishmentLabel");
+  if (label) {
+    label.textContent = `+${bonus}s`;
+    label.classList.add("energy");
+    label.classList.remove("animate");
+    void label.offsetWidth; // restart the rise animation
+    label.classList.add("animate");
+    // revert to the red penalty styling once the boost animation is done
+    setTimeout(() => label.classList.remove("energy"), 2400);
+  }
+  // tell the player how much they got — capped message when less than the
+  // full boost was possible, otherwise the normal "+60s" message.
+  showGuidePriority(
+    capped ? t("guide.coffeeCapped").replace("{s}", bonus) : t("guide.coffee"),
+  );
+  return bonus;
+}
+
+if (coffeeMug) {
+  coffeeMug.addEventListener("click", () => {
+    if (coffeeUsed || gameOver || gameWon) return;
+    // only "drink" (consume) the coffee if it actually gave energy back
+    if (grantEnergy(60) > 0) {
+      coffeeUsed = true;
+      coffeeMug.classList.add("used");
+    }
+  });
+}
 
 function loadGame(docs) {
   docsA.innerHTML = "";

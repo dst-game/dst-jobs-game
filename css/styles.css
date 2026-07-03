@@ -254,6 +254,14 @@ h1 {
   animation: tj-rise 2.2s var(--tj-ease) forwards;
 }
 
+/* energy boost (coffee): same rise animation, but green and "+" instead of "-" */
+.punishment-label.energy {
+  color: var(--tj-success, #3fe08a);
+  text-shadow:
+    0 0 8px var(--tj-success, #3fe08a),
+    0 0 20px rgba(63, 224, 138, 0.6);
+}
+
 @keyframes tj-rise {
   0% {
     opacity: 0;
@@ -846,6 +854,53 @@ h1 {
   left: -4.25em;
   height: 30%;
   z-index: 8;
+}
+
+/* Coffee mug on the table, in the gap between the clock and the laptop
+   (positioned inside .laptop-stage, which is position:relative). Power-up. */
+.coffee-mug {
+  position: absolute;
+  left: 1%;
+  bottom: 14%;
+  z-index: 8;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 6.5cqw;
+  line-height: 1;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+  transition:
+    transform 0.15s var(--tj-ease),
+    filter 0.2s var(--tj-ease);
+  animation: coffee-steam 2.2s ease-in-out infinite;
+}
+.coffee-mug:hover {
+  transform: scale(1.12) rotate(-4deg);
+}
+.coffee-mug:active {
+  transform: scale(0.94);
+}
+/* after it's been drunk: fade away and stop reacting */
+.coffee-mug.used {
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6) translateY(10px);
+  transition:
+    opacity 0.5s var(--tj-ease),
+    transform 0.5s var(--tj-ease);
+}
+/* a gentle golden glow that pulses like rising steam, to invite a click */
+@keyframes coffee-steam {
+  0%,
+  100% {
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 0 6px rgba(227, 179, 65, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 0 16px rgba(227, 179, 65, 0.75));
+  }
 }
 
 .file-preview-body {

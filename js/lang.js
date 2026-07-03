@@ -159,6 +159,13 @@ const TRANSLATIONS = {
       "Hier am Laptop spielt sich alles ab. Kleiner Tipp: Manchmal verstecken sich Hinweise in den Dateien — schau also ganz genau hin!",
     "spotlight.next": "Weiter",
     "spotlight.start": "Spiel starten",
+
+    // — Coffee power-up —
+    "coffee.title": "Kaffee trinken für mehr Energie",
+    "guide.coffee":
+      "Ahh, Kaffee! ☕ Jetzt hast du wieder Energie — plus 60 Sekunden!",
+    "guide.coffeeCapped":
+      "Ahh, Kaffee! ☕ Aber so lange läuft die Uhr noch gar nicht — du bekommst nur die {s} Sekunden zurück, die schon vorbei sind!",
     "spotlight.skip": "Überspringen",
 
     // — Guide (rabbit) messages —
@@ -458,6 +465,13 @@ const TRANSLATIONS = {
       "This is the laptop, where everything happens. A little tip: sometimes hints are hidden inside the files — so look very closely!",
     "spotlight.next": "Next",
     "spotlight.start": "Start game",
+
+    // — Coffee power-up —
+    "coffee.title": "Drink coffee for more energy",
+    "guide.coffee":
+      "Ahh, coffee! ☕ Your energy is back — plus 60 seconds!",
+    "guide.coffeeCapped":
+      "Ahh, coffee! ☕ But the clock hasn't been running that long — you only get back the {s} seconds that have already passed!",
     "spotlight.skip": "Skip",
 
     // — Guide (rabbit) messages —
