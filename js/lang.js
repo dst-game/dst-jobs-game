@@ -29,6 +29,7 @@ const TRANSLATIONS = {
     // — Intro / Login —
     "intro.heading": "Willkommen bei<br>5 vor 12!",
     "intro.startBtn": "Spiel starten",
+    "intro.skipBtn": "Überspringen",
     "login.heading": "Computer gesperrt!<br>Passwort eingeben:",
     "login.passwordPlaceholder": "Passwort",
 
@@ -159,6 +160,7 @@ const TRANSLATIONS = {
       "Hier am Laptop spielt sich alles ab. Kleiner Tipp: Manchmal verstecken sich Hinweise in den Dateien — schau also ganz genau hin!",
     "spotlight.next": "Weiter",
     "spotlight.start": "Spiel starten",
+    "spotlight.skip": "Überspringen",
 
     // — Guide (rabbit) messages —
     "guide.password": "Schnell, lass uns das Passwort eingeben!",
@@ -345,6 +347,7 @@ const TRANSLATIONS = {
     // — Intro / Login —
     "intro.heading": "Welcome to<br>5 vor 12!",
     "intro.startBtn": "Start Game",
+    "intro.skipBtn": "Skip",
     "login.heading": "Computer locked!<br>Enter password:",
     "login.passwordPlaceholder": "Password",
 
@@ -474,6 +477,7 @@ const TRANSLATIONS = {
       "This is the laptop, where everything happens. A little tip: sometimes hints are hidden inside the files — so look very closely!",
     "spotlight.next": "Next",
     "spotlight.start": "Start game",
+    "spotlight.skip": "Skip",
 
     // — Guide (rabbit) messages —
     "guide.password": "Quick, let's put in the password!",

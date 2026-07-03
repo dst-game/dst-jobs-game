@@ -672,8 +672,7 @@ document.getElementById("slowBtn").addEventListener("click", () => {
   showGuide("🐢 Geschwindigkeit zurück auf normal!", 3000);
 });
 
-// for testing purposes - click video to skip intro - change eventlistener to ended for production
-introVideo.addEventListener("click", () => {
+document.getElementById("skipVideoBtn").addEventListener("click", () => {
   gameScreen();
 });
 
@@ -719,8 +718,12 @@ function runIntroSpotlight(done) {
   capText.className = "spot-cap-text";
   const capBtn = document.createElement("button");
   capBtn.className = "spot-cap-btn";
+  const skipBtn = document.createElement("button");
+  skipBtn.className = "spot-skip-btn";
+  skipBtn.textContent = t("spotlight.skip");
   cap.appendChild(capText);
   cap.appendChild(capBtn);
+  cap.appendChild(skipBtn);
   overlay.appendChild(hole);
   overlay.appendChild(cap);
   document.body.appendChild(overlay);
@@ -791,6 +794,7 @@ function runIntroSpotlight(done) {
   }
 
   capBtn.addEventListener("click", advance);
+  skipBtn.addEventListener("click", finish);
 
   // fade in, then show the first help card
   requestAnimationFrame(() => {
