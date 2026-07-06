@@ -85,7 +85,11 @@ body {
 }
 
 .shadow {
-  filter: drop-shadow(0px 54px 55px rgba(0, 0, 0, 0.25)) drop-shadow(0px -12px 30px rgba(0, 0, 0, 0.12)) drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12)) drop-shadow(0px 12px 13px rgba(0, 0, 0, 0.17)) drop-shadow(0px -3px 5px rgba(0, 0, 0, 0.09));
+  filter: drop-shadow(0px 54px 55px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px -12px 30px rgba(0, 0, 0, 0.12))
+    drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12))
+    drop-shadow(0px 12px 13px rgba(0, 0, 0, 0.17))
+    drop-shadow(0px -3px 5px rgba(0, 0, 0, 0.09));
 }
 
 h1 {
@@ -423,12 +427,16 @@ h1 {
   height: 100%;
   display: flex;
   background:
-    radial-gradient(60% 50% at 50% 14%,
+    radial-gradient(
+      60% 50% at 50% 14%,
       rgba(139, 77, 255, 0.28),
-      transparent 70%),
-    radial-gradient(45% 45% at 88% 70%,
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 45% at 88% 70%,
       rgba(255, 43, 214, 0.18),
-      transparent 70%),
+      transparent 70%
+    ),
     linear-gradient(180deg, #1a0f30, #0d0719 60%, #07040f);
   flex-direction: column;
   align-items: center;
@@ -728,9 +736,11 @@ h1 {
   max-width: 440px;
   border-radius: var(--tj-r-md);
   overflow: hidden;
-  background: linear-gradient(180deg,
-      rgba(22, 12, 42, 0.98),
-      rgba(13, 7, 25, 0.99));
+  background: linear-gradient(
+    180deg,
+    rgba(22, 12, 42, 0.98),
+    rgba(13, 7, 25, 0.99)
+  );
   border: 1px solid var(--tj-line);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.7),
@@ -895,21 +905,21 @@ h1 {
 .cattail {
   position: absolute;
   bottom: -3.5em;
-  left: -4.25em;
+  left: 3em;
   height: 30%;
   z-index: 8;
 }
+.cattail:hover {
+  cursor: pointer;
+}
 
-
-.cursor{
+.cursor {
   position: absolute;
   bottom: 2vh;
   left: 7vw;
   height: 5%;
   z-index: 10;
 }
-
-
 
 .file-preview-body {
   padding: 10px 12px;
@@ -1097,9 +1107,11 @@ h1 {
 }
 
 .captcha-ui {
-  background: linear-gradient(180deg,
-      rgba(22, 12, 42, 0.97),
-      rgba(13, 7, 25, 0.98));
+  background: linear-gradient(
+    180deg,
+    rgba(22, 12, 42, 0.97),
+    rgba(13, 7, 25, 0.98)
+  );
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-md);
   padding: 1.8cqw;
@@ -1315,9 +1327,11 @@ h1 {
   padding: 7cqw 5.5cqw;
   border-radius: var(--tj-r-lg);
   background:
-    radial-gradient(600px 300px at 50% 0%,
+    radial-gradient(
+      600px 300px at 50% 0%,
       rgba(62, 240, 168, 0.14),
-      transparent 65%),
+      transparent 65%
+    ),
     linear-gradient(180deg, rgba(22, 12, 42, 0.95), rgba(7, 4, 15, 0.97));
   border: 1px solid rgba(62, 240, 168, 0.3);
   box-shadow: 0 0 60px rgba(62, 240, 168, 0.22);
@@ -1412,9 +1426,11 @@ a.dst-win-link:hover {
   padding: 7cqw 5.5cqw;
   border-radius: 0;
   background:
-    radial-gradient(600px 300px at 50% 0%,
+    radial-gradient(
+      600px 300px at 50% 0%,
       rgba(220, 38, 38, 0.18),
-      transparent 65%),
+      transparent 65%
+    ),
     linear-gradient(180deg, rgba(42, 8, 8, 0.97), rgba(15, 4, 4, 0.99));
   color: var(--tj-text);
 }
@@ -1913,7 +1929,7 @@ a.dst-win-link:hover {
 }
 
 /* Überschrift */
-#notes-editor>p:first-child {
+#notes-editor > p:first-child {
   margin: 0;
   padding: 18px 20px 14px 70px;
   font-family: Georgia, serif;
@@ -1924,7 +1940,7 @@ a.dst-win-link:hover {
 }
 
 /* eigentliche Notizen */
-#notes-editor>p:last-child {
+#notes-editor > p:last-child {
   margin: 0;
   padding: 0 20px 0 70px;
   line-height: 44px;
@@ -1932,10 +1948,12 @@ a.dst-win-link:hover {
   white-space: normal;
 
   /* horizontale Linien */
-  background: repeating-linear-gradient(to bottom,
-      transparent 0,
-      transparent 43px,
-      #d8d8d8 44px);
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 43px,
+    #d8d8d8 44px
+  );
 }
 
 #notes-editor br {
@@ -2052,13 +2070,17 @@ a.dst-win-link:hover {
   width: 100%;
   min-height: 240px;
   background:
-    radial-gradient(circle at 50% 50%,
+    radial-gradient(
+      circle at 50% 50%,
       rgba(255, 255, 255, 0.95) 0 8%,
-      transparent 8.5%),
-    linear-gradient(180deg,
+      transparent 8.5%
+    ),
+    linear-gradient(
+      180deg,
       transparent 0 47%,
       rgba(10, 8, 44, 0.95) 47% 53%,
-      transparent 53%),
+      transparent 53%
+    ),
     linear-gradient(180deg, #f20aef 0 50%, #d6fffa 50% 100%);
   border: 1px solid rgba(21, 241, 243, 0.65);
   box-shadow: 0 0 24px rgba(242, 10, 239, 0.4);
@@ -2688,9 +2710,11 @@ a.dst-win-link:hover {
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 38%,
-      rgba(33, 17, 56, 0.9),
-      rgba(7, 4, 15, 0.95));
+  background: radial-gradient(
+    circle at 50% 38%,
+    rgba(33, 17, 56, 0.9),
+    rgba(7, 4, 15, 0.95)
+  );
   border: 2px solid var(--tj-blue);
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.55),
@@ -2863,12 +2887,16 @@ a.dst-win-link:hover {
   border-radius: 6px;
   background:
     linear-gradient(180deg, rgba(10, 6, 20, 0.1), rgba(7, 4, 15, 0.7)),
-    repeating-linear-gradient(90deg,
+    repeating-linear-gradient(
+      90deg,
       transparent 0 8px,
-      rgba(31, 211, 255, 0.28) 8px 10px),
-    repeating-linear-gradient(0deg,
+      rgba(31, 211, 255, 0.28) 8px 10px
+    ),
+    repeating-linear-gradient(
+      0deg,
       transparent 0 12px,
-      rgba(255, 43, 214, 0.18) 12px 14px);
+      rgba(255, 43, 214, 0.18) 12px 14px
+    );
 }
 
 .tj-desk .glint.l {
@@ -2903,10 +2931,12 @@ a.dst-win-link:hover {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 2.1cqw;
-  background: linear-gradient(100deg,
-      var(--tj-blue),
-      var(--tj-violet-soft) 50%,
-      var(--tj-magenta));
+  background: linear-gradient(
+    100deg,
+    var(--tj-blue),
+    var(--tj-violet-soft) 50%,
+    var(--tj-magenta)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -3037,9 +3067,11 @@ a.dst-win-link:hover {
   gap: 1.3cqw;
   border: 1px solid rgba(227, 179, 65, 0.4);
   border-radius: var(--tj-r-lg);
-  background: linear-gradient(180deg,
-      rgba(33, 17, 56, 0.62),
-      rgba(13, 7, 25, 0.8));
+  background: linear-gradient(
+    180deg,
+    rgba(33, 17, 56, 0.62),
+    rgba(13, 7, 25, 0.8)
+  );
   box-shadow: 0 0 var(--tj-glow) rgba(227, 179, 65, 0.18);
   padding: 1.8cqw;
   overflow: hidden;
@@ -3058,7 +3090,6 @@ a.dst-win-link:hover {
 }
 
 @keyframes tj-shake {
-
   0%,
   100% {
     transform: translateX(0);
@@ -3095,9 +3126,11 @@ a.dst-win-link:hover {
   overflow: hidden;
   border: 1px solid rgba(227, 179, 65, 0.55);
   background:
-    repeating-linear-gradient(45deg,
+    repeating-linear-gradient(
+      45deg,
       rgba(227, 179, 65, 0.05) 0 11px,
-      rgba(227, 179, 65, 0.11) 11px 22px),
+      rgba(227, 179, 65, 0.11) 11px 22px
+    ),
     linear-gradient(180deg, rgba(33, 17, 56, 0.7), rgba(13, 7, 25, 0.92));
   display: flex;
   align-items: center;
@@ -3304,9 +3337,11 @@ a.dst-win-link:hover {
   gap: 1.4cqw;
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
-  background: linear-gradient(180deg,
-      rgba(22, 12, 42, 0.62),
-      rgba(13, 7, 25, 0.82));
+  background: linear-gradient(
+    180deg,
+    rgba(22, 12, 42, 0.62),
+    rgba(13, 7, 25, 0.82)
+  );
   box-shadow: 0 0 var(--tj-glow) rgba(31, 211, 255, 0.16);
   padding: 1.8cqw;
 }
@@ -3328,13 +3363,15 @@ a.dst-win-link:hover {
      proportional at any screen width (and the glow still grows with urgency) */
   border-width: max(2px, calc(var(--size) * 0.018));
   box-shadow:
-    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16) rgba(31, 211, 255, 0.55),
+    0 0 calc(var(--size) * 0.16 + var(--tj-urgency, 0) * var(--size) * 0.16)
+      rgba(31, 211, 255, 0.55),
     inset 0 0 calc(var(--size) * 0.14) rgba(31, 211, 255, 0.12);
 }
 
 .tj-desk .clock-card .tj-clock-analog[data-critical] {
   box-shadow:
-    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2) rgba(255, 53, 84, 0.7),
+    0 0 calc(var(--size) * 0.2 + var(--tj-urgency, 0) * var(--size) * 0.2)
+      rgba(255, 53, 84, 0.7),
     inset 0 0 calc(var(--size) * 0.14) rgba(255, 53, 84, 0.16);
 }
 
@@ -3623,9 +3660,11 @@ a.dst-win-link:hover {
   border: 1px solid transparent;
   cursor: pointer;
   color: #0a0214;
-  background: linear-gradient(100deg,
-      var(--tj-accent, #1fd3ff),
-      var(--tj-accent2, #ff2bd6));
+  background: linear-gradient(
+    100deg,
+    var(--tj-accent, #1fd3ff),
+    var(--tj-accent2, #ff2bd6)
+  );
   box-shadow: 0 0 22px rgba(255, 43, 214, 0.45);
   transition:
     transform 0.15s var(--tj-ease),
@@ -3677,7 +3716,6 @@ a.dst-win-link:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .intro-spotlight .spot-hole,
   .intro-spotlight .spot-cap {
     transition: none;
@@ -3705,9 +3743,11 @@ a.dst-win-link:hover {
   max-width: 480px;
   padding: 3cqw 3.2cqw;
   border-radius: var(--tj-r-md);
-  background: linear-gradient(180deg,
-      rgba(33, 17, 56, 0.98),
-      rgba(13, 7, 25, 0.99));
+  background: linear-gradient(
+    180deg,
+    rgba(33, 17, 56, 0.98),
+    rgba(13, 7, 25, 0.99)
+  );
   border: 1px solid var(--tj-line);
   border-left: 3px solid var(--tj-gold);
   box-shadow:
@@ -3849,9 +3889,11 @@ a.dst-win-link:hover {
   align-items: center;
   gap: 1.8cqw;
   padding: 4.5cqw 6cqw;
-  background: linear-gradient(180deg,
-      rgba(33, 17, 56, 0.98),
-      rgba(13, 7, 25, 0.99));
+  background: linear-gradient(
+    180deg,
+    rgba(33, 17, 56, 0.98),
+    rgba(13, 7, 25, 0.99)
+  );
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
   box-shadow:
@@ -4009,9 +4051,11 @@ a.dst-win-link:hover {
   gap: 1.6cqw;
   width: 72cqw;
   padding: 4cqw 4.5cqw;
-  background: linear-gradient(180deg,
-      rgba(33, 17, 56, 0.98),
-      rgba(13, 7, 25, 0.99));
+  background: linear-gradient(
+    180deg,
+    rgba(33, 17, 56, 0.98),
+    rgba(13, 7, 25, 0.99)
+  );
   border: 1px solid var(--tj-line);
   border-radius: var(--tj-r-lg);
   box-shadow:
@@ -4037,10 +4081,12 @@ a.dst-win-link:hover {
   font-weight: 700;
   font-size: 4.5cqw;
   text-transform: uppercase;
-  background: linear-gradient(100deg,
-      var(--tj-blue),
-      var(--tj-violet-soft) 50%,
-      var(--tj-magenta));
+  background: linear-gradient(
+    100deg,
+    var(--tj-blue),
+    var(--tj-violet-soft) 50%,
+    var(--tj-magenta)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -4133,10 +4179,12 @@ a.dst-win-link:hover {
   font-weight: 700;
   text-transform: uppercase;
   font-size: 5cqw;
-  background: linear-gradient(100deg,
-      var(--tj-blue),
-      var(--tj-violet-soft) 50%,
-      var(--tj-magenta));
+  background: linear-gradient(
+    100deg,
+    var(--tj-blue),
+    var(--tj-violet-soft) 50%,
+    var(--tj-magenta)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -4180,9 +4228,11 @@ a.dst-win-link:hover {
   padding: 1.6cqw 2cqw;
   border-radius: var(--tj-r-md);
   border: 1px solid var(--tj-line);
-  background: linear-gradient(180deg,
-      rgba(22, 12, 42, 0.72),
-      rgba(13, 7, 25, 0.82));
+  background: linear-gradient(
+    180deg,
+    rgba(22, 12, 42, 0.72),
+    rgba(13, 7, 25, 0.82)
+  );
   opacity: 0;
   transform: translateY(8px);
   animation: tj-lb-in 0.5s var(--tj-ease) forwards;
@@ -4272,9 +4322,11 @@ a.dst-win-link:hover {
 .tj-board .lb-row.r1 {
   border-color: rgba(227, 179, 65, 0.5);
   box-shadow: 0 0 var(--tj-glow) rgba(227, 179, 65, 0.25);
-  background: linear-gradient(180deg,
-      rgba(227, 179, 65, 0.12),
-      rgba(13, 7, 25, 0.85));
+  background: linear-gradient(
+    180deg,
+    rgba(227, 179, 65, 0.12),
+    rgba(13, 7, 25, 0.85)
+  );
 }
 
 .tj-board .lb-row.r1 .rank {
@@ -4299,9 +4351,11 @@ a.dst-win-link:hover {
 .tj-board .lb-row.me {
   border-color: var(--tj-magenta);
   box-shadow: 0 0 var(--tj-glow) rgba(255, 43, 214, 0.35);
-  background: linear-gradient(180deg,
-      rgba(255, 43, 214, 0.12),
-      rgba(13, 7, 25, 0.85));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 43, 214, 0.12),
+    rgba(13, 7, 25, 0.85)
+  );
 }
 
 .lb-chip {

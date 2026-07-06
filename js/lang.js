@@ -32,6 +32,7 @@ const TRANSLATIONS = {
     "intro.skipBtn": "Überspringen",
     "login.heading": "Computer gesperrt!<br>Passwort eingeben:",
     "login.passwordPlaceholder": "Passwort",
+    "cat.title": "Versteckt sich da was?",
 
     // — Task headlines —
     "task.findCv": "Finde den richtigen Lebenslauf!",
@@ -333,6 +334,7 @@ const TRANSLATIONS = {
     "intro.skipBtn": "Skip",
     "login.heading": "Computer locked!<br>Enter password:",
     "login.passwordPlaceholder": "Password",
+    "cat.title": "Is there something hidden?",
 
     // — Task headlines —
     "task.findCv": "Find the right CV!",

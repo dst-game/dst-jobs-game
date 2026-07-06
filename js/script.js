@@ -696,6 +696,9 @@ function gameScreen() {
   introVideo.pause();
   // reveal the desk decorations so the spotlight has something to light up
   cattail.style.display = "flex";
+  if (cattail) {
+    cattail.title = t("cat.title");
+  }
   postit.style.display = "flex";
   timer.style.display = "flex";
   // Guided spotlight tour: rabbit → clock → laptop, then hand off to play.
