@@ -920,15 +920,6 @@ h1 {
 .cattail:hover {
   cursor: pointer;
 }
-
-.cursor {
-  position: absolute;
-  bottom: 2vh;
-  left: 7vw;
-  height: 5%;
-  z-index: 10;
-}
-
 /* Coffee mug on the table, in the gap between the clock and the laptop
    (positioned inside .laptop-stage, which is position:relative). Power-up. */
 .coffee-mug {
@@ -940,8 +931,8 @@ h1 {
   background: none;
   padding: 0;
   cursor: pointer;
-  font-size: 6.5cqw;
-  line-height: 1;
+  width: 6.5cqw;
+  height: auto;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
   transition:
     transform 0.15s var(--tj-ease),

@@ -162,7 +162,7 @@ const TRANSLATIONS = {
     "spotlight.start": "Spiel starten",
 
     // — Coffee power-up —
-    "coffee.title": "Kaffee trinken für mehr Energie",
+    "coffee.title": "Brauchst du mehr Energie?",
     "guide.coffee":
       "Ahh, Kaffee! ☕ Jetzt hast du wieder Energie — plus 60 Sekunden!",
     "guide.coffeeCapped":
@@ -470,9 +470,8 @@ const TRANSLATIONS = {
     "spotlight.start": "Start game",
 
     // — Coffee power-up —
-    "coffee.title": "Drink coffee for more energy",
-    "guide.coffee":
-      "Ahh, coffee! ☕ Your energy is back — plus 60 seconds!",
+    "coffee.title": "Do you need more energy?",
+    "guide.coffee": "Ahh, coffee! ☕ Your energy is back — plus 60 seconds!",
     "guide.coffeeCapped":
       "Ahh, coffee! ☕ But the clock hasn't been running that long — you only get back the {s} seconds that have already passed!",
     "spotlight.skip": "Skip",
