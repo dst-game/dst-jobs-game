@@ -99,7 +99,7 @@ function tick() {
 
   // after one minute — speed up and show guide once
   if (
-    remainingTime <= 240 &&
+    remainingTime <= 90 &&
     !mistakeNow &&
     !speedBoosted &&
     !speedBoostDisabledByUser &&
@@ -110,7 +110,7 @@ function tick() {
     SPEED = 2;
 
     flashMistake();
-    overLaptopLabel.textContent = `Vergeht die Zeit schneller?`;
+    overLaptopLabel.textContent = t("guide.speedBoosted");
     overLaptopLabel.classList.remove("animate");
     void overLaptopLabel.offsetWidth;
     overLaptopLabel.classList.add("animate");
@@ -122,7 +122,6 @@ function tick() {
       gameAnalog.setAttribute("data-critical", "");
     }
 
-    showTimerFlash(t("guide.oneMinutePassed"));
     const slowBtn = document.getElementById("slowBtn");
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }
@@ -648,6 +647,7 @@ const introVideo = document.getElementById("introVideo");
 const loginBox = document.querySelector(".nr1_login");
 const gameBox = document.querySelector(".screen_2");
 const cattail = document.querySelector(".cattail");
+const cursor = document.querySelector(".cursor");
 const postit = document.querySelector(".postit");
 const timer = document.querySelector(".clock-card");
 const coffeeMug = document.getElementById("coffeeMug");
@@ -700,6 +700,9 @@ function gameScreen() {
   introVideo.pause();
   // reveal the desk decorations so the spotlight has something to light up
   cattail.style.display = "flex";
+  if (cattail) {
+    cattail.title = t("cat.title");
+  }
   postit.style.display = "flex";
   timer.style.display = "flex";
   // Guided spotlight tour: rabbit → clock → laptop, then hand off to play.
@@ -1283,6 +1286,15 @@ discard2NoBtn.addEventListener("click", () => {
 cattail.addEventListener("click", () => {
   cattail.style.display = "none";
 });
+
+if (cattail && cursor) {
+  cattail.addEventListener("mouseenter", () => {
+    cursor.style.display = "block";
+  });
+  cattail.addEventListener("mouseleave", () => {
+    cursor.style.display = "none";
+  });
+}
 
 // ─── Coffee power-up: click the mug for a one-time +60s energy boost ──
 let coffeeUsed = false;

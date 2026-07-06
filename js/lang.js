@@ -32,6 +32,7 @@ const TRANSLATIONS = {
     "intro.skipBtn": "Überspringen",
     "login.heading": "Computer gesperrt!<br>Passwort eingeben:",
     "login.passwordPlaceholder": "Passwort",
+    "cat.title": "Versteckt sich da was?",
 
     // — Task headlines —
     "task.findCv": "Finde den richtigen Lebenslauf!",
@@ -185,6 +186,7 @@ const TRANSLATIONS = {
     "guide.discardedFiles": "Du hast deine Bewerbung gelöscht... Gut gemacht!",
     "guide.halfTime": "Halbzeit!",
     "guide.oneMinutePassed": "Die Zeit verfliegt!!",
+    "guide.speedBoosted": "Vergeht die Zeit schneller?",
 
     // — Bewerbungs-Flow (Browser-Minispiel) —
     "flow.newtab.tab": "Neuer Tab",
@@ -339,6 +341,7 @@ const TRANSLATIONS = {
     "intro.skipBtn": "Skip",
     "login.heading": "Computer locked!<br>Enter password:",
     "login.passwordPlaceholder": "Password",
+    "cat.title": "Is there something hidden?",
 
     // — Task headlines —
     "task.findCv": "Find the right CV!",
@@ -491,6 +494,7 @@ const TRANSLATIONS = {
     "guide.success": "Woohoo, you made it!",
     "guide.halfTime": "Halftime!",
     "guide.oneMinutePassed": "Time flies!!",
+    "guide.speedBoosted": "Is time going faster?",
 
     // — Application flow (browser mini-game) —
     "flow.newtab.tab": "New tab",
