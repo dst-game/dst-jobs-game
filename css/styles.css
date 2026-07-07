@@ -921,30 +921,77 @@ h1 {
 .cattail:hover {
   cursor: pointer;
 }
-/* Coffee mug on the table, in the gap between the clock and the laptop
-   (positioned inside .laptop-stage, which is position:relative). Power-up. */
+/* Energy drink power-up. Direct child of .tj-desk, alongside .floor/.glint.
+   NOTE: .zones (laptop + guide rail) is position:relative with its own
+   z-index, so it establishes a stacking context whose box stretches to
+   100% width and all remaining height below the HUD — every pixel below
+   the header belongs to it and swallows clicks, regardless of visible
+   content. A lower z-index than .zones is therefore never clickable
+   anywhere on the desk. So the mug sits ABOVE .zones (z-index) and instead
+   uses curated corner "spot" positions (below) that hug the gutters around
+   the laptop/rail, so it still reads as peeking out near them rather than
+   sitting on top of visible content.
+   It appears once, at half-time (see revealCoffeeMug() in script.js): pops
+   into a random corner, shakes for ~3s, then hides again unless clicked. */
 .coffee-mug {
   position: absolute;
-  left: 1%;
-  bottom: 14%;
-  z-index: 8;
+  z-index: 6;
   border: none;
   background: none;
   padding: 0;
   cursor: pointer;
-  width: 6.5cqw;
+  width: 4.5cqw;
   height: auto;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+  /* --mug-rot is set per corner spot below; the shake keyframes read it too,
+     via coffee-mug-shake, so an active shake animation doesn't clobber the
+     corner's rotation the way reusing the generic tj-shake did. */
+  transform: rotate(var(--mug-rot, 0deg));
   transition:
     transform 0.15s var(--tj-ease),
     filter 0.2s var(--tj-ease);
   animation: coffee-steam 2.2s ease-in-out infinite;
 }
+/* Four fixed corner "peeking" spots — one is picked at random each time the
+   mug appears, tuned to sit near the laptop/rail without covering their
+   actual artwork. */
+.coffee-mug.spot-1 {
+  --mug-rot: 145deg;
+  left: 0%;
+  top: 0%;
+}
+.coffee-mug.spot-2 {
+  --mug-rot: -145deg;
+  right: 0%;
+  top: 0%;
+}
+.coffee-mug.spot-3 {
+  --mug-rot: 45deg;
+  left: 0%;
+  bottom: 0%;
+}
+.coffee-mug.spot-4 {
+  --mug-rot: -45deg;
+  right: 0%;
+  bottom: 0%;
+}
 .coffee-mug:hover {
-  transform: scale(1.12) rotate(-4deg);
+  transform: rotate(var(--mug-rot, 0deg)) scale(1.12) rotate(-4deg);
 }
 .coffee-mug:active {
-  transform: scale(0.94);
+  transform: rotate(var(--mug-rot, 0deg)) scale(0.94);
+}
+/* shakes in place for the ~3s it's visible, to catch the eye */
+.coffee-mug.shake {
+  animation:
+    coffee-steam 2.2s ease-in-out infinite,
+    coffee-mug-shake 1.8s ease-in-out 4;
+}
+/* fades out at the end of the 3s window if it wasn't clicked in time */
+.coffee-mug.hiding {
+  opacity: 0;
+  transform: scale(0.7) translateY(8px);
+  transition: opacity 0s var(--tj-ease);
 }
 /* after it's been drunk: fade away and stop reacting */
 .coffee-mug.used {
@@ -954,6 +1001,29 @@ h1 {
   transition:
     opacity 0.5s var(--tj-ease),
     transform 0.5s var(--tj-ease);
+}
+/* Same shake shape as tj-shake, but composed with the corner's own --mug-rot
+   so the mug keeps its tucked-in-the-corner angle while it jiggles. */
+@keyframes coffee-mug-shake {
+  0%,
+  100% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(0);
+  }
+  15% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(-7px);
+  }
+  30% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(7px);
+  }
+  45% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(-5px);
+  }
+  60% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(5px);
+  }
+  80% {
+    transform: rotate(var(--mug-rot, 0deg)) translateX(-2px);
+  }
 }
 /* a gentle golden glow that pulses like rising steam, to invite a click */
 @keyframes coffee-steam {
@@ -2766,6 +2836,7 @@ a.dst-win-link:hover {
   box-shadow:
     0 0 var(--tj-glow-strong) rgba(31, 211, 255, 0.55),
     inset 0 0 30px rgba(31, 211, 255, 0.12);
+  z-index: 800;
 }
 
 /* last-minute alarm: blue outline turns red */

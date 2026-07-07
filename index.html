@@ -58,6 +58,18 @@
       <div class="glint r"></div>
       <div class="floor"></div>
 
+      <!-- Energy drink power-up. Stays hidden for the first 90s of play, then
+           roams around the desk (random spot + size) behind the laptop and
+           the guide rail until clicked for a +60s boost (see script.js). -->
+      <img
+        class="coffee-mug"
+        id="coffeeMug"
+        src="images/energy.png"
+        alt="Boost für mehr Energie"
+        title="Boost für mehr Energie"
+        style="display: none"
+      />
+
       <!-- top HUD strip -->
       <div class="hud">
         <div class="brand">
@@ -539,17 +551,6 @@
               /> -->
             </div>
           </div>
-
-          <!-- Coffee mug on the table, between the clock and the laptop. Click
-               it for an energy boost worth up to +60s (mirrors the cat pattern). -->
-          <img
-            class="coffee-mug"
-            id="coffeeMug"
-            src="images/energy.png"
-            alt="Boost für mehr Energie"
-            title="Boost für mehr Energie"
-            style="display: none"
-          />
         </main>
       </div>
     </div>

@@ -55,6 +55,8 @@ let speedBoostDisabledByUser = false; // user clicked slow button
 let clockCritical = false; // digital critical (final 30s)
 let halfTimePassed = false; // half-time guide message
 let lastMinute = false; // analog red alarm outline (final 60s)
+let coffeeHideTimer = null; // pending timeout that hides the energy drink again
+let coffeeNextTimer = null; // pending timeout for its next reappearance
 let immunityActive = false;
 let cameraStream = null;
 let photoAdded = false;
@@ -127,10 +129,11 @@ function tick() {
     if (slowBtn) slowBtn.style.display = "inline-flex";
   }
 
-  // after half time
+  // after half time — also when the energy drink briefly peeks out
   if (remainingTime <= 150 && !halfTimePassed) {
     halfTimePassed = true;
     showTimerFlash(t("guide.halfTime"));
+    revealCoffeeMug();
   }
 
   // Last minute → analog clock outline turns to the red alarm state.
@@ -687,10 +690,6 @@ function gameScreen() {
 // Kick off the actual game once the intro spotlight tour has finished.
 function startGamePlay() {
   loginBox.style.display = "flex";
-  if (coffeeMug) {
-    coffeeMug.style.display = "block";
-    coffeeMug.title = t("coffee.title");
-  }
   showGuidePriority(t("guide.password"));
   startTimer();
 }
@@ -1312,13 +1311,52 @@ function grantEnergy(seconds) {
   return bonus;
 }
 
+// Fixed corner "peeking" spots (see .coffee-mug.spot-* in styles.css).
+const MUG_CORNERS = ["spot-1", "spot-2", "spot-3", "spot-4"];
+
+// Peeks out of one random corner, shakes for 3s, then hides again — first
+// triggered at half-time (see tick()), then keeps reappearing every 30-45s
+// (randomized so it's not predictable) until it's clicked or the round ends.
+function revealCoffeeMug() {
+  if (!coffeeMug || coffeeUsed || gameOver || gameWon) return;
+  const corner = MUG_CORNERS[Math.floor(Math.random() * MUG_CORNERS.length)];
+  coffeeMug.classList.remove(...MUG_CORNERS, "hiding");
+  coffeeMug.classList.add(corner, "shake");
+  coffeeMug.title = t("coffee.title");
+  coffeeMug.style.display = "inline-block";
+  coffeeHideTimer = setTimeout(hideCoffeeMug, 3000);
+}
+
+function hideCoffeeMug() {
+  coffeeHideTimer = null;
+  if (!coffeeMug || coffeeUsed) return; // already faded out via .used
+  coffeeMug.classList.remove("shake");
+  coffeeMug.classList.add("hiding");
+  setTimeout(() => {
+    coffeeMug.style.display = "none";
+    coffeeMug.classList.remove("hiding", ...MUG_CORNERS);
+    if (!coffeeUsed && !gameOver && !gameWon) {
+      coffeeNextTimer = setTimeout(revealCoffeeMug, 2000);
+    }
+  }, 400);
+}
+
 if (coffeeMug) {
   coffeeMug.addEventListener("click", () => {
     if (coffeeUsed || gameOver || gameWon) return;
     // only "drink" (consume) the coffee if it actually gave energy back
     if (grantEnergy(60) > 0) {
       coffeeUsed = true;
+      coffeeMug.classList.remove("shake");
       coffeeMug.classList.add("used");
+      if (coffeeHideTimer) {
+        clearTimeout(coffeeHideTimer);
+        coffeeHideTimer = null;
+      }
+      if (coffeeNextTimer) {
+        clearTimeout(coffeeNextTimer);
+        coffeeNextTimer = null;
+      }
     }
   });
 }
