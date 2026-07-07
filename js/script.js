@@ -210,32 +210,6 @@ function stopTimer() {
   rafId = null;
 }
 
-function resetTimer() {
-  stopTimer();
-  t0 = 0;
-  lastTick = 0;
-  effectiveElapsed = 0;
-  penaltySeconds = 0;
-  immunityActive = false;
-  speedBoosted = false;
-  speedBoostLabelShown = false;
-  speedBoostDisabledByUser = false;
-  clockCritical = false;
-  halfTimePassed = false;
-  lastMinute = false;
-  SPEED = 1;
-  // the coffee power-up becomes available again on a fresh run
-  coffeeUsed = false;
-  if (coffeeMug) coffeeMug.classList.remove("used");
-  const slowBtn = document.getElementById("slowBtn");
-  if (slowBtn) slowBtn.style.display = "none";
-  remainingTime = GAME_SETTINGS.gameDuration;
-  clearClockCritical();
-  updateDeskClock(0);
-  if (timebarFill) timebarFill.style.width = "100%";
-  if (gameDesk) gameDesk.style.setProperty("--tj-urgency", "0");
-}
-
 function handleTimeUp(reason) {
   gameOver = true;
   deactivateApplyPhase();
@@ -1351,7 +1325,6 @@ if (coffeeMug) {
 
 function loadGame(docs) {
   docsA.innerHTML = "";
-  resetTimer();
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
 

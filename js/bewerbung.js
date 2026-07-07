@@ -46,6 +46,82 @@
     }
   }
 
+  // Fake "recently visited" entries for the newtab history dropdown. One slot
+  // is reserved for PLATFORM_URL (see buildHistoryEntries) marked with a ★ —
+  // subtle, not a callout — everything else is just penalty-bait.
+  var HISTORY_DECOYS = [
+    { domain: "gmail.com", fav: "G" },
+    { domain: "keinekarriere.at", fav: "K" },
+    { domain: "stolperstone.net", fav: "S" },
+    { domain: "willnichthaben.at", fav: "W" },
+    { domain: "derstandard.at", fav: "ST" },
+    { domain: "cloudnote.app", fav: "C" },
+    { domain: "kartenspiel24.at", fav: "K" },
+  ];
+
+  function shuffled(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+    }
+    return a;
+  }
+
+  function buildHistoryEntries() {
+    var list = shuffled(HISTORY_DECOYS).map(function (d) {
+      return { domain: d.domain, fav: d.fav, correct: false };
+    });
+    var pos = Math.floor(Math.random() * (list.length + 1));
+    list.splice(pos, 0, {
+      domain: PLATFORM_URL,
+      fav: "★",
+      correct: true,
+      star: true,
+    });
+    return list;
+  }
+
+  // "Not a robot" verification code: deliberately case-sensitive and mixes in
+  // classic look-alikes (I/l/i, O/0) so the distortion actually matters.
+  var CODE_CHARS =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  function generateCode(len) {
+    len = len || 5;
+    var out = "";
+    for (var i = 0; i < len; i++) {
+      out += CODE_CHARS.charAt(Math.floor(Math.random() * CODE_CHARS.length));
+    }
+    return out;
+  }
+
+  // Wrap each character of the code in a span with a randomized rotation/
+  // vertical offset so the whole thing reads as barely-legible captcha text.
+  // Computed once per open/regenerate (not per keystroke).
+  function renderDistortedCode(code) {
+    return code
+      .split("")
+      .map(function (ch) {
+        var rot = (Math.random() * 34 - 17).toFixed(1);
+        var dy = (Math.random() * 12 - 6).toFixed(1);
+        var size = (Math.random() * 10 + 22).toFixed(0);
+        var style =
+          "transform:rotate(" +
+          rot +
+          "deg) translateY(" +
+          dy +
+          "px);font-size:" +
+          size +
+          "px;";
+        return (
+          '<span class="rc-char" style="' + style + '">' + esc(ch) + "</span>"
+        );
+      })
+      .join("");
+  }
+
   var DISTRACTOR_ICONS = [
     "🥕",
     "🐢",
@@ -116,7 +192,11 @@
       return true;
     });
     if (!match) match = matchListing(state.dreamJob);
-    rest.splice(firstPage ? MATCH_INDEX_FIRSTPAGE : MATCH_INDEX_BURIED, 0, match);
+    rest.splice(
+      firstPage ? MATCH_INDEX_FIRSTPAGE : MATCH_INDEX_BURIED,
+      0,
+      match,
+    );
     state.listings = rest;
   }
 
@@ -193,7 +273,9 @@
     if (typeof window.showGuide === "function") window.showGuide(msg);
   }
   function guideForScreen() {
-    if (state.screen === "newtab")
+    if (state.screen === "newtab" && state.captchaOpen)
+      guide(tr("flow.guide.robot"));
+    else if (state.screen === "newtab")
       guide(
         tr("flow.guide.newtabPre") + PLATFORM + tr("flow.guide.newtabPost"),
       );
@@ -223,6 +305,14 @@
       // real browser-style history so Forward can't skip to a screen you never reached
       history: ["newtab"],
       histIdx: 0,
+      // newtab history dropdown + "not a robot" code check
+      historyEntries: buildHistoryEntries(),
+      captchaOpen: false,
+      captchaCode: "",
+      captchaCodeHtml: "",
+      captchaChecked: false,
+      captchaError: false,
+      captchaErrorKind: "code",
     };
   }
 
@@ -509,6 +599,99 @@
     );
   }
 
+  // Fake "recently visited" dropdown shown right under the newtab omnibox.
+  // Looks like ordinary browser history; the ★ on the correct entry is the
+  // only hint, no explicit callout.
+  function historyDropdownHtml() {
+    var items = state.historyEntries
+      .map(function (entry, idx) {
+        return (
+          '<div class="history-item" data-idx="' +
+          idx +
+          '"><span class="hi-fav">' +
+          esc(entry.fav) +
+          '</span><span class="hi-domain">' +
+          esc(entry.domain) +
+          "</span>" +
+          (entry.star ? '<span class="star">★</span>' : "") +
+          "</div>"
+        );
+      })
+      .join("");
+    return (
+      '<div class="history-dropdown" id="historyDropdown">' + items + "</div>"
+    );
+  }
+
+  // One display slot per code character. While typing, filled slots just show
+  // the raw character (no red/green yet) so the player can't read the answer
+  // off the colors as they go; the reveal (ok/bad per position) only happens
+  // once they actually submit an attempt. Case-sensitive, like the code.
+  function renderTypedFeedback(typed, code, revealed) {
+    var out = "";
+    for (var i = 0; i < code.length; i++) {
+      var ch = typed.charAt(i);
+      if (!ch) {
+        out += '<span class="rt-char pending">_</span>';
+      } else if (!revealed) {
+        out += '<span class="rt-char typed">' + esc(ch) + "</span>";
+      } else if (ch === code.charAt(i)) {
+        out += '<span class="rt-char ok">' + esc(ch) + "</span>";
+      } else {
+        out += '<span class="rt-char bad">' + esc(ch) + "</span>";
+      }
+    }
+    return out;
+  }
+
+  // "Confirm you're not a robot" overlay gating entry to dreamjob.io.
+  function captchaHtml() {
+    if (!state.captchaOpen) return "";
+    return (
+      '<div class="dj-cookie dj-robot" id="djRobotModal"><div class="dj-cookie-card">' +
+      '<div class="cc-title">' +
+      esc(tr("flow.robot.title")) +
+      "</div>" +
+      '<div class="cc-body">' +
+      esc(tr("flow.robot.body")) +
+      "</div>" +
+      '<div class="robot-code" id="robotCode">' +
+      state.captchaCodeHtml +
+      "</div>" +
+      '<div class="robot-typed" id="robotTyped">' +
+      renderTypedFeedback("", state.captchaCode, false) +
+      "</div>" +
+      '<input class="robot-input" id="robotInput" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="' +
+      state.captchaCode.length +
+      '" placeholder="' +
+      esc(tr("flow.robot.ph")) +
+      '" />' +
+      '<div class="robot-error' +
+      (state.captchaError ? " show" : "") +
+      '" id="robotError">' +
+      esc(
+        tr(
+          state.captchaErrorKind === "check"
+            ? "flow.robot.mustCheck"
+            : "flow.robot.wrong",
+        ),
+      ) +
+      "</div>" +
+      '<div class="robot-checkrow" id="robotCheckRow">' +
+      '<span class="robot-checkbox' +
+      (state.captchaChecked ? " checked" : "") +
+      '" id="robotCheckBox"><span class="robot-checktick">✓</span></span>' +
+      '<span class="robot-checklabel">' +
+      esc(tr("flow.robot.notRobotLabel")) +
+      "</span>" +
+      "</div>" +
+      '<button class="cc-accept" id="robotConfirm">' +
+      esc(tr("flow.robot.confirm")) +
+      "</button>" +
+      "</div></div>"
+    );
+  }
+
   function viewFor(screen) {
     if (screen === "newtab") return viewNewTab();
     if (screen === "results") return viewResults();
@@ -566,6 +749,7 @@
       (isNewTab ? " focus" : "") +
       '">' +
       omniInner +
+      (isNewTab ? historyDropdownHtml() : "") +
       "</div></div>" +
       '<div class="bz-view" id="tjView">' +
       viewFor(state.screen) +
@@ -578,6 +762,8 @@
         : "") +
       // back-to-back consent walls cover the window on the results screen
       (state.screen === "results" ? resultsModalHtml() : "") +
+      // "not a robot" check gating entry to dreamjob.io from the newtab screen
+      (isNewTab ? captchaHtml() : "") +
       "</div></div></div>";
 
     wire();
@@ -644,26 +830,139 @@
   }
 
   function wireNewTab() {
-    var input = $("#omniInput"); // the editable address bar at the top
-    if (!input) return;
-    input.addEventListener("keydown", function (e) {
-      if (e.key !== "Enter") return;
-      if (!input.value.trim().length) return;
-      var v = normalizeUrl(input.value);
-      if (v === "jobs.derstandard.at" || v === "finden.at") {
-        // The player knows the genuinely good portals — instant win.
-        instantWin();
-      } else if (v === PLATFORM_URL) {
+    if (state.captchaOpen) {
+      wireRobotModal();
+      return;
+    }
+
+    var input = $("#omniInput"); // the editable address bar at the top (not called out in the UI)
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        if (!input.value.trim().length) return;
+        var v = normalizeUrl(input.value);
+        if (v === "jobs.derstandard.at" || v === "finden.at") {
+          // The player knows the genuinely good portals — instant win.
+          instantWin();
+        } else if (v === PLATFORM_URL) {
+          // Typed or clicked, dreamjob.io always goes through the robot check.
+          openCaptcha();
+        } else {
+          // wrong address: time penalty, stay on the page
+          penalty();
+        }
+      });
+      try {
+        input.focus();
+      } catch (e) {}
+    }
+
+    var r = root();
+    Array.prototype.forEach.call(
+      r.querySelectorAll(".history-item"),
+      function (item) {
+        item.addEventListener("click", function () {
+          var idx = Number(item.getAttribute("data-idx"));
+          var entry = state.historyEntries[idx];
+          if (entry && entry.correct) {
+            openCaptcha();
+            return;
+          }
+          item.classList.add("wrong");
+          setTimeout(function () {
+            item.classList.remove("wrong");
+          }, 460);
+          penalty();
+        });
+      },
+    );
+  }
+
+  function regenerateCode() {
+    var code = generateCode();
+    state.captchaCode = code;
+    state.captchaCodeHtml = renderDistortedCode(code);
+  }
+
+  // "Not a robot" check gating entry to dreamjob.io.
+  function openCaptcha() {
+    regenerateCode();
+    state.captchaChecked = false;
+    state.captchaError = false;
+    state.captchaOpen = true;
+    render();
+  }
+
+  function wireRobotModal() {
+    var r = root();
+    var input = r.querySelector("#robotInput"),
+      confirmBtn = r.querySelector("#robotConfirm"),
+      typedEl = r.querySelector("#robotTyped"),
+      checkRow = r.querySelector("#robotCheckRow"),
+      checkBox = r.querySelector("#robotCheckBox");
+
+    if (checkRow) {
+      checkRow.addEventListener("click", function () {
+        state.captchaChecked = !state.captchaChecked;
+        if (checkBox)
+          checkBox.classList.toggle("checked", state.captchaChecked);
+      });
+    }
+
+    function fail(kind) {
+      penalty();
+      if (input) input.disabled = true;
+      if (confirmBtn) confirmBtn.disabled = true;
+      setTimeout(function () {
+        regenerateCode();
+        state.captchaChecked = false;
+        state.captchaError = true;
+        state.captchaErrorKind = kind;
+        render();
+      }, 550);
+    }
+
+    function checkCode() {
+      // exact, case-sensitive match — that's the whole point of mixing in
+      // I/l/i and O/0 look-alikes.
+      var code = state.captchaCode;
+      var typed = input && input.value ? input.value : "";
+      // Reveal the red/green per-position result only now, on submit.
+      if (typedEl) typedEl.innerHTML = renderTypedFeedback(typed, code, true);
+      if (!state.captchaChecked) {
+        // Skipping the "I am not a robot" confirmation is a fail on its own,
+        // regardless of whether the code itself was typed correctly.
+        fail("check");
+        return;
+      }
+      if (typed && typed === code) {
+        state.captchaOpen = false;
         markStep("objStep2");
         go("results");
-      } else {
-        // wrong address: time penalty, stay on the page
-        penalty();
+        return;
       }
-    });
-    try {
-      input.focus();
-    } catch (e) {}
+      // wrong code: time penalty; let the reveal sit for a beat before the
+      // code regenerates and the field resets, so it isn't wiped instantly.
+      fail("code");
+    }
+
+    if (confirmBtn) confirmBtn.addEventListener("click", checkCode);
+    if (input) {
+      input.addEventListener("input", function () {
+        if (typedEl)
+          typedEl.innerHTML = renderTypedFeedback(
+            input.value,
+            state.captchaCode,
+            false,
+          );
+      });
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") checkCode();
+      });
+      try {
+        input.focus();
+      } catch (e) {}
+    }
   }
 
   // Shortcut victory: skip dreamjob.io entirely by going straight to a good portal.

@@ -5,6 +5,25 @@
 
   // ── helpers ──────────────────────────────────────────────────────────────────
 
+  // Reads the displayed (CSS-distorted but text-intact) robot-check code
+  // straight from the DOM and submits it, so debug jumps can sail through
+  // the newtab -> results step without solving the visual puzzle by hand.
+  function solveRobotCheck(flow) {
+    var chars = flow.querySelectorAll("#robotCode .rc-char");
+    if (!chars.length) return;
+    var code = Array.prototype.map.call(chars, function (el) {
+      return el.textContent;
+    }).join("");
+    var input = flow.querySelector("#robotInput");
+    if (input) {
+      input.value = code;
+      var checkRow = flow.querySelector("#robotCheckRow");
+      if (checkRow) checkRow.click();
+      var btn = flow.querySelector("#robotConfirm");
+      if (btn) btn.click();
+    }
+  }
+
   function hideAll() {
     // start screen
     var tjStart = document.getElementById("tjStart");
@@ -143,7 +162,7 @@
         if (flow) flow.style.display = "block";
         if (typeof window.startBewerbungsFlow === "function") {
           window.startBewerbungsFlow();
-          // Simulate typing the correct URL to advance to results
+          // Simulate typing the correct URL, then solving the robot check, to advance to results
           setTimeout(function () {
             var input = flow.querySelector("#omniInput");
             if (input) {
@@ -151,6 +170,9 @@
               input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
             }
           }, 50);
+          setTimeout(function () {
+            solveRobotCheck(flow);
+          }, 120);
         }
         if (typeof window.showGuide === "function") window.showGuide("DEBUG: Bewerbung — Results");
       },
@@ -164,7 +186,7 @@
         if (flow) flow.style.display = "block";
         if (typeof window.startBewerbungsFlow === "function") {
           window.startBewerbungsFlow();
-          // newtab → results → detail → apply
+          // newtab → robot check → results → detail → apply
           var steps = [
             function () {
               var input = flow.querySelector("#omniInput");
@@ -172,6 +194,9 @@
                 input.value = "dreamjob.io";
                 input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
               }
+            },
+            function () {
+              solveRobotCheck(flow);
             },
             function () {
               // dismiss cookie wall

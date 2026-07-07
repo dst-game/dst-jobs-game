@@ -253,6 +253,7 @@ h1 {
   pointer-events: none;
   opacity: 0;
   white-space: nowrap;
+  z-index: 999;
 }
 
 .punishment-label.animate {
