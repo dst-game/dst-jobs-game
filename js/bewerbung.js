@@ -313,6 +313,7 @@
       captchaChecked: false,
       captchaError: false,
       captchaErrorKind: "code",
+      captchaPrevLen: 0, // typed length last seen (for per-wrong-char penalty)
     };
   }
 
@@ -623,18 +624,15 @@
     );
   }
 
-  // One display slot per code character. While typing, filled slots just show
-  // the raw character (no red/green yet) so the player can't read the answer
-  // off the colors as they go; the reveal (ok/bad per position) only happens
-  // once they actually submit an attempt. Case-sensitive, like the code.
-  function renderTypedFeedback(typed, code, revealed) {
+  // One display slot per code character, live: green on a match at that
+  // position, red on a miss, still-empty slots shown as dim placeholders.
+  // Case-sensitive, like the code.
+  function renderTypedFeedback(typed, code) {
     var out = "";
     for (var i = 0; i < code.length; i++) {
       var ch = typed.charAt(i);
       if (!ch) {
         out += '<span class="rt-char pending">_</span>';
-      } else if (!revealed) {
-        out += '<span class="rt-char typed">' + esc(ch) + "</span>";
       } else if (ch === code.charAt(i)) {
         out += '<span class="rt-char ok">' + esc(ch) + "</span>";
       } else {
@@ -659,7 +657,7 @@
       state.captchaCodeHtml +
       "</div>" +
       '<div class="robot-typed" id="robotTyped">' +
-      renderTypedFeedback("", state.captchaCode, false) +
+      renderTypedFeedback("", state.captchaCode) +
       "</div>" +
       '<input class="robot-input" id="robotInput" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="' +
       state.captchaCode.length +
@@ -889,6 +887,7 @@
     regenerateCode();
     state.captchaChecked = false;
     state.captchaError = false;
+    state.captchaPrevLen = 0;
     state.captchaOpen = true;
     render();
   }
@@ -918,6 +917,7 @@
         state.captchaChecked = false;
         state.captchaError = true;
         state.captchaErrorKind = kind;
+        state.captchaPrevLen = 0;
         render();
       }, 550);
     }
@@ -927,8 +927,6 @@
       // I/l/i and O/0 look-alikes.
       var code = state.captchaCode;
       var typed = input && input.value ? input.value : "";
-      // Reveal the red/green per-position result only now, on submit.
-      if (typedEl) typedEl.innerHTML = renderTypedFeedback(typed, code, true);
       if (!state.captchaChecked) {
         // Skipping the "I am not a robot" confirmation is a fail on its own,
         // regardless of whether the code itself was typed correctly.
@@ -949,12 +947,19 @@
     if (confirmBtn) confirmBtn.addEventListener("click", checkCode);
     if (input) {
       input.addEventListener("input", function () {
-        if (typedEl)
-          typedEl.innerHTML = renderTypedFeedback(
-            input.value,
-            state.captchaCode,
-            false,
-          );
+        var typed = input.value;
+        var code = state.captchaCode;
+        if (typedEl) typedEl.innerHTML = renderTypedFeedback(typed, code);
+        // Every new character that lands on the wrong spot costs time —
+        // same lightweight penalty as a dictation typo — but only once per
+        // keystroke (ignore backspacing/re-typing the same length).
+        if (
+          typed.length > state.captchaPrevLen &&
+          typed.charAt(typed.length - 1) !== code.charAt(typed.length - 1)
+        ) {
+          penalty(15);
+        }
+        state.captchaPrevLen = typed.length;
       });
       input.addEventListener("keydown", function (e) {
         if (e.key === "Enter") checkCode();

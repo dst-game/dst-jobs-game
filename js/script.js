@@ -1328,16 +1328,15 @@ function loadGame(docs) {
 
   docs.forEach((d) => docsA.appendChild(makeDoc(d)));
 
-  // Open a random wrong file so the player doesn't land on the correct one immediately
+  // always open on the notes file
   const tabs = Array.from(docsA.querySelectorAll(".fe-tab"));
-  const wrongTabs = tabs.filter(
-    (_, i) => docs[i].name !== GAME_SETTINGS.correctFile,
-  );
-  if (wrongTabs.length > 0) {
+  const notesIdx = docs.findIndex((d) => d.name === "notizen_interview.txt");
+  const notesTab = notesIdx !== -1 ? tabs[notesIdx] : null;
+  if (notesTab) {
     // Suppress the "wrong file" guide hint for this auto-seeded open — it
     // should only fire the first time the player themselves picks a wrong file.
     wrongFileGuideShown = true;
-    wrongTabs[Math.floor(Math.random() * wrongTabs.length)].click();
+    notesTab.click();
     wrongFileGuideShown = false;
   }
 }

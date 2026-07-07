@@ -1291,10 +1291,6 @@
     color 0.1s var(--tj-ease),
     border-color 0.1s var(--tj-ease);
 }
-#tjFlow .robot-typed .rt-char.typed {
-  color: var(--tj-text);
-  border-color: var(--tj-violet-soft);
-}
 #tjFlow .robot-typed .rt-char.ok {
   color: var(--tj-success);
   border-color: var(--tj-success);
