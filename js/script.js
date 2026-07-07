@@ -61,6 +61,7 @@ let photoAdded = false;
 let typoFixed = false;
 let savedPhotoSrc = null;
 let addImageTypoGuideShown = false;
+let wrongFileGuideShown = false;
 let mistakeNow = false;
 let applyPhaseActive = false;
 let applyJumpCount = 0;
@@ -874,6 +875,7 @@ passwordInput.onkeydown = (e) => {
 function showFileExplorer() {
   loginBox.style.display = "none";
   gameBox.style.display = "block";
+  loadGame(DOCS);
   showGuidePriority(t("guide.rememberFile"));
   setTimeout(showMomCall, 350);
 }
@@ -1032,6 +1034,10 @@ function openPreview(name, content) {
   previewBody.scrollTop = 0;
   if (name !== GAME_SETTINGS.correctFile) {
     previewSave.style.display = "none";
+    if (!wrongFileGuideShown) {
+      wrongFileGuideShown = true;
+      showGuidePriority(t("guide.wrongFile"));
+    }
   } else {
     const traumjob = getTraumjob();
     if (traumjob) {
@@ -1056,7 +1062,10 @@ function openPreview(name, content) {
     }
     if (!addImageTypoGuideShown) {
       addImageTypoGuideShown = true;
+      wrongFileGuideShown = false;
       showGuidePriority(t("guide.addImageTypo"));
+      addImageTypoGuideShown = false;
+      // if user goes back to wrong file show wrong message again as long as they are on wrong files
     }
   }
 }
@@ -1352,7 +1361,11 @@ function loadGame(docs) {
     (_, i) => docs[i].name !== GAME_SETTINGS.correctFile,
   );
   if (wrongTabs.length > 0) {
+    // Suppress the "wrong file" guide hint for this auto-seeded open — it
+    // should only fire the first time the player themselves picks a wrong file.
+    wrongFileGuideShown = true;
     wrongTabs[Math.floor(Math.random() * wrongTabs.length)].click();
+    wrongFileGuideShown = false;
   }
 }
 
@@ -2068,8 +2081,6 @@ const DOCS = [
 // Build the analog watch face and set it to 11:55 before the game starts.
 buildAnalogTicks();
 updateDeskClock(0);
-
-loadGame(DOCS);
 
 // ─── Leaderboard ──────────────────────────────────────────────────
 const LEADERBOARD_KEY = "tj_leaderboard";

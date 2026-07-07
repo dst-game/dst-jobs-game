@@ -768,6 +768,9 @@
     var input = $("#dicInput");
     if (!input) return;
     input.addEventListener("input", updateDictate);
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") e.preventDefault();
+    });
     try {
       input.focus();
     } catch (e) {}

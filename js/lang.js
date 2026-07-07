@@ -163,10 +163,9 @@ const TRANSLATIONS = {
 
     // — Coffee power-up —
     "coffee.title": "Brauchst du mehr Energie?",
-    "guide.coffee":
-      "Ahh, Kaffee! ☕ Jetzt hast du wieder Energie — plus 60 Sekunden!",
+    "guide.coffee": "Ahh! Jetzt hast du wieder Energie — plus 60 Sekunden!",
     "guide.coffeeCapped":
-      "Ahh, Kaffee! ☕ Aber so lange läuft die Uhr noch gar nicht — du bekommst nur die {s} Sekunden zurück, die schon vorbei sind!",
+      "Ahh, Energy! Aber so lange läuft die Uhr noch gar nicht — du bekommst nur die {s} Sekunden zurück, die schon vorbei sind!",
     "spotlight.skip": "Überspringen",
 
     // — Guide (rabbit) messages —
@@ -176,6 +175,7 @@ const TRANSLATIONS = {
       "Oh, das sind ganz schön viele Dateien! Welche ist richtig?",
     "guide.addImageTypo":
       "Das scheint die richtige Bewerbung zu sein! Aber etwas stimmt noch nicht...",
+    "guide.wrongFile": "Nope, es ist nicht diese Datei. Such weiter!",
     "guide.stillWrong": "Hm, etwas stimmt nicht.",
     "guide.submitNow": "Super! Jetzt schick deine Bewerbung ab! Beeil dich!",
     "guide.almostOutOfTime": "OH NEIN, uns läuft die Zeit davon!!",
@@ -264,8 +264,8 @@ const TRANSLATIONS = {
     "flow.apply.footTodo": "Tipp den Satz bis zum Ende.",
     "flow.apply.footDone": "Anschreiben fertig — ab zum CV-Upload!",
     "flow.apply.cta": "CV hochladen",
-    "flow.apply.targetPre": "Sehr geehrtes Team, ich bin mit Leib und Seele ",
-    "flow.apply.targetPost": " und starte sofort durch.",
+    "flow.apply.targetPre": "Hiermit bewerbe ich mich als ",
+    "flow.apply.targetPost": ". Danke im Voraus.",
     "flow.guide.newtabPre": "Schnell — tipp ",
     "flow.guide.newtabPost": " oben in die Leiste, bevor’s zwölf schlägt!",
     "flow.guide.results":
@@ -471,9 +471,9 @@ const TRANSLATIONS = {
 
     // — Coffee power-up —
     "coffee.title": "Do you need more energy?",
-    "guide.coffee": "Ahh, coffee! ☕ Your energy is back — plus 60 seconds!",
+    "guide.coffee": "Ahh! Your energy is back — plus 60 seconds!",
     "guide.coffeeCapped":
-      "Ahh, coffee! ☕ But the clock hasn't been running that long — you only get back the {s} seconds that have already passed!",
+      "Ahh, energy! But the clock hasn't been running that long — you only get back the {s} seconds that have already passed!",
     "spotlight.skip": "Skip",
 
     // — Guide (rabbit) messages —
@@ -482,7 +482,8 @@ const TRANSLATIONS = {
     "guide.rememberFile":
       "Oh, that's a lot of files! Which one is the right one?",
     "guide.addImageTypo":
-      "That seems to be the right application! But something is still wrong here...",
+      "That seems to be the correct file! But something is still wrong here...",
+    "guide.wrongFile": "Nope, not the correct file. Keep looking!",
     "guide.stillWrong": "Something is still wrong!",
     "guide.submitNow": "Great! Now submit your application! Hurry up!",
     "guide.almostOutOfTime": "OH NO, we're almost out of time!!",
@@ -571,8 +572,8 @@ const TRANSLATIONS = {
     "flow.apply.footTodo": "Type the sentence to the end.",
     "flow.apply.footDone": "Cover letter done — on to the CV upload!",
     "flow.apply.cta": "Upload CV",
-    "flow.apply.targetPre": "Dear team, I am heart and soul a ",
-    "flow.apply.targetPost": " and ready to start right away.",
+    "flow.apply.targetPre": "I am applying for the position of ",
+    "flow.apply.targetPost": ". Thank you.",
     "flow.guide.newtabPre": "Quick — type ",
     "flow.guide.newtabPost": " into the bar up top before it strikes twelve!",
     "flow.guide.results":
