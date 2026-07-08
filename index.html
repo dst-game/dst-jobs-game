@@ -492,6 +492,15 @@
                         >
                           Eintragen &amp; anzeigen
                         </button>
+                        <p
+                          id="lbErrorMsg"
+                          class="lb-nickname-hint"
+                          style="display: none; color: var(--tj-danger)"
+                          data-i18n="lb.error"
+                        >
+                          Bestenliste konnte nicht geladen werden. Dein
+                          Ergebnis wurde nur lokal gespeichert.
+                        </p>
                       </div>
                     </div>
                     <!-- Step 2: Board -->
@@ -637,6 +646,66 @@
         </div>
       </div>
     </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        query,
+        orderByChild,
+        limitToLast,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBGIhN6gzldsxbVJVqtg0MYjC4wjxpwbjI",
+        authDomain: "dst-jobs-game.firebaseapp.com",
+        databaseURL:
+          "https://dst-jobs-game-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "dst-jobs-game",
+        storageBucket: "dst-jobs-game.firebasestorage.app",
+        messagingSenderId: "433439686744",
+        appId: "1:433439686744:web:48da087d92bd10cf3d0a2d",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // Save a new score
+      window.submitScore = function (nickname, remaining, dreamjob) {
+        const scoresRef = ref(db, "scores");
+        return push(scoresRef, {
+          nickname: nickname,
+          remaining: remaining,
+          dreamjob: dreamjob,
+          timestamp: Date.now(),
+        });
+      };
+
+      // Load top scores and display them
+      window.loadLeaderboard = function (callback) {
+        const scoresRef = query(
+          ref(db, "scores"),
+          orderByChild("remaining"),
+          limitToLast(20),
+        );
+        onValue(
+          scoresRef,
+          (snapshot) => {
+            const entries = [];
+            snapshot.forEach((child) => {
+              entries.push(child.val());
+            });
+            entries.sort((a, b) => b.remaining - a.remaining); // highest first
+            callback(entries);
+          },
+          { onlyOnce: true },
+        );
+      };
+    </script>
     <script src="js/lang.js"></script>
     <script src="js/script.js"></script>
     <script src="js/bewerbung.js"></script>

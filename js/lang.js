@@ -64,6 +64,8 @@ const TRANSLATIONS = {
     "lb.restartBtn": "Nochmal spielen",
     "lb.chip": "DU",
     "lb.timeLeft": "übrig",
+    "lb.saving": "Wird gespeichert…",
+    "lb.error": "Bestenliste konnte nicht geladen werden. Dein Ergebnis wurde nur lokal gespeichert.",
 
     // — CV Vorschau —
     "cv.jobHeadlinePre": "Bewerbung als ",
@@ -384,6 +386,8 @@ const TRANSLATIONS = {
     "lb.restartBtn": "Play again",
     "lb.chip": "YOU",
     "lb.timeLeft": "left",
+    "lb.saving": "Saving…",
+    "lb.error": "Couldn't load the leaderboard. Your score was only saved locally.",
 
     // — CV preview —
     "cv.jobHeadlinePre": "Application as ",

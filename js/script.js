@@ -1807,7 +1807,8 @@ function lbLoad() {
   }
 }
 
-function lbSave(nickname) {
+// Local fallback used only when Firebase is unreachable.
+function lbSaveLocal(nickname) {
   const scores = lbLoad();
   scores.push({
     nickname: nickname.trim(),
@@ -1820,6 +1821,20 @@ function lbSave(nickname) {
     localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
   } catch (e) {}
   return trimmed;
+}
+
+function lbLoadRemote() {
+  return new Promise((resolve, reject) => {
+    if (typeof window.loadLeaderboard !== "function") {
+      reject(new Error("Firebase leaderboard unavailable"));
+      return;
+    }
+    try {
+      window.loadLeaderboard(resolve);
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 function lbFmt(sec) {
@@ -1859,6 +1874,8 @@ function showLeaderboard() {
   const scoreDisplay = document.getElementById("lbScoreDisplay");
   if (!overlay) return;
   if (scoreDisplay) scoreDisplay.textContent = lbFmt(_lbRemainingAtWin);
+  const errorMsg = document.getElementById("lbErrorMsg");
+  if (errorMsg) errorMsg.style.display = "none";
   nicknameStep.style.display = "flex";
   boardStep.style.display = "none";
   overlay.style.display = "flex";
@@ -1866,7 +1883,7 @@ function showLeaderboard() {
   if (input) setTimeout(() => input.focus(), 50);
 }
 
-function lbSubmit() {
+async function lbSubmit() {
   const input = document.getElementById("lbNicknameInput");
   const nickname = input ? input.value.trim() : "";
   if (!nickname) {
@@ -1876,10 +1893,44 @@ function lbSubmit() {
     }
     return;
   }
-  const scores = lbSave(nickname);
-  const myIndex = scores.findIndex(
-    (e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin,
-  );
+
+  const submitBtn = document.getElementById("lbSubmitBtn");
+  const errorMsg = document.getElementById("lbErrorMsg");
+  const originalBtnText = submitBtn ? submitBtn.textContent : "";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = t("lb.saving");
+  }
+  if (errorMsg) errorMsg.style.display = "none";
+
+  const dreamjob = getTraumjob();
+  let scores;
+  let myIndex;
+
+  try {
+    await window.submitScore(nickname, _lbRemainingAtWin, dreamjob);
+    scores = await lbLoadRemote();
+    scores.sort((a, b) => b.remaining - a.remaining);
+    scores = scores.slice(0, 20);
+    myIndex = scores.findIndex(
+      (e) =>
+        e.nickname === nickname &&
+        e.remaining === _lbRemainingAtWin &&
+        e.dreamjob === dreamjob,
+    );
+  } catch (e) {
+    scores = lbSaveLocal(nickname);
+    myIndex = scores.findIndex(
+      (e) => e.nickname === nickname && e.remaining === _lbRemainingAtWin,
+    );
+    if (errorMsg) errorMsg.style.display = "block";
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
+  }
+
   document.getElementById("lbNicknameStep").style.display = "none";
   document.getElementById("lbBoardStep").style.display = "flex";
   lbRender(scores, myIndex);
