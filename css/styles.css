@@ -1578,7 +1578,7 @@ a.dst-win-link:hover {
 /* Lebensläufe */
 #lebenslauf-graphic {
   position: relative;
-  max-width: 900px;
+  max-width: 70%;
   margin: auto;
   padding: 20px;
   background: linear-gradient(180deg, #ffffcc, #ffccff);
@@ -1591,6 +1591,7 @@ a.dst-win-link:hover {
   transform: rotate(-0.5deg);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
   overflow: hidden;
+  font-size: 15px;
 }
 
 #lebenslauf-graphic:before {
@@ -1632,7 +1633,7 @@ a.dst-win-link:hover {
 #lebenslauf-graphic .hero img {
   flex: 1 1 320px;
   width: 100%;
-  max-width: 450px;
+  max-width: 300px;
   min-width: 250px;
   border: 12px groove hotpink;
   transform: rotate(-2deg);
@@ -1645,7 +1646,7 @@ a.dst-win-link:hover {
   background: #ffffffaa;
   border: 4px dashed red;
   padding: 15px;
-  font-size: 20px;
+  /* font-size: 20px; */
 }
 
 #lebenslauf-graphic .blink {
@@ -1668,8 +1669,9 @@ a.dst-win-link:hover {
 }
 
 #lebenslauf-graphic ul {
-  margin: 0;
+  margin: 0 0 0 8em;
   padding-left: 25px;
+  text-align: left;
 }
 
 #lebenslauf-graphic .footer {
@@ -1702,9 +1704,14 @@ a.dst-win-link:hover {
     font-size: 22px;
   }
 }
-
+#cvpadding {
+  background-color: #fff;
+}
+#cvpadding .contento {
+  padding: 0 7em;
+}
 #lebenslauf-maus {
-  max-width: 920px;
+  max-width: 70%;
   margin: auto;
   padding: clamp(18px, 4vw, 38px);
   font-family:
@@ -1730,7 +1737,7 @@ a.dst-win-link:hover {
   content: "☀️";
   position: absolute;
   top: 18px;
-  right: 24px;
+  left: 24px;
   font-size: clamp(48px, 8vw, 88px);
   animation: maus-sun 4s infinite alternate ease-in-out;
 }
@@ -1777,7 +1784,7 @@ a.dst-win-link:hover {
 
 #lebenslauf-maus h1 {
   margin: 0;
-  font-size: clamp(42px, 8vw, 82px);
+  font-size: 2em;
   line-height: 0.95;
   color: #ff75b7;
   text-shadow:
@@ -1826,8 +1833,9 @@ a.dst-win-link:hover {
 }
 
 #lebenslauf-maus ul {
-  margin: 0;
+  margin: 0 0 0 6em;
   padding-left: 24px;
+  text-align: left;
 }
 
 #lebenslauf-maus li::marker {
@@ -2024,10 +2032,11 @@ a.dst-win-link:hover {
   background: #fafafa;
   border: 1px solid #d9d9d9;
   font-family: Courier, monospace;
-  color: #444;
+  color: #808080;
   overflow: hidden;
   text-align: left;
   border-radius: 25px;
+  font-size: 16px;
 }
 
 #notes-editor .note {
@@ -2088,6 +2097,7 @@ a.dst-win-link:hover {
   color: #d60000;
   font-weight: bold;
   text-transform: uppercase;
+  font-style: italic;
 }
 
 #notes-editor .cv-game {
@@ -2398,8 +2408,8 @@ a.dst-win-link:hover {
 
 #lebenslauf-correct {
   font-family: var(--tj-font-mono);
-  background-color: #0a082c;
-  width: 100%;
+
+  margin: 0 7em;
 }
 
 #lebenslauf-correct h1 {
@@ -2499,7 +2509,9 @@ a.dst-win-link:hover {
   margin: 0;
   overflow-wrap: anywhere;
 }
-
+#lebenslauf-correct li {
+  margin-bottom: 1em;
+}
 #lebenslauf-correct hr {
   border: 0;
   border-top: 1px solid rgba(21, 241, 243, 0.35);
@@ -2582,7 +2594,13 @@ a.dst-win-link:hover {
   border-radius: 999px;
   font-size: clamp(0.78rem, 0.75vw, 0.95rem);
 }
-
+#lebenslauf-correct p {
+  text-align: left;
+  margin-bottom: 2em;
+}
+#lebenslauf-correct ul {
+  text-align: left;
+}
 @container (min-width: 900px) {
   #lebenslauf-correct .content {
     grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
@@ -2642,7 +2660,9 @@ a.dst-win-link:hover {
   #lebenslauf-correct .dreamjobjob {
     font-size: 0.95rem;
   }
-
+  #lebenslauf-correct #dreamjobjob {
+    margin-top: 2em;
+  }
   #lebenslauf-correct .stat-grid {
     grid-template-columns: 1fr;
   }
@@ -2742,7 +2762,7 @@ a.dst-win-link:hover {
   left: -7%;
   margin-top: -1px;
   background: linear-gradient(180deg, #23232e, #13131a);
-  clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
+  clip-path: polygon(6.3% 0, 93.7% 0, 100% 100%, 0 100%);
   border-radius: 0 0 16px 16px;
   padding: 5.5% 7% 3.2%;
 }

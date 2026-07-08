@@ -1072,7 +1072,7 @@ previewSave.addEventListener("click", () => {
 
 previewBody.addEventListener("click", (e) => {
   if (e.target.classList.contains("typo")) {
-    e.target.textContent = "Bewerbung";
+    e.target.textContent = "Profil";
     e.target.classList.remove("typo");
     typoFixed = true;
     checkAndShowMomToast();
@@ -1388,317 +1388,13 @@ function getTraumjob() {
 }
 
 const DOCS = [
-  // {
-  //   ext: "PDF",
-  //   name: "lebenslauf_alt.pdf",
-  //   content: `
-  //    <div class="cv-game">
-  //     <div class="content">
-  //       <main class="left">
-  //         <h1>Jessie James · Software Developer</h1>
-  //         <h2>jessie.james@meowth.at</h2>
-
-  //         <p class="tagline">
-  //           Creative Software Developer with a trainer mindset: curious,
-  //           strategic, team-focused, and always ready to evolve. I build clean
-  //           interfaces, playful digital experiences, and reliable web
-  //           applications that feel fast, useful, and memorable.
-  //         </p>
-
-  //         <div class="meta">
-  //           <span class="pill">Region: Vienna / Remote</span>
-  //           <span class="pill">Portfolio: jessiejames.dev</span>
-  //           <span class="pill">GitHub: github.com/jessiejames</span>
-  //           <span class="pill">LinkedIn: /in/jessie-james</span>
-  //         </div>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Trainer Profile</strong><br />
-  //             I approach every project like a new route: scout the challenge,
-  //             choose the right tools, level up the solution, and support the
-  //             team until the final release. My strengths are structured
-  //             thinking, visual polish, debugging stamina, and a love for
-  //             interactive, game-inspired user experiences.
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Mission Statement</strong><br />
-  //             To create digital products that are as intuitive as a
-  //             well-designed game menu and as reliable as a trusted battle
-  //             partner. I combine technical structure with strong visual identity
-  //             so every interface feels useful, energetic, and fun.
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <strong>Experience</strong><br /><br />
-
-  //           <div class="timeline-item">
-  //             <b>DST GmbH — Junior Developer</b><br />
-  //             <span>2021–2023 · Main Quest</span><br />
-  //             Developed and maintained web interfaces, supported smaller backend
-  //             features, fixed bugs, tested releases, and coordinated with design
-  //             and project management teams.
-  //           </div>
-
-  //           <div class="timeline-item">
-  //             <b>Freelance — Web Developer</b><br />
-  //             <span>2020–2021 · Side Quest Chain</span><br />
-  //             Created landing pages, portfolio websites, and small CMS solutions
-  //             for local clients, with a focus on responsive layouts and clear
-  //             content structure.
-  //           </div>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <strong>Education</strong><br /><br />
-
-  //           <div class="timeline-item">
-  //             <b>HTL Paldea — Computer Science</b><br />
-  //             <span>2015–2020 · Training Academy</span><br />
-  //             Focus on software development, databases, networking, web
-  //             development, project work, and technical documentation.
-  //           </div>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <strong>Projects</strong><br /><br />
-
-  //           <div class="timeline-item">
-  //             <b>Creature Index Web App</b><br />
-  //             React, REST API integration, responsive UI, search, filter logic,
-  //             card layouts, and collection-style browsing.
-  //           </div>
-
-  //           <div class="timeline-item">
-  //             <b>Portfolio Quest</b><br />
-  //             Gamified portfolio with HTML, CSS, JavaScript, micro-animations,
-  //             quest sections, badges, and achievement-style progress feedback.
-  //           </div>
-
-  //           <div class="timeline-item">
-  //             <b>Application Portal</b><br />
-  //             PHP, MySQL, login system, application overview, admin dashboard,
-  //             and structured candidate data management.
-  //           </div>
-
-  //           <div class="timeline-item">
-  //             <b>Battle UI Prototype</b><br />
-  //             Experimental interface inspired by turn-based game screens,
-  //             including action buttons, animated status bars, and responsive
-  //             card components.
-  //           </div>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Certificates</strong><br />
-  //             JavaScript Algorithms — freeCodeCamp<br />
-  //             Scrum Basics — 2023<br />
-  //             UX Fundamentals — 2022<br />
-  //             Responsive Web Design — 2021
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Awards</strong><br />
-  //             Best UI Concept — HTL Project Week<br />
-  //             Hackathon Finalist — Code & Coffee Vienna<br />
-  //             Internal Recognition — Bug Hunter of the Month
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Volunteer Work</strong><br />
-  //             Coding mentor for beginners<br />
-  //             Support for local open-source meetups<br />
-  //             Website maintenance for a small community project
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Languages</strong><br />
-  //             German — Native<br />
-  //             English — Very good<br />
-  //             Japanese — Basics
-  //           </p>
-  //         </section>
-
-  //         <hr />
-
-  //         <section>
-  //           <p>
-  //             <strong>Interests</strong><br />
-  //             Game design, UI animation, retro tech, open source, pixel art,
-  //             creative coding, indie games, creature collecting games, strategy
-  //             systems, and playful onboarding flows.
-  //           </p>
-  //         </section>
-  //       </main>
-
-  //       <aside class="right">
-  //         <div class="applypic"></div>
-
-  //         <div class="sidebox">
-  //           <h2>Trainer Class</h2>
-  //           <div class="stat-grid">
-  //             <div class="stat">
-  //               <b>LVL 23</b>
-  //               Frontend Trainer
-  //             </div>
-  //             <div class="stat">
-  //               <b>XP 8,420</b>
-  //               Next Evolution: 9,000
-  //             </div>
-  //             <div class="stat">
-  //               <b>Region</b>
-  //               Web Dev League
-  //             </div>
-  //             <div class="stat">
-  //               <b>Role</b>
-  //               UI Tactician
-  //             </div>
-  //           </div>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Type Match</h2>
-  //           <div class="type-row">
-  //             <span class="type electric">Electric UI</span>
-  //             <span class="type psychic">Psychic Logic</span>
-  //             <span class="type water">Fluid Layouts</span>
-  //             <span class="type steel">Robust Code</span>
-  //           </div>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Move Set</h2>
-
-  //           <div class="skill">
-  //             <span><b>HTML/CSS</b><b>95%</b></span>
-  //             <div class="bar"><div style="width: 95%"></div></div>
-  //             <small>Move: Pixel Beam · Accuracy 95</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>JavaScript</b><b>82%</b></span>
-  //             <div class="bar"><div style="width: 82%"></div></div>
-  //             <small>Move: Logic Spark · Accuracy 82</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>React</b><b>72%</b></span>
-  //             <div class="bar"><div style="width: 72%"></div></div>
-  //             <small>Move: Component Call · Accuracy 72</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>PHP/MySQL</b><b>65%</b></span>
-  //             <div class="bar"><div style="width: 65%"></div></div>
-  //             <small>Move: Data Dig · Accuracy 65</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>UX/UI Design</b><b>78%</b></span>
-  //             <div class="bar"><div style="width: 78%"></div></div>
-  //             <small>Move: Interface Charm · Accuracy 78</small>
-  //           </div>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Support Stats</h2>
-
-  //           <div class="skill">
-  //             <span><b>Teamwork</b><b>90%</b></span>
-  //             <div class="bar"><div style="width: 90%"></div></div>
-  //             <small>Double Battle synergy unlocked</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>Problem Solving</b><b>88%</b></span>
-  //             <div class="bar"><div style="width: 88%"></div></div>
-  //             <small>Critical-hit thinking buff</small>
-  //           </div>
-
-  //           <div class="skill">
-  //             <span><b>Communication</b><b>84%</b></span>
-  //             <div class="bar"><div style="width: 84%"></div></div>
-  //             <small>Trainer-to-team clarity boost</small>
-  //           </div>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Inventory</h2>
-  //           <div class="tools">
-  //             <span class="tool">VS Code</span>
-  //             <span class="tool">Git</span>
-  //             <span class="tool">Figma</span>
-  //             <span class="tool">Docker</span>
-  //             <span class="tool">Node.js</span>
-  //             <span class="tool">WordPress</span>
-  //             <span class="tool">MySQL</span>
-  //             <span class="tool">Jira</span>
-  //           </div>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Badges</h2>
-  //           <ul class="badges">
-  //             <li>Thunder Badge — Fast Learner</li>
-  //             <li>Pixel Badge — Pixel Perfect</li>
-  //             <li>Bug Badge — Bug Hunter</li>
-  //             <li>Union Badge — Team Player</li>
-  //             <li>Refactor Badge — Clean Code Crafter</li>
-  //             <li>Sprint Badge — Deadline Sprinter</li>
-  //           </ul>
-  //         </div>
-
-  //         <div class="sidebox">
-  //           <h2>Quest Log</h2>
-  //           <ul class="questlog">
-  //             <li>Main Quest: Build useful, beautiful web apps</li>
-  //             <li>Side Quest: Improve accessibility in every project</li>
-  //             <li>Daily Quest: Learn one new development move</li>
-  //             <li>Gym Challenge: Ship polished, responsive interfaces</li>
-  //             <li>Boss Fight: Refactor legacy code without fear</li>
-  //           </ul>
-  //         </div>
-  //       </aside>
-  //     </div>
-  //   </div>
-  //   `,
-  // },
   {
     ext: "PDF",
     name: "lebenslauf_neu.pdf",
     content: `
   
 <div id="lebenslauf-graphic">
-  <div class="wordart">THOMAS CRUISE</div>
+  <div class="wordart">THOMASINE CRUISE</div>
 
   <div class="marquee">
     ★ AVAILABLE FOR GRAPHIC DESIGN ★ 
@@ -1707,14 +1403,14 @@ const DOCS = [
   <div class="hero">
     <img
       src="https://hypership.uk/uploads/20260616082732_00_graphic.png"
-      alt="Thomas Cruise Lebenslauf"
+      alt="Thomasine Cruise Lebenslauf"
     />
 
     <div class="intro">
-      <strong>Thomas Cruise</strong><br />
+      <strong>Thomasine Cruise</strong><br />
       Senior Graphic Wizard™<br />
       📧 graphic_impossible@scientology.com<br />
-      🌐 myspace.com/thomascruise2007<br /><br />
+      🌐 myspace.com/thomasinecruise2007<br /><br />
 
       <span class="blink"> ★ Winner of "Best ClipArt Placement 2009" ★ </span>
     </div>
@@ -1724,7 +1420,7 @@ const DOCS = [
   <div class="section">
     <h2>Berufserfahrung</h2>
 
-      <p>***</p>
+
     <p>
       <strong>Lead WordArt Engineer</strong><br />
       Microsoft FrontPage Fanclub (2014–heute)
@@ -1739,13 +1435,13 @@ const DOCS = [
       <strong>Intern bei Paint</strong><br />
       MS Paint Ultimate Edition (2006–2008)
     </p>
-      <p>***</p>
+     
   </div>
 
   <div class="section">
     <h2>Fähigkeiten</h2>
 
-      <p>***</p>
+     
     <ul>
       <li>PowerPoint Übergänge auf Maximum</li>
       <li>WordArt (Expert Level)</li>
@@ -1755,13 +1451,13 @@ const DOCS = [
       <li>MySpace Profil Optimierung</li>
       <li>HTML Tabellen Layouts ohne CSS</li>
     </ul>
-      <p>***</p>
+      
   </div>
 
   <div class="section">
     <h2>Software Kenntnisse</h2>
 
-      <p>***</p>
+  
     <ul>
       <li>Microsoft Word 2003 ★★★★★</li>
       <li>Paint ★★★★★</li>
@@ -1769,12 +1465,12 @@ const DOCS = [
       <li>Winamp Skins ★★★★★</li>
       <li>Photoshop CS2 (Testversion) ★★★☆☆</li>
     </ul>
-      <p>  <p>***</p></p>
+   
   </div>
 
   <div class="section">
     <h2>Referenzen</h2>
-   <p>***</p>
+
     <p>
       „Bitte hör auf Designs zu machen.“<br />
       — ehemaliger Kunde
@@ -1784,7 +1480,7 @@ const DOCS = [
       „Das ist technisch gesehen eine Webseite.“<br />
       — unabhängiger Gutachter
     </p>
-    <p>***</p>
+  
   </div>
 
   <div class="footer">
@@ -1819,20 +1515,22 @@ const DOCS = [
     />
 
     <div>
-      <h1>Gustav Mäuschen</h1>
-      <div class="claim">„Morgenstund hat Kaffee im Mund.“ ☕🐭</div>
+      <h1> <span style="font-size: 15px">Lebenslauf von</span><br>Gustav Mäuschen
+    </h1>
+      <div class="claim" style="font-size: 24px">„Morgenstund hat Kaffee im Mund.“ ☕🐭</div>
       <div class="kontakt">
-        Motivierte Teilzeit-Maus · schabernack@mausmail.at<br />
-        Bereit, heute meine vollen 50% zu geben.
+      
+        Bereit, heute meine vollen 50% zu geben. <br>
+        31.02.2014
       </div>
     </div>
   </div>
 
   <div class="bereich">
     <h2>Profil</h2>
-    <p>
-      Ich bin just a Maus who needs money für Schabernack. Sehr süß, sehr
-      bemüht, sehr sonnenscheinmäßig unterwegs. Ich bringe gute Laune, kleine
+    <p style="font-size: 15px">
+      Ich bin just a Maus who needs money für Schabernack. <br> Sehr süß, sehr
+      bemüht, sehr sonnenscheinmäßig unterwegs. <br>Ich bringe gute Laune, kleine
       Pfötchen und eine überraschend starke Motivation für halbwegs wichtige
       Aufgaben mit.
     </p>
@@ -1840,47 +1538,40 @@ const DOCS = [
 
   <div class="bereich">
     <h2>Fähigkeiten</h2>
-    <ul>
-      <li>Käsebasierte Problemlösung</li>
-      <li>50% Einsatz mit 100% Cute-Faktor</li>
-      <li>Kaffee trinken und dabei wichtig schauen</li>
+    <ul >   <li style="font-size: 15px">Motiviert nicken in Meetings</li>   <li style="font-size: 15px">Schabernack planen</li>   <li style="font-size: 15px">Kaffee trinken und dabei wichtig schauen</li>
+     
+      <li style="font-size: 15px">50% Einsatz mit 100% Cute-Faktor</li>
+   
 
-      <li>Schabernack planen</li>
+   
 
-      <li>Sehr kleine, aber ernst gemeinte Excel-Tabellen</li>
-      <li>Motiviert nicken in Meetings</li>
+      <li style="font-size: 15px">Sehr kleine, aber ernst gemeinte Excel-Tabellen</li>
+   
     </ul>
 
-    <div class="badgebox">
-      <span class="badge">cute</span>
-      <span class="badge">mausig</span>
-      <span class="badge">pastell</span>
-      <span class="badge">kaffee</span>
-      <span class="badge">schabernack-ready</span>
-    </div>
+    
   </div>
-
+ <div class="bereich">
+    <h2>Referenzen</h2>
+    <p>
+      „Kommt vielleicht zu spät, aber dafür sehr lieb.“
+    </p>
+  </div>
   <div class="bereich">
     <h2>Ausbildung</h2>
-    <p>
+    <p style="font-size: 15px">
       <strong>Akademie für kleine Dinge mit großer Wirkung</strong><br />
       Diplom in Mausmanagement & Snack Logistics
     </p>
   </div>
-  <div class="bereich">
-    <h2>Referenzen</h2>
-    <p>
-      „Kommt vielleicht zu spät, aber dafür sehr lieb.“<br />
-      — ehemaliger Käsegeber
-    </p>
-  </div>
+ 
   <div class="bereich">
     <h2>Berufserfahrung</h2>
-    <p>
+    <p style="font-size: 15px">
       <strong>Junior Schabernack Consultant</strong><br />
       Käse & Chaos GmbH · 2022–heute
     </p>
-    <p>
+    <p style="font-size: 15px">
       <strong>Assistant to the Regional Sonnenstrahl</strong><br />
       Maus Office Collective · 2020–2022
     </p>
@@ -1889,7 +1580,13 @@ const DOCS = [
   <div class="footer">
     🐭 verfügbar ab sofort · bevorzugt nach Kaffee · bezahlt gerne in Geld oder
     Käse 🧀
-  </div>
+  </div><div class="badgebox">
+      <span class="badge">cute</span>
+      <span class="badge">mausig</span>
+      <span class="badge">pastell</span>
+      <span class="badge">kaffee</span>
+      <span class="badge">schabernack-ready</span>
+    </div>
 </div>
 
   
@@ -1904,13 +1601,14 @@ const DOCS = [
   
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIEL ERFOLG BEIM BEWERBEN</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I LUV YOU  <3 </div>
-       <div class="note" style="color: rgb(209, 58, 154); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEIN GUSTAV</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIEL ERFOLG BEIM BEWERBEN</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I LUV YOU  <3 </div>
+       <div class="note" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEIN GUSTAV</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-       <div class="note" style="color: rgb(209, 58, 61); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<3 <3 <3 <3 <3 <3</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+       <div class="note" style="color: rgb(209, 58, 61); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PS: Vergiss nicht ein Foto </div>
+       <div class="note" style="color: rgb(209, 58, 61); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;für den Lebenslauf zu schiessen!!</div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <3 <3 <3 <3 <3 <3</div>
+            <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
      
@@ -1923,82 +1621,82 @@ const DOCS = [
     ext: "PDF",
     name: "lebenslauf_finalfinal.pdf",
     content: `
-  <div id="lebenslauf-correct">
-  <h2 id="dreamjobjob"></h2>
+<div id="lebenslauf-correct">
   <div class="content">
     <main class="left">
       <div class="missing-image">
-        <img
-          src="images/nopfp.png"
-        />
+        <img src="images/nopfp.png" />
       </div>
       <hr />
-      <p><strong class="cvname">MEIN LEBENSLAUF</strong></p>
+      <h2 id="dreamjobjob"></h2>
       <hr />
-      <p>
-        <strong>Profil</strong><br />
-        Erfahrung in kompetitiven Multiplayer- und
-        Story-Spielen. Bekannt für strategisches Denken, Ausdauer bei
-        schwierigen Challenges und die Fähigkeit, komplexe Systeme schnell zu
-        verstehen. Motiviert durch Fortschritt, Teamplay und das Freischalten
-        neuer Achievements.
-      </p>
-      <hr />
-      <p>
-        <strong>Spielerfahrung</strong><br />
-        Open World Enthusiast (2020–heute)<br />
-        Koop-Strategin (2018–heute)<br />
-        Achievement Hunter (2016–heute)
-      </p>
-      <hr />
-      <p>
-        <strong>Gaming Highlights</strong></p>
       <ul>
-  <li>
-    Clair Obscur: Expedition 33 — mehrere anspruchsvolle Bosskämpfe erfolgreich gemeistert.
-  </li>
-  <li>
-    Assassin's Creed Shadows — zahlreiche Gebiete vollständig erkundet und Nebenmissionen abgeschlossen.
-  </li>
-  <li>
-    Baldur's Gate 3 — verschiedene Story-Pfade und Builds getestet.
-  </li>
-  <li>
-    Fortnite — regelmäßige Top-Platzierungen in saisonalen Events.
-  </li>
-  <li>
-    Minecraft — umfangreiche Survival- und Kreativprojekte umgesetzt.
-  </li>
-</ul>
-      
+    <strong>  <span class="typo">  Profiell</span></strong
+        ><br />
+        <li>Erfahrung in kompetitiven Multiplayer- und Story-Spielen.</li>
+        <li>
+          Bekannt für strategisches Denken, Ausdauer bei schwierigen Challenges
+          und die Fähigkeit, komplexe Systeme schnell zu verstehen.
+        </li>
+        <li>
+          Motiviert durch Fortschritt, Teamplay und das Freischalten neuer
+          Achievements.
+        </li>
+      </ul>
       <hr />
       <p>
-        <strong>Skills</strong><br />
-        Strategie · Teamplay · Ressourcenmanagement · Problemlösung · Ausdauer ·
-        Reaktionsgeschwindigkeit · Orientierung · Kommunikation · Questplanung ·
-        Achievement Tracking
+        <strong>Spielerfahrung</strong>
       </p>
+      <ul>
+        <li>Open World Enthusiast (2020–heute)</li>
+        <li>Koop-Strategin (2018–heute)</li>
+        <li>Achievement Hunter (2016–heute)</li>
+      </ul>
       <hr />
       <p>
-        <strong>Achievements</strong><br />
-        100%-Abschlüsse in mehreren Open-World-Spielen.<br />
-        Seltene Ingame-Erfolge freigeschaltet.<br />
-        Zahlreiche Koop-Kampagnen erfolgreich abgeschlossen.<br />
-        Langjährige Erfahrung mit RPGs, Action-Adventures und Strategiespielen.
+        <strong>Gaming Highlights</strong>
       </p>
+      <ul>
+        <li>
+          Clair Obscur: Expedition 33 — mehrere anspruchsvolle Bosskämpfe
+          erfolgreich gemeistert.
+        </li>
+        <li>
+          Assassin's Creed Shadows — zahlreiche Gebiete vollständig erkundet und
+          Nebenmissionen abgeschlossen.
+        </li>
+        <li>Baldur's Gate 3 — verschiedene Story-Pfade und Builds getestet.</li>
+        <li>Fortnite — regelmäßige Top-Platzierungen in saisonalen Events.</li>
+        <li>
+          Minecraft — umfangreiche Survival- und Kreativprojekte umgesetzt.
+        </li>
+      </ul>
+
       <hr />
-      <p>
-        <strong>Lieblingsgenres</strong><br />
-        RPG · Open World · Adventure · Strategie · Survival · Koop · Sandbox
-      </p>
-      <hr />
-      <p>
-        Diese <span class="typo">Bewrbung</span> wurde sorgfältig vorbereitet.
-      </p>
+  
     </main>
     <aside class="right">
       <div class="sidebox">
-        <h2>Player Card</h2>
+        <p>
+          <strong>Achievements</strong>
+        </p>
+        <ul>
+          <li>100%-Abschlüsse in mehreren Open-World-Spielen.</li>
+          <li>Seltene Ingame-Erfolge freigeschaltet.</li>
+          <li>Zahlreiche Koop-Kampagnen erfolgreich abgeschlossen.</li>
+          <li>
+            Langjährige Erfahrung mit RPGs, Action-Adventures und
+            Strategiespielen.
+          </li>
+        </ul>
+        <hr />
+        <p>
+          <strong>Lieblingsgenres</strong><br />
+          RPG · Open World · Adventure · Strategie · Survival · Koop · Sandbox
+        </p>
+      
+      </div>
+      <div class="sidebox">
         <div class="stat-grid">
           <div class="stat"><b>LVL 37</b> Explorer</div>
           <div class="stat"><b>XP 14.800</b> Next Level Soon</div>
@@ -2007,13 +1705,15 @@ const DOCS = [
         </div>
       </div>
       <div class="sidebox">
-        <h2>Badges</h2>
+        <h2>Skills</h2>
         <ul class="badges">
-          <li>Explorer Badge</li>
-          <li>Quest Completion Badge</li>
-          <li>Teamplay Badge</li>
-          <li>Bossfight Badge</li>
-          <li>Collector Badge</li>
+       
+  <li> 
+        Strategie</li><li>  Teamplay</li><li>  Ressourcenmanagement</li><li>  Problemlösung</li><li>  Ausdauer</li><li> 
+        Reaktionsgeschwindigkeit</li><li>  Orientierung</li><li>  Kommunikation</li><li>  Questplanung</li><li> 
+        Achievement Tracking
+     </li>
+   
         </ul>
       </div>
       <div class="sidebox">
@@ -2026,6 +1726,7 @@ const DOCS = [
     </aside>
   </div>
 </div>
+
     `,
   },
   {
@@ -2034,7 +1735,7 @@ const DOCS = [
     content: `
      <img
       src="https://hypership.uk/uploads/20260616082039_00_spngememe.png"
-      alt="spongebob" width="100%"
+      alt="spongebob" width="70%"
     />
     `,
   },
@@ -2042,17 +1743,18 @@ const DOCS = [
     ext: "PDF",
     name: "zeugnisse_scan.pdf",
     content: `
-         <img
+    <div id="cvpadding">
+         <img class="contento"
       src="https://hypership.uk/uploads/20260616090824_00_ryley.png"
-      alt="ryleyrobinson" width="100%"
-    />
+      alt="ryleyrobinson" width="85%"
+    /> </div>
     `,
   },
 
   {
     ext: "PNG",
     name: "foto_bewerbung.png",
-    content: `<img src="https://hypership.uk/uploads/20260616124832_00_593d999ade165331c70dbab9a6cd44e5.jpg" alt="oldguy" width="100%">`,
+    content: `<img src="https://hypership.uk/uploads/20260616124832_00_593d999ade165331c70dbab9a6cd44e5.jpg" alt="oldguy" width="85%">`,
   },
 
   {
@@ -2060,29 +1762,30 @@ const DOCS = [
     name: "notizen_interview.txt",
     content: `
  <div id="notes-editor">
-    <h3>&nbsp;&nbsp;&nbsp;&nbsp; Notizen — Vorstellungsgespräch</h3>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notizen — Vorstellungsgespräch</h3>
 
-    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fragen ob gratis Kaffee?</div>
-    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Homeoffice?</div>
-    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Zu spät kommen schlimm?</div>
-    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Lieblingstier</div>
-    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-TODO:</div>
-    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->Neues Foto hochladen </div>
-    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->auf Typos kontrollieren</div>
-     <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Ist Obstkorb der einzige Benefit???</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fragen ob gratis Kaffee?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Homeoffice?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Zu spät kommen schlimm?</div>
+    <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Lieblingstier</div> <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Ist Obstkorb der einzige Benefit???</div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-TODO:</div>    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)Wo ist mein aktueller Lebenslauf?? </div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)Neues Foto hochladen </div>
+    <div class="note todo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)auf Typos kontrollieren</div>
+    
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wo ist mein aktueller Lebenslauf?</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Der Graphic Design Lebenslauf </div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ist wohl nicht mehr aktuell..</div>
+      
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Der Graphic Design Lebenslauf </div>
+       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ist wohl nicht mehr aktuell..</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-       <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCHILDKRÖTE?!?!?!?</div>
+       <div class="note" style="color:green; font-weight: bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCHILDKRÖTE?!?!?!?</div>
        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
      
-       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EKL:</div>
-       <div class="ekl note ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Energy Drinks</div>
-       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomaten</div>
-       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spaghetti</div>
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kaufen:</div>
+       <div class="ekl note ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Energy Drinks</div>
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomaten</div>
+       <div class="ekl note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spaghetti</div>
+        <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div> <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div> <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div> <div class="note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 </div>
     `,
   },
