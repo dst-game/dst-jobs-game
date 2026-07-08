@@ -474,8 +474,27 @@ async function openCamera() {
     cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoEl.srcObject = cameraStream;
   } catch {
-    cameraScreen.style.display = "none";
+    useFallbackPhoto();
   }
+}
+
+function flashCamera() {
+  if (!cameraFlashEl) return;
+  cameraFlashEl.classList.remove("is-flashing");
+  void cameraFlashEl.offsetWidth;
+  cameraFlashEl.classList.add("is-flashing");
+}
+
+// No camera access (denied/unavailable) — use a placeholder photo instead of leaving the screen stuck.
+function useFallbackPhoto() {
+  flashCamera();
+  videoEl.style.display = "none";
+  photoEl.src =
+    "https://hypership.uk/uploads/20260616124832_00_593d999ade165331c70dbab9a6cd44e5.jpg";
+  photoEl.style.display = "block";
+  captureBtn.style.display = "none";
+  retakeBtn.style.display = "none";
+  savePhotoBtn.style.display = "block";
 }
 
 function capturePhoto() {
@@ -872,6 +891,7 @@ const photoEl = document.getElementById("photo");
 const captureBtn = document.getElementById("capture-btn");
 const retakeBtn = document.getElementById("retake-btn");
 const savePhotoBtn = document.getElementById("save-photo-btn");
+const cameraFlashEl = document.getElementById("camera-flash");
 const cameraCloseBtn = document.getElementById("camera-close-btn");
 const taskHeadline = document.getElementById("taskHeadline");
 const guideText = document.getElementById("guideText");

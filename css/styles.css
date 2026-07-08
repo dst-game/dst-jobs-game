@@ -1151,6 +1151,7 @@ h1 {
 }
 
 .camera-body {
+  position: relative;
   width: 100%;
   aspect-ratio: 4/3;
   background: #000;
@@ -1160,6 +1161,27 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.camera-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.camera-flash.is-flashing {
+  animation: camera-flash-pop 0.45s ease-out;
+}
+
+@keyframes camera-flash-pop {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .camera-body video,
