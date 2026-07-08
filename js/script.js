@@ -1029,7 +1029,7 @@ function openPreview(name, content) {
     if (typoFixed) {
       const typoEl = previewBody.querySelector(".typo");
       if (typoEl) {
-        typoEl.textContent = "Bewerbung";
+        typoEl.textContent = "Profil";
         typoEl.classList.remove("typo");
       }
     }
